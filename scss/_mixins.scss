@@ -1,0 +1,127 @@
+@use "variables" as *;
+
+// Миксин для медиа запросов
+@mixin screen($breakpoint) {
+    @if $breakpoint ==sm {
+        @media (min-width: $breakpoint-sm) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (min-width: $breakpoint-md) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (min-width: $breakpoint-lg) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==2xl {
+        @media (min-width: $breakpoint-2xl) {
+            @content;
+        }
+    }
+}
+
+// Миксин для темной темы
+@mixin dark-theme {
+    @media (prefers-color-scheme: light) {
+        @content;
+    }
+
+    .theme-dark & {
+        @content;
+    }
+}
+
+// Миксин для сетки
+@mixin grid($columns: 1, $gap: 1rem) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+}
+
+@mixin flex-wrap($columns: 1, $gap: 1rem) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: $gap;
+}
+
+@mixin flex-column($flex: 1rem) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    // grid-template-columns: repeat($columns, 1fr);
+    flex: $flex;
+    justify-content: space-between;
+}
+
+// Миксин для flexbox
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Миксин для анимаций GSAP
+@mixin gsap-ready {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    // transform: translateZ(0);
+}
+
+// Миксин для типографики
+@mixin typography($size: "base", $weight: 400) {
+    @if $size =="xs" {
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+
+    @else if $size =="sm" {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    @else if $size =="base" {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    @else if $size =="lg" {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+
+    @else if $size =="xl" {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+
+    @else if $size =="2xl" {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
+    @else if $size =="3xl" {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+
+    @else if $size =="4xl" {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+    }
+
+    font-weight: $weight;
+}

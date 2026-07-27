@@ -1,0 +1,27 @@
+@use "sass:color";
+
+@mixin buttonClose($background: whiteBack) {
+	width: calc(var(--header-height) / var(--headerLogoAmount) - (var(--headerLogoPadding) * 2));
+	height: calc(var(--header-height) / var(--headerLogoAmount) - (var(--headerLogoPadding) * 2));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: calc((var(--header-height)) * 1);
+	right: calc((var(--header-height)) * 1);
+	padding: var(--headerLogoPadding);
+	cursor: pointer;
+	z-index: 10;
+
+	i {
+		font-size: var(--font-size-h3);
+		color: var(--primary);
+		transform: rotate(45deg);
+	}
+
+	@if $background == whiteBack {
+		background-color: var(--fourth);
+	} @else if $background == grayBack {
+		background-color: var(--third);
+	}
+}

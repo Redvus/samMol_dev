@@ -1,0 +1,96 @@
+@use 'breakpoints' as bp;
+@use "sass:color";
+@use 'fonts' as *;
+@use "variables" as *;
+@use "mixins" as *;
+
+.header {
+    width: 100%;
+    height: calc(var(--header-height) * 1.5);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    // justify-content: space-between;
+    background-color: var(--headerBackgroundLight);
+    position: fixed;
+    // top: 0;
+    // left: 0;
+    padding: calc(var(--wrapperPadding) * 0.1) var(--wrapperPadding);
+    // z-index: 2000;
+    // overflow: hidden;
+    z-index: 100;
+
+    &__logo {
+        width: auto;
+        height: var(--header-height);
+        display: flex;
+        // align-items: center;
+        // justify-content: center;
+        // top: calc(var(--header-height) - ((var(--header-height) / var(--headerLogoAmount))));
+        // left: calc(var(--header-height) - ((var(--header-height) / var(--headerLogoAmount))));
+        // background-color: var(--third);
+        // padding: var(--headerLogoPadding);
+
+        // a {
+        //     width: 100%;
+        //     height: 100%;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     text-decoration: none;
+
+        //     img {
+        //         width: 100%;
+        //         height: 100%;
+        //         object-fit: contain;
+        //         object-position: center;
+        //     }
+        // }
+
+        svg {
+            width: auto;
+            height: 100%;
+            display: block;
+        }
+    }
+
+    &__nav {
+        min-width: calc(var(--marginBase) * 2);
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    &__social {
+        min-width: calc(var(--marginBase) * 4);
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+        padding-left: calc(var(--marginBase) * 1);
+        margin-left: calc(var(--marginBase) * 2);
+
+        a {
+            margin: 0 calc(var(--marginBase) / 2);
+        }
+    }
+
+    @include dark-theme {
+        background-color: var(--layoutBackground);
+
+        &__social {
+            border-left: var(--border_thin) solid var(--body-font-color);
+        }
+    }
+
+    @include bp.media-up('XSmall') {
+        padding: 0 var(--marginBase);
+
+        &__logo {
+            height: calc(var(--header-height) * 0.75);
+        }
+    }
+}

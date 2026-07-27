@@ -1,0 +1,205 @@
+@use 'breakpoints' as bp;
+@use "sass:color";
+
+/*=============================
+=            Fonts            =
+=============================*/
+// @font-face {
+// 	font-family: 'FontAwesome';
+// 	src: url('/assets/dev/fonts/fa-regular-400.woff2') format('woff2');
+// 	src: url('/assets/dev/fonts/fa-regular-400.woff2') format('woff2');
+// 	font-weight: normal;
+// 	// font-stretch: 75% 125%;
+// 	// font-style: oblique 0deg 10deg;
+// 	font-display: swap;
+// }
+
+// @font-face {
+// 	font-family: 'FontAwesome';
+// 	src: url('/assets/dev/fonts/fa-solid-900.woff2') format('woff2');
+// 	src: url('/assets/dev/fonts/fa-solid-900.woff2') format('woff2');
+// 	font-weight: 900;
+// 	// font-stretch: 75% 125%;
+// 	// font-style: oblique 0deg 10deg;
+// 	font-display: swap;
+// }
+
+@font-face {
+    font-family: 'Roboto Flex';
+    src: local('Roboto Flex'), url('/public/fonts/fonts/RobotoFlexVar/RobotoFlexVar.woff2') format('woff2-variations');
+    src: local('Roboto Flex'), url('/public/fonts/fonts/RobotoFlexVar/RobotoFlexVar.woff2') format('woff2') tech('variations');
+    font-weight: 100 900;
+    font-stretch: 75% 125%;
+    font-style: oblique 0deg 10deg;
+    font-display: swap;
+}
+
+// Weight axis (typically 100-900)
+$font-weight-thin: 100;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+$font-weight-black: 900;
+
+$font-width-condensed: 75%;
+$font-width-normal: 100%;
+$font-width-extended: 125%;
+
+:root {
+    --primary-font: "Roboto Flex", sans-serif;
+    --heading-font: "Roboto Flex", sans-serif;
+    --heading-font-light: "Roboto Flex", sans-serif;
+
+    --body-font-color: var(--secondary-lighten-20);
+    --heading-font-color: var(--secondary-lighten-30);
+
+    --body-font-size: 1rem;
+    --body-font-weight: normal;
+    --body-line-height: 1.4;
+    --heading-line-height: 1;
+
+    --font-size-base: var(--body-font-size);
+    --font-size-large: calc(var(--font-size-base) + (var(--font-size-base) / 5));
+    // --font-size-small:   calc(var(--font-size-base) - (var(--font-size-base) / 5));
+    --font-size-small: calc(var(--font-size-base) * 0.875);
+    --font-size-h1: calc(var(--font-size-base) + 2vmax);
+    --font-size-h2: calc(var(--font-size-base) + 1.5vmax);
+    --font-size-h3: calc(var(--font-size-base) * 1.4);
+    --font-size-h4: calc(var(--font-size-base) + 0.7vmax);
+    --font-size-h5: calc(var(--font-size-base) + 0.5vmax);
+    --font-size-h6: calc(var(--font-size-base) + 0.3vmax);
+}
+
+// @include bp.media-up('XLarge') {
+//     :root {
+//         --font-size-small: 0.7vmax;
+//     }
+// }
+
+@include bp.media-up('Small') {
+    :root {
+        --font-size-small: 2.5vmin;
+    }
+}
+
+// Base fonts styles
+@mixin px($size: base) {
+    font-family: var(--primary-font), serif;
+    font-weight: $font-weight-regular;
+    font-stretch: $font-width-normal;
+    line-height: var(--body-line-height);
+    color: var(--body-font-color);
+
+    @if $size ==base {
+        font-size: var(--font-size-base);
+    }
+
+    @else if $size ==large {
+        font-size: var(--font-size-large);
+    }
+
+    @else if $size ==small {
+        font-size: var(--font-size-small);
+
+        @include bp.media-up('XLarge') {
+            font-weight: $font-weight-medium;
+        }
+
+        @include bp.media-up('Large') {
+            font-weight: $font-weight-regular;
+            line-height: 1.2;
+        }
+    }
+}
+
+// Headings mixin
+@mixin hx($size) {
+    font-family: var(--heading-font);
+    font-weight: $font-weight-regular;
+    // color: var(--heading-font-color);
+    display: block;
+    line-height: var(--heading-line-height);
+    margin-top: 0;
+    // margin-bottom: -(var(--border_thin));
+
+    @if $size ==h1 {
+        font-size: var(--font-size-h1);
+        font-weight: $font-weight-medium;
+        font-stretch: $font-width-normal;
+    }
+
+    @else if $size ==h2 {
+        font-size: var(--font-size-h2);
+        font-weight: $font-weight-regular;
+        font-stretch: $font-width-normal;
+    }
+
+    @else if $size ==h3 {
+        font-size: var(--font-size-h3);
+        font-weight: $font-weight-regular;
+        font-stretch: $font-width-normal;
+    }
+
+    @else if $size ==h4 {
+        font-size: var(--font-size-h4);
+    }
+
+    @else if $size ==h5 {
+        font-size: var(--font-size-h5);
+    }
+
+    @else if $size ==h6 {
+        font-size: var(--font-size-h6);
+    }
+}
+
+h1 {
+    @include hx(h1);
+}
+
+h2 {
+    @include hx(h2);
+}
+
+h3 {
+    @include hx(h3);
+}
+
+h4 {
+    @include hx(h4);
+}
+
+h5 {
+    @include hx(h5);
+}
+
+h6 {
+    @include hx(h6);
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    // li {
+
+    //     @include grid-media($Medium) {
+    //         font-size: var(--font-size-large;
+    //     }
+    // }
+}
+
+a {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: all var(--base-duration);
+    outline: none;
+
+    // &:active,
+    // &:focus,
+    // &:hover {
+    //     //color: $action-color;
+    // }
+}

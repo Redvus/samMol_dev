@@ -1,0 +1,19 @@
+// Импортируем все SCSS файлы
+@use "fonts";
+@use "sass:color";
+@use "breakpoints";
+@use "variables";
+// @use "mixins";
+@use "animations";
+@use "base";
+
+// @use "preloader";
+@use "header";
+@use "layout";
+@use "footer";
+// @use "nav";
+
+// @use "gallery";
+// @use "modal";
+// @use "about_modal";
+// @use "admin";

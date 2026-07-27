@@ -1,0 +1,110 @@
+@use 'breakpoints' as bp;
+@use "sass:color";
+@use 'fonts' as *;
+@use "variables" as *;
+@use "mixins" as *;
+
+.footer {
+    width: 100%;
+    min-height: var(--footerHeight);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: calc(var(--wrapperPadding) * 0.7) var(--wrapperPadding);
+    font-size: var(--font-size-small);
+
+    @include dark-theme {
+        background-color: var(--layoutBackground);
+    }
+
+    &__block {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex: 1;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    &__social {
+        min-width: var(--marginBase);
+        height: var(--header-height);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+
+        a {
+            margin-left: calc(var(--marginBase) * 0.5);
+            color: var(--body-font-color);
+        }
+    }
+
+    @include bp.media-up('XSmall') {
+        flex-direction: column;
+        padding: calc(var(--marginBase) * 2) 0 calc(var(--header-height) * 1.75);
+
+        &__block {
+            align-items: center;
+            text-align: center;
+            margin-bottom: calc(var(--marginBase) * 1);
+        }
+
+        &__social {
+
+            a {
+                font-size: var(--font-size-base);
+            }
+        }
+    }
+
+    // &__top {
+    // 	// width: 100%;
+    // 	// height: calc(var(--marginBase) * 5);
+    // 	// flex: 1;
+    // 	display: flex;
+    // 	align-items: center;
+    // 	justify-content: space-between;
+    // 	color: var(--text-color);
+    // 	padding: 0 calc(var(--header-height) * 0.5);
+
+    // 	&_part {
+    // 		display: flex;
+    // 		flex-direction: column;
+    // 		align-items: flex-start;
+    // 		padding: var(--marginBase);
+
+    // 		ul {
+
+    // 			li {
+    // 				color: var(--primary);
+    // 			}
+    // 		}
+    // 	}
+    // }
+
+    // &__bottom {
+    // 	// width: 100%;
+    // 	height: calc(var(--marginBase) * 5);
+    // 	// flex: 1;
+    // 	display: flex;
+    // 	align-items: center;
+    // 	justify-content: space-between;
+    // 	font-size: var(--font-size-small);
+    // 	color: var(--text-color);
+    // 	background-color: var(--third-darken-8);
+    // 	padding: 0 calc(var(--header-height) * 0.5);
+
+    // 	&_part {
+    // 		display: flex;
+    // 		align-items: center;
+    // 	}
+
+    // 	&_left {
+    // 		text-align: left;
+    // 	}
+
+    // 	&_right {
+    // 		text-align: right;
+    // 	}
+    // }
+}
