@@ -51,7 +51,7 @@ a {
     }
 
     &:hover {
-        color: var(--fourth);
+        color: $color-accent-light;
 
         @include dark-theme {
             color: var(--fourth);

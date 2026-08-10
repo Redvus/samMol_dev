@@ -6,57 +6,58 @@
 
 .header {
     width: 100%;
-    height: calc(var(--header-height) * 1.5);
+    height: var(--header-height);
+    // background-color: var(--layoutBackgroundLight);
+    // display: grid;
+    // grid-template-columns: 1fr 1fr 3fr;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // justify-content: space-between;
-    background-color: var(--headerBackgroundLight);
-    position: fixed;
-    // top: 0;
-    // left: 0;
-    padding: calc(var(--wrapperPadding) * 0.1) var(--wrapperPadding);
-    // z-index: 2000;
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 1rem 0;
+    z-index: 2000;
     // overflow: hidden;
     z-index: 100;
 
     &__logo {
         width: auto;
-        height: var(--header-height);
+        height: 100%;
         display: flex;
-        // align-items: center;
-        // justify-content: center;
+        align-items: center;
+        justify-content: center;
         // top: calc(var(--header-height) - ((var(--header-height) / var(--headerLogoAmount))));
         // left: calc(var(--header-height) - ((var(--header-height) / var(--headerLogoAmount))));
         // background-color: var(--third);
-        // padding: var(--headerLogoPadding);
+        // padding: 2rem;
 
-        // a {
-        //     width: 100%;
-        //     height: 100%;
-        //     display: flex;
-        //     align-items: center;
-        //     justify-content: center;
-        //     text-decoration: none;
+        picture {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
 
-        //     img {
-        //         width: 100%;
-        //         height: 100%;
-        //         object-fit: contain;
-        //         object-position: center;
-        //     }
-        // }
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center;
+            }
+        }
 
         svg {
-            width: auto;
+            width: 100%;
             height: 100%;
             display: block;
         }
     }
 
     &__nav {
-        min-width: calc(var(--marginBase) * 2);
+        width: 60%;
         height: 100%;
         display: flex;
         flex-direction: row;
@@ -75,6 +76,26 @@
 
         a {
             margin: 0 calc(var(--marginBase) / 2);
+        }
+    }
+
+    &__wave {
+        width: 100%;
+        height: auto;
+        display: block;
+        position: absolute;
+        top: 2vh;
+        left: 0;
+        overflow: hidden;
+        z-index: 0;
+
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            fill: none;
+            stroke: #E6E8ED;
+            stroke-width: var(--headerWaveBorder);
         }
     }
 

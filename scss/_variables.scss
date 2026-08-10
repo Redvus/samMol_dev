@@ -16,15 +16,6 @@ $transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
-// Colors
-:root {
-    --layoutBackground: var(--primary);
-    --layoutBackgroundLight: var(--secondary);
-    --elementBackground: var(--fourth);
-
-    --headerBackgroundLight: var(--fourth);
-}
-
 // Layout
 :root {
     --border_thin: 0.07rem;
@@ -35,8 +26,8 @@ $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
     --base-duration: 0.2s;
     --base-timing: 0.3s;
 
-    --header-height: 2.5rem;
-    --wrapperPadding: 5vw;
+    --header-height: 8rem;
+    --wrapperPadding: 7vw;
 
     --marginBase: 1rem;
 
@@ -55,22 +46,32 @@ $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
     --modalPadding: 5vmax;
 
+    --headerWaveBorder: 20vmax;
+
     @include bp.media-up("XXLarge") {
-        --wrapperPadding: 10vw;
+        --wrapperPadding: 12vw;
         --modalPadding: 10vmax;
+
+        --headerWaveBorder: 15vmax;
     }
 
     @include bp.media-up("XLarge") {
-        --wrapperPadding: 8vw;
+        --wrapperPadding: 10vw;
         --modalPadding: 6vmax;
+
+        --headerWaveBorder: 13vmax;
     }
 
     @include bp.media-up("Large") {
-        --wrapperPadding: 5vw;
+        --wrapperPadding: 8vw;
         --modalPadding: 3vmax;
+
+        --headerWaveBorder: 15vmax;
     }
 
     @include bp.media-up("Medium") {
         --wrapperPadding: 1rem;
+
+        --headerWaveBorder: 20vmax;
     }
 }

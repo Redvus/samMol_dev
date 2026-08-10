@@ -1,11 +1,12 @@
 @use "sass:color";
 
 $colors: (
-    primary: #111E25,
-    secondary: #d5d8d9,
+    primary: #1b4669,
+    secondary: #1d71b8,
     third: #092330,
     fourth: #ffffff,
-    five: #ff643c,
+    five: #b81918,
+    six: #f5f5f5,
 );
 
 :root {
@@ -74,11 +75,20 @@ $color-amber-400: #996f26;
 $color-amber-600: #9d742d;
 
 // Акцентные цвета (монохромные)
-$color-accent: #000000;
-$color-accent-light: #333333;
+$color-accent: var(--primary);
+$color-accent-light: var(--secondary);
 $color-accent-dark: #000000;
 
 // Градиенты
 $gradient-dark: linear-gradient(135deg, #000000 0%, #262626 100%);
 $gradient-light: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
 $gradient-accent: linear-gradient(135deg, #000000 0%, #333333 100%);
+
+// Colors
+:root {
+    --layoutBackground: var(--primary);
+    --layoutBackgroundLight: var(--six);
+    --elementBackground: var(--fourth);
+
+    --headerBackgroundLight: var(--fourth);
+}
