@@ -1,36 +1,54 @@
 @use 'breakpoints' as bp;
 @use "sass:color";
+@use "/fonts/fontawesome-free-7.0.0-web/scss/fontawesome.scss";
+@use "/fonts/fontawesome-free-7.0.0-web/scss/brands.scss";
+@use "/fonts/fontawesome-free-7.0.0-web/scss/solid.scss";
 
 /*=============================
 =            Fonts            =
 =============================*/
-// @font-face {
-// 	font-family: 'FontAwesome';
-// 	src: url('/assets/dev/fonts/fa-regular-400.woff2') format('woff2');
-// 	src: url('/assets/dev/fonts/fa-regular-400.woff2') format('woff2');
-// 	font-weight: normal;
-// 	// font-stretch: 75% 125%;
-// 	// font-style: oblique 0deg 10deg;
-// 	font-display: swap;
-// }
-
-// @font-face {
-// 	font-family: 'FontAwesome';
-// 	src: url('/assets/dev/fonts/fa-solid-900.woff2') format('woff2');
-// 	src: url('/assets/dev/fonts/fa-solid-900.woff2') format('woff2');
-// 	font-weight: 900;
-// 	// font-stretch: 75% 125%;
-// 	// font-style: oblique 0deg 10deg;
-// 	font-display: swap;
-// }
+@font-face {
+    font-family: 'Stolzl-Thin';
+    src: local('Stolzl-Thin'), url('./stolzl_thin/stolzl_thin.woff2') format('woff2-variations');
+    src: local('Stolzl-Thin'), url('./stolzl_thin/stolzl_thin.woff2') format('woff2') tech('variations');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
 
 @font-face {
-    font-family: 'Roboto Flex';
-    src: local('Roboto Flex'), url('/public/fonts/fonts/RobotoFlexVar/RobotoFlexVar.woff2') format('woff2-variations');
-    src: local('Roboto Flex'), url('/public/fonts/fonts/RobotoFlexVar/RobotoFlexVar.woff2') format('woff2') tech('variations');
-    font-weight: 100 900;
-    font-stretch: 75% 125%;
-    font-style: oblique 0deg 10deg;
+    font-family: 'Stolzl-Light';
+    src: local('Stolzl-Light'), url('./stolzl_light/stolzl_light.woff2') format('woff2-variations');
+    src: local('Stolzl-Light'), url('./stolzl_light/stolzl_light.woff2') format('woff2') tech('variations');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Stolzl-Book';
+    src: local('Stolzl-Book'), url('./stolzl_book/stolzl_book.woff2') format('woff2-variations');
+    src: local('Stolzl-Book'), url('./stolzl_book/stolzl_book.woff2') format('woff2') tech('variations');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Stolzl-Regular';
+    src: local('Stolzl-Regular'), url('./stolzl_regular/stolzl_regular.woff2') format('woff2-variations');
+    src: local('Stolzl-Regular'), url('./stolzl_regular/stolzl_regular.woff2') format('woff2') tech('variations');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Stolzl-Medium';
+    src: local('Stolzl-Medium'), url('./stolzl_medium/stolzl_medium.woff2') format('woff2-variations');
+    src: local('Stolzl-Medium'), url('./stolzl_medium/stolzl_medium.woff2') format('woff2') tech('variations');
+    font-style: normal;
+    font-weight: 400;
     font-display: swap;
 }
 
@@ -47,12 +65,12 @@ $font-width-normal: 100%;
 $font-width-extended: 125%;
 
 :root {
-    --primary-font: "Roboto Flex", sans-serif;
-    --heading-font: "Roboto Flex", sans-serif;
-    --heading-font-light: "Roboto Flex", sans-serif;
+    --primary-font: "Stolzl-Book", sans-serif;
+    --heading-font: "Stolzl-Regular", sans-serif;
+    --heading-font-light: "Stolzl-Light", sans-serif;
 
-    --body-font-color: var(--secondary-lighten-20);
-    --heading-font-color: var(--secondary-lighten-30);
+    --body-font-color: var(--third);
+    --heading-font-color: var(--primary);
 
     --body-font-size: 1rem;
     --body-font-weight: normal;
@@ -117,11 +135,10 @@ $font-width-extended: 125%;
 @mixin hx($size) {
     font-family: var(--heading-font);
     font-weight: $font-weight-regular;
-    // color: var(--heading-font-color);
+    color: var(--heading-font-color);
     display: block;
     line-height: var(--heading-line-height);
-    margin-top: 0;
-    // margin-bottom: -(var(--border_thin));
+    margin: 0;
 
     @if $size ==h1 {
         font-size: var(--font-size-h1);
@@ -181,14 +198,12 @@ h6 {
 ul {
     margin: 0;
     padding: 0;
-    list-style: none;
+    // list-style: none;
 
-    // li {
-
-    //     @include grid-media($Medium) {
-    //         font-size: var(--font-size-large;
-    //     }
-    // }
+    li {
+        margin-left: 1rem;
+        padding-left: -1rem;
+    }
 }
 
 a {
