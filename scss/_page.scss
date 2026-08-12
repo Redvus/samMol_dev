@@ -1,0 +1,78 @@
+@use "fonts" as *;
+@use "sass:color";
+@use "breakpoints" as bp;
+@use "variables" as *;
+@use "mixins" as *;
+
+.page {
+    width: 100%;
+    min-height: 50vh;
+    display: block;
+    position: relative;
+
+    &__header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-start;
+        // justify-content: space-between;
+        margin-top: 2vh;
+        margin-bottom: 2rem;
+    }
+
+    &__title {
+        width: 100%;
+        min-height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    &__breadcrumbs {
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            font-size: var(--font-size-small);
+            margin: 1rem 0;
+
+            li {
+                margin-left: 0.3rem;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    &__content {
+        width: 100%;
+    }
+
+    &__news {
+        width: 100%;
+        min-height: 30vh;
+        // display: flex;
+        // flex-direction: row;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: calc(var(--marginBase) * 3);
+
+        &_image {
+            // width: var(--newsWidthLeft);
+
+            @include pictureBlock();
+
+            picture {
+                height: inherit;
+            }
+        }
+
+        // &_text {
+        //     width: var(--newsWidthRight);
+        // }
+    }
+}
