@@ -51,6 +51,17 @@ $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
     --sectionWidthLeft: 40%;
     --sectionWidthRight: calc(100% - var(--sectionWidthLeft));
 
+    //Footer
+    --footerHeight: 5rem;
+    --footerWidthLeft: 30%;
+    --footerWidthRight: calc(100% - var(--footerWidthLeft));
+    --footerHeightTop: 12rem;
+    --footerHeightBottom: 5rem;
+    --footerHeightBlockBottom: 3rem;
+    --footerHeightBanner: 4rem;
+    --footerWidthCircle: 45vw;
+    --footerSizeLogoBack: 75vw;
+
     @include bp.media-up("XXLarge") {
         --wrapperPadding: 12vw;
         --modalPadding: 10vmax;

@@ -71,6 +71,10 @@
             strong {
                 color: var(--heading-font-color);
             }
+
+            ul {
+                list-style: disc;
+            }
         }
     }
 
@@ -107,6 +111,12 @@
 
         &_images {
             width: var(--sectionWidthRight);
+
+            @include pictureBlock();
+        }
+
+        &_item {
+            width: 100%;
 
             @include pictureBlock();
         }
