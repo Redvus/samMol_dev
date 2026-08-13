@@ -17,12 +17,12 @@
         position: relative;
         align-items: flex-start;
         // justify-content: space-between;
-        margin-top: 2vh;
-        margin-bottom: 2rem;
+        margin-top: 2vmax;
+        // margin-bottom: 2rem;
     }
 
     &__title {
-        width: 100%;
+        width: 80%;
         min-height: 3rem;
         display: flex;
         align-items: center;
@@ -50,6 +50,7 @@
 
     &__content {
         width: 100%;
+        margin-top: var(--marginBase);
     }
 
     &__news {

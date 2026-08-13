@@ -46,7 +46,8 @@ $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
     --modalPadding: 5vmax;
 
-    --headerWaveBorder: 20vmax;
+    --headerWaveBorder: 13rem;
+    --headerSocialTop: 9vmax;
 
     --sectionWidthLeft: 40%;
     --sectionWidthRight: calc(100% - var(--sectionWidthLeft));
@@ -66,30 +67,34 @@ $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
     --footerWidthCircle: 45vw;
     --footerSizeLogoBack: 75vw;
 
+    --iconSVGSize: 1.1rem;
+
     @include bp.media-up("XXLarge") {
         --wrapperPadding: 12vw;
         --modalPadding: 10vmax;
 
-        --headerWaveBorder: 15vmax;
+        // --headerWaveBorder: 15vmax;
+        --headerSocialTop: 8.5vmax;
     }
 
     @include bp.media-up("XLarge") {
         --wrapperPadding: 10vw;
         --modalPadding: 6vmax;
 
-        --headerWaveBorder: 13vmax;
+        // --headerWaveBorder: 13vmax;
     }
 
     @include bp.media-up("Large") {
         --wrapperPadding: 8vw;
         --modalPadding: 3vmax;
 
-        --headerWaveBorder: 15vmax;
+        --headerWaveBorder: 12rem;
+        --headerSocialTop: 9vmax;
     }
 
     @include bp.media-up("Medium") {
         --wrapperPadding: 1rem;
 
-        --headerWaveBorder: 20vmax;
+        // --headerWaveBorder: 20vmax;
     }
 }
