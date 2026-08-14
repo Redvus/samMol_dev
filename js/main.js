@@ -3,7 +3,7 @@ import { createApp } from "vue";
 //     import("./fonts-loader.js");
 // }
 
-// import "./forms/FormPaymentAll.js";
+import "./FormRetail.js";
 
 // import gsap from "gsap";To
-import gsap from "gsap";
+// import gsap from "gsap";

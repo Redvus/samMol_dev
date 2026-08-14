@@ -16,7 +16,7 @@
     // }
 
     &__title {
-        width: 100%;
+        width: 80%;
         height: auto;
         display: block;
         position: relative;
@@ -59,6 +59,12 @@
             width: var(--sectionWidthLeft);
             position: relative;
             display: flex;
+            flex-direction: column;
+            padding-right: 3rem;
+
+            &_header {
+                margin-bottom: 1rem;
+            }
         }
 
         &__description {
