@@ -3,7 +3,7 @@
 @use "sass:color";
 @use "breakpoints";
 @use "variables";
-// @use "mixins";
+@use "mixins";
 @use "animations";
 @use "base";
 
@@ -17,5 +17,4 @@
 @use "news";
 @use "page";
 @use "forms";
-// @use "about_modal";
-// @use "admin";
+@use "slider";

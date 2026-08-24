@@ -16,85 +16,182 @@ $transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
-// Layout
+// ========================================
+// SCSS переменные для Layout
+// ========================================
+
+// Базовые значения (без медиа-запросов)
+$border_thin: 0.07rem;
+$border_normal: 0.15rem;
+$border_bold: 0.3rem;
+$border_heavy: 0.6rem;
+
+$base-duration: 0.2s;
+$base-timing: 0.3s;
+
+$header-height: 8rem;
+$wrapperPadding-base: 7vw;
+
+$marginBase: 1rem;
+
+$galleryItemHeight: 50vh;
+$galleryItemTopHeight: 75%;
+
+$modalWidth: 85vw;
+$modalTopHeight: 85vh;
+$modalVideoTopHeight: 60vh;
+$modalIndex: 1.35;
+$modalVideoIndex: 1.77;
+$modalThumbnailsHeight: 8vh;
+$modalButtonsHeight: calc(#{$marginBase} * 2.5);
+$modalBorderColor: var(--fourth-darken-30);
+$modalBorderColorDark: var(--third);
+
+$modalPadding-base: 5vmax;
+
+$headerWaveBorder-base: 13rem;
+$headerSocialTop-base: 9vmax;
+
+$sectionWidthLeft: 40%;
+$sectionWidthRight: calc(100% - #{$sectionWidthLeft});
+
+// News
+$newsWidthLeft: 45%;
+$newsWidthRight: calc(100% - #{$sectionWidthLeft});
+
+// Footer
+$footerHeight: 5rem;
+$footerWidthLeft: 30%;
+$footerWidthRight: calc(100% - #{$footerWidthLeft});
+$footerHeightTop: 12rem;
+$footerHeightBottom: 5rem;
+$footerHeightBlockBottom: 3rem;
+$footerHeightBanner: 4rem;
+$footerWidthCircle: 45vw;
+$footerSizeLogoBack: 75vw;
+
+$iconSVGSize: 1.1rem;
+
+// ========================================
+// Значения для разных брейкпоинтов
+// ========================================
+
+// XXLarge
+$wrapperPadding-xxlarge: 12vw;
+$modalPadding-xxlarge: 10vmax;
+$headerSocialTop-xxlarge: 8.5vmax;
+
+// XLarge
+$wrapperPadding-xlarge: 10vw;
+$modalPadding-xlarge: 6vmax;
+
+// Large
+$wrapperPadding-large: 8vw;
+$modalPadding-large: 3vmax;
+$headerWaveBorder-large: 12rem;
+$headerSocialTop-large: 9vmax;
+
+// Medium
+$wrapperPadding-medium: 1rem;
+
+// ========================================
+// Генерация CSS-переменных
+// ========================================
+
 :root {
-    --border_thin: 0.07rem;
-    --border_normal: 0.15rem;
-    --border_bold: 0.3rem;
-    --border_heavy: 0.6rem;
+    // Border
+    --border_thin: #{$border_thin};
+    --border_normal: #{$border_normal};
+    --border_bold: #{$border_bold};
+    --border_heavy: #{$border_heavy};
 
-    --base-duration: 0.2s;
-    --base-timing: 0.3s;
+    // Duration & Timing
+    --base-duration: #{$base-duration};
+    --base-timing: #{$base-timing};
 
-    --header-height: 8rem;
-    --wrapperPadding: 7vw;
+    // Header
+    --header-height: #{$header-height};
 
-    --marginBase: 1rem;
+    // Wrapper
+    --wrapperPadding: #{$wrapperPadding-base};
 
-    --galleryItemHeight: 50vh;
-    --galleryItemTopHeight: 75%;
+    // Margin
+    --marginBase: #{$marginBase};
 
-    --modalWidth: 85vw;
-    --modalTopHeight: 85vh;
-    --modalVideoTopHeight: 60vh;
-    --modalIndex: 1.35;
-    --modalVideoIndex: 1.77;
-    --modalThumbnailsHeight: 8vh;
-    --modalButtonsHeight: calc(var(--marginBase) * 2.5);
-    --modalBorderColor: var(--fourth-darken-30);
-    --modalBorderColorDark: var(--third);
+    // Gallery
+    --galleryItemHeight: #{$galleryItemHeight};
+    --galleryItemTopHeight: #{$galleryItemTopHeight};
 
-    --modalPadding: 5vmax;
+    // Modal
+    --modalWidth: #{$modalWidth};
+    --modalTopHeight: #{$modalTopHeight};
+    --modalVideoTopHeight: #{$modalVideoTopHeight};
+    --modalIndex: #{$modalIndex};
+    --modalVideoIndex: #{$modalVideoIndex};
+    --modalThumbnailsHeight: #{$modalThumbnailsHeight};
+    --modalButtonsHeight: #{$modalButtonsHeight};
+    --modalBorderColor: #{$modalBorderColor};
+    --modalBorderColorDark: #{$modalBorderColorDark};
+    --modalPadding: #{$modalPadding-base};
 
-    --headerWaveBorder: 13rem;
-    --headerSocialTop: 9vmax;
+    // Header Wave & Social
+    --headerWaveBorder: #{$headerWaveBorder-base};
+    --headerSocialTop: #{$headerSocialTop-base};
 
-    --sectionWidthLeft: 40%;
-    --sectionWidthRight: calc(100% - var(--sectionWidthLeft));
+    // Sections
+    --sectionWidthLeft: #{$sectionWidthLeft};
+    --sectionWidthRight: #{$sectionWidthRight};
 
-    //News
-    --newsWidthLeft: 45%;
-    --newsWidthRight: calc(100% - var(--sectionWidthLeft));
+    // News
+    --newsWidthLeft: #{$newsWidthLeft};
+    --newsWidthRight: #{$newsWidthRight};
 
-    //Footer
-    --footerHeight: 5rem;
-    --footerWidthLeft: 30%;
-    --footerWidthRight: calc(100% - var(--footerWidthLeft));
-    --footerHeightTop: 12rem;
-    --footerHeightBottom: 5rem;
-    --footerHeightBlockBottom: 3rem;
-    --footerHeightBanner: 4rem;
-    --footerWidthCircle: 45vw;
-    --footerSizeLogoBack: 75vw;
+    // Footer
+    --footerHeight: #{$footerHeight};
+    --footerWidthLeft: #{$footerWidthLeft};
+    --footerWidthRight: #{$footerWidthRight};
+    --footerHeightTop: #{$footerHeightTop};
+    --footerHeightBottom: #{$footerHeightBottom};
+    --footerHeightBlockBottom: #{$footerHeightBlockBottom};
+    --footerHeightBanner: #{$footerHeightBanner};
+    --footerWidthCircle: #{$footerWidthCircle};
+    --footerSizeLogoBack: #{$footerSizeLogoBack};
 
-    --iconSVGSize: 1.1rem;
+    // Icons
+    --iconSVGSize: #{$iconSVGSize};
+}
 
-    @include bp.media-up("XXLarge") {
-        --wrapperPadding: 12vw;
-        --modalPadding: 10vmax;
+// ========================================
+// Медиа-запросы (переопределение CSS-переменных)
+// ========================================
 
-        // --headerWaveBorder: 15vmax;
-        --headerSocialTop: 8.5vmax;
+// Сначала самые большие экраны (чтобы работало каскадирование)
+@include bp.media-up("XXLarge") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-xxlarge};
+        --modalPadding: #{$modalPadding-xxlarge};
+        --headerSocialTop: #{$headerSocialTop-xxlarge};
     }
+}
 
-    @include bp.media-up("XLarge") {
-        --wrapperPadding: 10vw;
-        --modalPadding: 6vmax;
-
-        // --headerWaveBorder: 13vmax;
+@include bp.media-up("XLarge") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-xlarge};
+        --modalPadding: #{$modalPadding-xlarge};
     }
+}
 
-    @include bp.media-up("Large") {
-        --wrapperPadding: 8vw;
-        --modalPadding: 3vmax;
-
-        --headerWaveBorder: 12rem;
-        --headerSocialTop: 9vmax;
+@include bp.media-up("Large") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-large};
+        --modalPadding: #{$modalPadding-large};
+        --headerWaveBorder: #{$headerWaveBorder-large};
+        --headerSocialTop: #{$headerSocialTop-large};
     }
+}
 
-    @include bp.media-up("Medium") {
-        --wrapperPadding: 1rem;
-
-        // --headerWaveBorder: 20vmax;
+@include bp.media-up("Medium") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-medium};
     }
 }

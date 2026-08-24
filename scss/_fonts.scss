@@ -64,29 +64,56 @@ $font-width-condensed: 75%;
 $font-width-normal: 100%;
 $font-width-extended: 125%;
 
+// ========================================
+// SCSS переменные для значений :root
+// ========================================
+$primary-font: "Stolzl-Book", sans-serif;
+$heading-font: "Stolzl-Regular", sans-serif;
+$heading-font-light: "Stolzl-Light", sans-serif;
+
+$body-font-color: var(--third);
+$heading-font-color: var(--primary);
+
+$body-font-size: 1rem;
+$body-font-weight: normal;
+$body-line-height: 1.4;
+$heading-line-height: 1;
+
+$font-size-base: $body-font-size;
+$font-size-large: calc(#{$font-size-base} + (#{$font-size-base} / 5));
+$font-size-small: calc(#{$font-size-base} * 0.875);
+$font-size-h1: calc(#{$font-size-base} + 2vmax);
+$font-size-h2: calc(#{$font-size-base} + 1.5vmax);
+$font-size-h3: calc(#{$font-size-base} * 1.4);
+$font-size-h4: calc(#{$font-size-base} + 0.7vmax);
+$font-size-h5: calc(#{$font-size-base} + 0.5vmax);
+$font-size-h6: calc(#{$font-size-base} + 0.3vmax);
+
+// ========================================
+// Генерация CSS-переменных из SCSS-переменных
+// ========================================
 :root {
-    --primary-font: "Stolzl-Book", sans-serif;
-    --heading-font: "Stolzl-Regular", sans-serif;
-    --heading-font-light: "Stolzl-Light", sans-serif;
+    --primary-font: #{$primary-font};
+    --heading-font: #{$heading-font};
+    --heading-font-light: #{$heading-font-light};
 
-    --body-font-color: var(--third);
-    --heading-font-color: var(--primary);
+    --body-font-color: #{$body-font-color};
+    --heading-font-color: #{$heading-font-color};
 
-    --body-font-size: 1rem;
-    --body-font-weight: normal;
-    --body-line-height: 1.4;
-    --heading-line-height: 1;
+    --body-font-size: #{$body-font-size};
+    --body-font-weight: #{$body-font-weight};
+    --body-line-height: #{$body-line-height};
+    --heading-line-height: #{$heading-line-height};
 
-    --font-size-base: var(--body-font-size);
-    --font-size-large: calc(var(--font-size-base) + (var(--font-size-base) / 5));
-    // --font-size-small:   calc(var(--font-size-base) - (var(--font-size-base) / 5));
-    --font-size-small: calc(var(--font-size-base) * 0.875);
-    --font-size-h1: calc(var(--font-size-base) + 2vmax);
-    --font-size-h2: calc(var(--font-size-base) + 1.5vmax);
-    --font-size-h3: calc(var(--font-size-base) * 1.4);
-    --font-size-h4: calc(var(--font-size-base) + 0.7vmax);
-    --font-size-h5: calc(var(--font-size-base) + 0.5vmax);
-    --font-size-h6: calc(var(--font-size-base) + 0.3vmax);
+    --font-size-base: #{$font-size-base};
+    --font-size-large: #{$font-size-large};
+    --font-size-small: #{$font-size-small};
+    --font-size-h1: #{$font-size-h1};
+    --font-size-h2: #{$font-size-h2};
+    --font-size-h3: #{$font-size-h3};
+    --font-size-h4: #{$font-size-h4};
+    --font-size-h5: #{$font-size-h5};
+    --font-size-h6: #{$font-size-h6};
 }
 
 // @include bp.media-up('XLarge') {

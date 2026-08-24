@@ -107,9 +107,8 @@
         flex-direction: row;
         position: relative;
         margin-top: 2rem;
-        background-color: var(--secondary);
+        background-color: var(--headerBackgroundLight);
         overflow: hidden;
-        background-color: var(--secondary);
 
         &_text {
             width: var(--sectionWidthLeft);

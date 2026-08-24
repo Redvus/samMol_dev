@@ -4,6 +4,9 @@
 @use "variables" as *;
 @use "mixins" as *;
 
+// ============================================
+// ХЕДЕР
+// ============================================
 .header {
     width: 100%;
     height: var(--header-height);
@@ -22,16 +25,18 @@
     // overflow: hidden;
     z-index: 100;
 
+    // ==========================================
+    // ЛОГОТИП
+    // ==========================================
     &__logo {
         width: auto;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        // top: calc(var(--header-height) - ((var(--header-height) / var(--headerLogoAmount))));
-        // left: calc(var(--header-height) - ((var(--header-height) / var(--headerLogoAmount))));
-        // background-color: var(--third);
-        // padding: 2rem;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
 
         picture {
             width: 100%;
@@ -46,6 +51,7 @@
                 height: 100%;
                 object-fit: contain;
                 object-position: center;
+                transition: transform var(--transition-base);
             }
         }
 
@@ -53,34 +59,52 @@
             width: 100%;
             height: 100%;
             display: block;
+            transition: transform var(--transition-base);
         }
     }
 
+    // ==========================================
+    // НАВИГАЦИЯ
+    // ==========================================
     &__nav {
         width: 60%;
         height: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: flex-end;
         z-index: 1;
+        gap: calc(var(--marginBase) * 0.5);
+
+        @include bp.media-up('Small') {
+            width: 70%;
+        }
+
+        @include bp.media-up('XSmall') {
+            width: 80%;
+        }
     }
 
+    // ==========================================
+    // СОЦИАЛЬНЫЕ СЕТИ
+    // ==========================================
     &__social {
         min-width: calc(var(--marginBase) * 4);
         height: 2rem;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        flex-direction: row;
         position: absolute;
         right: 0;
         top: var(--headerSocialTop);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: row;
         z-index: 2;
-        // padding-left: calc(var(--marginBase) * 1);
-        // margin-left: calc(var(--marginBase) * 2);
+        padding-left: calc(var(--marginBase) * 0.5);
+        transition: top var(--transition-base);
+
+        @include dark-theme {
+            border-left: var(--border_thin) solid var(--body-font-color);
+        }
 
         a {
             width: 2rem;
@@ -89,11 +113,45 @@
             align-items: center;
             justify-content: center;
             margin: 0 calc(var(--marginBase) / 3);
+            transition: transform var(--transition-fast);
+            position: relative;
+
+            // Tooltip для социальных ссылок
+            &::after {
+                content: attr(data-label);
+                position: absolute;
+                bottom: calc(100% + 0.5rem);
+                left: 50%;
+                transform: translateX(-50%) scale(0.8);
+                background: var(--primary);
+                color: var(--fourth);
+                padding: 0.25rem 0.5rem;
+                border-radius: 0.25rem;
+                font-size: var(--font-size-small);
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: all var(--transition-fast);
+            }
+
+            &:hover {
+                transform: scale(1.1);
+
+                &::after {
+                    opacity: 1;
+                    transform: translateX(-50%) scale(1);
+                }
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
 
         i {
             font-size: var(--font-size-h3);
             color: var(--primary);
+            transition: color var(--transition-fast);
 
             &:hover {
                 color: var(--secondary);
@@ -107,6 +165,7 @@
 
             path {
                 fill: var(--primary);
+                transition: fill var(--transition-fast);
             }
 
             &:hover {
@@ -125,9 +184,82 @@
             font-family: var(--heading-font);
             font-size: var(--font-size-large);
             color: var(--primary);
+            user-select: none;
+            cursor: default;
+        }
+
+        // Адаптив для социальных сетей
+        @include bp.media-up('Small') {
+            top: calc(var(--headerSocialTop) * 0.6);
+            min-width: calc(var(--marginBase) * 3);
+        }
+
+        @include bp.media-up('XSmall') {
+            display: none;
+            visibility: hidden;
         }
     }
 
+    // ==========================================
+    // МОБИЛЬНОЕ МЕНЮ (бургер)
+    // ==========================================
+    &__burger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 2rem;
+        height: 1.5rem;
+        cursor: pointer;
+        z-index: 3;
+        position: relative;
+
+        span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all var(--transition-fast);
+            transform-origin: center;
+
+            &:nth-child(1) {
+                transform: translateY(0) rotate(0);
+            }
+
+            &:nth-child(2) {
+                opacity: 1;
+            }
+
+            &:nth-child(3) {
+                transform: translateY(0) rotate(0);
+            }
+        }
+
+        // Анимация при открытии
+        &.is-open {
+            span {
+                &:nth-child(1) {
+                    transform: translateY(calc(0.75rem - 1px)) rotate(45deg);
+                }
+
+                &:nth-child(2) {
+                    opacity: 0;
+                }
+
+                &:nth-child(3) {
+                    transform: translateY(calc(-0.75rem + 1px)) rotate(-45deg);
+                }
+            }
+        }
+
+        @include bp.media-up('XSmall') {
+            display: flex;
+        }
+    }
+
+    // ==========================================
+    // ВОЛНА (декоративный элемент)
+    // ==========================================
     &__wave {
         width: 100%;
         height: auto;
@@ -137,6 +269,18 @@
         left: 0;
         overflow: hidden;
         z-index: 0;
+        pointer-events: none;
+        opacity: 0.6;
+        transition: opacity var(--transition-base);
+
+        // При скролле волна становится прозрачнее
+        .scrolled & {
+            opacity: 0.3;
+        }
+
+        .hidden & {
+            opacity: 0;
+        }
 
         svg {
             width: 100%;
@@ -145,22 +289,380 @@
             fill: none;
             stroke: var(--seven);
             stroke-width: var(--headerWaveBorder);
+            transition: stroke var(--transition-base);
+
+            @include dark-theme {
+                stroke: var(--primary-lighten-20);
+            }
         }
     }
 
-    @include dark-theme {
-        background-color: var(--layoutBackground);
+    // ==========================================
+    // ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ
+    // ==========================================
 
-        &__social {
-            border-left: var(--border_thin) solid var(--body-font-color);
+    // Градиентная подложка для мобильной версии
+    &__gradient {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, var(--fourth) 0%, transparent 100%);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity var(--transition-base);
+
+        @include dark-theme {
+            background: linear-gradient(180deg, var(--layoutBackground) 0%, transparent 100%);
+        }
+
+        &.is-visible {
+            opacity: 1;
+        }
+
+        @include bp.media-up('XSmall') {
+            display: block;
         }
     }
 
-    @include bp.media-up('XSmall') {
-        padding: 0 var(--marginBase);
+    // ============================================
+    // ВСПЛЫВАЮЩИЙ ХЕДЕР (position: fixed)
+    // ============================================
+    &-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        background: var(--fourth);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: transform var(--transition-base),
+            opacity var(--transition-base),
+            box-shadow var(--transition-base);
+        height: calc(var(--header-height) * 0.7);
+        padding: 0 calc(var(--wrapperPadding) * 0.5);
+        pointer-events: none;
 
+        @include dark-theme {
+            background: var(--layoutBackground);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        // Показываем при скролле
+        &.is-visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        // Скрываем
+        &.is-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        &__container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: calc(var(--marginBase) * 1.5);
+            position: relative;
+        }
+
+        // ==========================================
+        // ЛОГОТИП
+        // ==========================================
         &__logo {
-            height: calc(var(--header-height) * 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            flex-shrink: 0;
+
+            picture {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+
+                img {
+                    height: 100%;
+                    max-height: 3rem;
+                    width: auto;
+                    object-fit: contain;
+                    object-position: center;
+                }
+            }
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+
+        // ==========================================
+        // НАВИГАЦИЯ
+        // ==========================================
+        &__nav {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: flex-end;
+
+            .nav--fixed {
+                display: flex;
+                align-items: center;
+                gap: calc(var(--marginBase) * 1.5);
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .nav__item--fixed {
+                position: relative;
+            }
+
+            .nav__link--fixed {
+                font-size: var(--font-size-small);
+                font-weight: $font-weight-medium;
+                color: var(--primary);
+                text-decoration: none;
+                padding: 0.5rem 0;
+                transition: color var(--transition-fast);
+                white-space: nowrap;
+
+                @include dark-theme {
+                    color: var(--fourth);
+                }
+
+                &:hover {
+                    color: var(--secondary);
+
+                    @include dark-theme {
+                        color: var(--secondary-lighten-20);
+                    }
+                }
+
+                &.active {
+                    color: var(--secondary);
+                    border-bottom: 2px solid var(--secondary);
+
+                    @include dark-theme {
+                        color: var(--secondary-lighten-20);
+                        border-bottom-color: var(--secondary-lighten-20);
+                    }
+                }
+            }
+        }
+
+        // ==========================================
+        // КНОПКА ЗАКРЫТИЯ
+        // ==========================================
+        &__close {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 2rem;
+            height: 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+            position: relative;
+            flex-shrink: 0;
+            margin-left: calc(var(--marginBase) * 0.5);
+
+            span {
+                display: block;
+                position: absolute;
+                width: 1.5rem;
+                height: 2px;
+                background: var(--primary);
+                border-radius: 2px;
+                transition: all var(--transition-fast);
+
+                @include dark-theme {
+                    background: var(--fourth);
+                }
+
+                &:first-child {
+                    transform: rotate(45deg);
+                }
+
+                &:last-child {
+                    transform: rotate(-45deg);
+                }
+            }
+
+            &:hover {
+                span {
+                    background: var(--secondary);
+
+                    @include dark-theme {
+                        background: var(--secondary-lighten-20);
+                    }
+                }
+
+                transform: scale(1.1);
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+        }
+
+        // ==========================================
+        // АДАПТИВ
+        // ==========================================
+        @include bp.media-up('XSmall') {
+            height: calc(var(--header-height) * 0.6);
+            padding: 0 var(--marginBase);
+
+            &__nav {
+                display: none;
+            }
+
+            &__logo {
+                picture img {
+                    max-height: 2.5rem;
+                }
+            }
+        }
+
+        @include bp.media-up('Small') {
+            height: calc(var(--header-height) * 0.5);
+
+            &__logo {
+                picture img {
+                    max-height: 2rem;
+                }
+            }
         }
     }
+
+    // ============================================
+    // АДАПТИВ ОСНОВНОГО ХЕДЕРА ДЛЯ МОБИЛЬНЫХ
+    // ============================================
+    @include bp.media-up('XSmall') {
+        .header {
+            &__social {
+                display: none;
+            }
+        }
+    }
+
+    // ==========================================
+    // АДАПТИВ
+    // ==========================================
+
+    // @include bp.media-up('XLarge') {
+    //     padding: 1rem calc(var(--wrapperPadding) * 0.5);
+    // }
+
+    // @include bp.media-up('Large') {
+    //     padding: 1rem calc(var(--wrapperPadding) * 0.3);
+    // }
+
+    // @include bp.media-up('Medium') {
+    //     padding: 0.5rem calc(var(--wrapperPadding) * 0.2);
+
+    //     &__logo {
+    //         height: calc(var(--header-height) * 0.6);
+    //     }
+    // }
+
+    // @include bp.media-up('XSmall') {
+    //     padding: 0 var(--marginBase);
+    //     height: calc(var(--header-height) * 0.8);
+
+    //     &__logo {
+    //         height: calc(var(--header-height) * 0.6);
+    //     }
+
+    //     &__nav {
+    //         display: none;
+    //         visibility: hidden;
+
+    //         // Мобильное меню (выдвижное)
+    //         &.is-open {
+    //             display: flex;
+    //             visibility: visible;
+    //             position: fixed;
+    //             top: 0;
+    //             left: 0;
+    //             right: 0;
+    //             bottom: 0;
+    //             width: 100%;
+    //             height: 100vh;
+    //             background: var(--fourth);
+    //             flex-direction: column;
+    //             align-items: center;
+    //             justify-content: center;
+    //             gap: calc(var(--marginBase) * 2);
+    //             z-index: 10;
+    //             animation: slideDown 0.3s ease forwards;
+
+    //             @include dark-theme {
+    //                 background: var(--layoutBackground);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // @include bp.media-up('Small') {
+    //     height: calc(var(--header-height) * 0.7);
+
+    //     &__logo {
+    //         height: calc(var(--header-height) * 0.5);
+    //     }
+
+    //     &__social {
+    //         top: calc(var(--headerSocialTop) * 0.4);
+    //     }
+    // }
+}
+
+// ============================================
+// АНИМАЦИИ ДЛЯ МОБИЛЬНОГО МЕНЮ
+// ============================================
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+// ============================================
+// УТИЛИТНЫЙ КЛАСС ДЛЯ БЛОКИРОВКИ СКРОЛЛА
+// ============================================
+.no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
 }

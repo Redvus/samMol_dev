@@ -1,0 +1,382 @@
+@use 'breakpoints' as bp;
+@use "sass:color";
+@use 'fonts' as *;
+
+// ============================================
+// СЛАЙДЕР
+// ============================================
+
+.slider-component {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--fourth);
+    // box-shadow: var(--shadow-lg);
+}
+
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+.slider-track {
+    display: flex;
+    height: 100%;
+    transition: transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    overflow: hidden;
+
+    &-image {
+        flex: 0 0 60%;
+        height: 100%;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+    }
+
+    &-content {
+        flex: 1;
+        padding: 3rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: var(--fourth);
+
+        h2 {
+            font-size: var(--font-size-h2);
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: var(--font-size-base);
+            color: var(--third);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    &-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        background: var(--secondary);
+        color: var(--fourth);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+        width: fit-content;
+
+        &:hover {
+            background: var(--secondary-darken-10);
+            transform: translateX(4px);
+        }
+    }
+
+    // Элементы с анимацией
+    .animatable {
+        opacity: 0 !important;
+        animation-fill-mode: both;
+        animation-duration: 0.6s;
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform, opacity;
+    }
+
+    .animated {
+        opacity: 1 !important;
+        animation-play-state: running;
+    }
+}
+
+// Точки
+.dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+
+    .dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        border: none;
+        background: var(--six-darken-30);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        padding: 0;
+
+        &:hover {
+            background: var(--secondary);
+        }
+
+        &.active {
+            background: var(--secondary);
+            width: 2rem;
+            border-radius: 0.375rem;
+        }
+    }
+}
+
+// Кнопки навигации
+.nav-buttons {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    pointer-events: none;
+
+    .btn-arrow {
+        pointer-events: all;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--primary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-md);
+
+        &:hover {
+            background: var(--fourth);
+            transform: scale(1.1);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+}
+
+// Управление
+.slider-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+    background: var(--fourth);
+}
+
+// Пустое состояние
+.slider-empty {
+    padding: 4rem;
+    text-align: center;
+    color: var(--primary-darken-50);
+    font-size: var(--font-size-large);
+}
+
+// Адаптив
+@include bp.media-up("Large") {
+    .slide {
+        flex-direction: column;
+
+        &-image {
+            flex: 0 0 50%;
+        }
+
+        &-content {
+            padding: 2rem;
+        }
+    }
+}
+
+@include bp.media-up("Medium") {
+    .slide {
+        flex-direction: column;
+
+        &-image {
+            flex: 0 0 40%;
+        }
+
+        &-content {
+            padding: 1.5rem;
+
+            h2 {
+                font-size: var(--font-size-h3);
+            }
+        }
+    }
+
+    .nav-buttons {
+        .btn-arrow {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+}
+
+@include bp.media-up("XSmall") {
+    .slide {
+        flex-direction: column;
+
+        &-image {
+            flex: 0 0 30%;
+        }
+
+        &-content {
+            padding: 1rem;
+
+            h2 {
+                font-size: var(--font-size-h4);
+            }
+
+            p {
+                font-size: var(--font-size-small);
+            }
+        }
+    }
+
+    .nav-buttons {
+        display: none;
+    }
+
+    .dots-container {
+        .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+    }
+}
+
+// ============================================
+// АНИМАЦИИ ДЛЯ СЛАЙДЕРА
+// ============================================
+
+// Анимации появления
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// Классы анимаций
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+
+.fadeInLeft {
+    animation-name: fadeInLeft;
+}
+
+.fadeInRight {
+    animation-name: fadeInRight;
+}
+
+.scaleIn {
+    animation-name: scaleIn;
+}
+
+.zoomIn {
+    animation-name: zoomIn;
+}

@@ -1,38 +1,5 @@
 @use "variables" as *;
 
-// Миксин для медиа запросов
-@mixin screen($breakpoint) {
-    @if $breakpoint ==sm {
-        @media (min-width: $breakpoint-sm) {
-            @content;
-        }
-    }
-
-    @else if $breakpoint ==md {
-        @media (min-width: $breakpoint-md) {
-            @content;
-        }
-    }
-
-    @else if $breakpoint ==lg {
-        @media (min-width: $breakpoint-lg) {
-            @content;
-        }
-    }
-
-    @else if $breakpoint ==xl {
-        @media (min-width: $breakpoint-xl) {
-            @content;
-        }
-    }
-
-    @else if $breakpoint ==2xl {
-        @media (min-width: $breakpoint-2xl) {
-            @content;
-        }
-    }
-}
-
 // Миксин для темной темы
 @mixin dark-theme {
     @media (prefers-color-scheme: light) {
