@@ -132,17 +132,85 @@ export default class InfiniteSlider {
         this.init();
     }
 
+    /**
+     * Автоматическое определение полей с учетом явно указанных
+     * @param {Array} slides - Массив слайдов
+     * @param {Object} explicitMapping - Явное указание полей
+     * @returns {Object} Объект с полями для маппинга
+     */
     detectFields(slides, explicitMapping = {}) {
+        // 🔥 Проверяем, отключено ли поле
+        const isDisabled = (value) => {
+            return value === '' || value === 'null' || value === 'false' || value === null || value === undefined;
+        };
+
+        // Если поле image отключено
+        if (isDisabled(explicitMapping.image)) {
+            return {
+                image: null,
+                title: isDisabled(explicitMapping.title) ? null : (explicitMapping.title || null),
+                text: isDisabled(explicitMapping.text) ? null : (explicitMapping.text || null),
+                link: isDisabled(explicitMapping.link) ? null : (explicitMapping.link || null),
+                button: isDisabled(explicitMapping.button) ? null : (explicitMapping.button || null),
+            };
+        }
+
+        // Если поле title отключено
+        if (isDisabled(explicitMapping.title)) {
+            return {
+                image: explicitMapping.image || "image",
+                title: null,
+                text: isDisabled(explicitMapping.text) ? null : (explicitMapping.text || null),
+                link: isDisabled(explicitMapping.link) ? null : (explicitMapping.link || null),
+                button: isDisabled(explicitMapping.button) ? null : (explicitMapping.button || null),
+            };
+        }
+
+        // Если поле text отключено
+        if (isDisabled(explicitMapping.text)) {
+            return {
+                image: explicitMapping.image || "image",
+                title: explicitMapping.title || null,
+                text: null,
+                link: isDisabled(explicitMapping.link) ? null : (explicitMapping.link || null),
+                button: isDisabled(explicitMapping.button) ? null : (explicitMapping.button || null),
+            };
+        }
+
+        // Если поле link отключено
+        if (isDisabled(explicitMapping.link)) {
+            return {
+                image: explicitMapping.image || "image",
+                title: explicitMapping.title || null,
+                text: explicitMapping.text || null,
+                link: null,
+                button: isDisabled(explicitMapping.button) ? null : (explicitMapping.button || null),
+            };
+        }
+
+        // Если поле button отключено
+        if (isDisabled(explicitMapping.button)) {
+            return {
+                image: explicitMapping.image || "image",
+                title: explicitMapping.title || null,
+                text: explicitMapping.text || null,
+                link: explicitMapping.link || null,
+                button: null,
+            };
+        }
+
+        // Если нет слайдов — возвращаем явно указанные поля
         if (!slides || slides.length === 0) {
             return {
                 image: explicitMapping.image || "image",
-                title: explicitMapping.title || "title",
+                title: explicitMapping.title || null,
                 text: explicitMapping.text || null,
                 link: explicitMapping.link || null,
                 button: explicitMapping.button || null,
             };
         }
 
+        // Если все поля указаны явно — используем их
         if (explicitMapping.image && explicitMapping.title) {
             return {
                 image: explicitMapping.image,
@@ -153,62 +221,44 @@ export default class InfiniteSlider {
             };
         }
 
+        // Автоопределение (только если не отключено)
         const sample = slides[0];
         const keys = Object.keys(sample);
 
+        // Паттерны для поиска полей
         const imagePatterns = [
-            "image",
-            "img",
-            "picture",
-            "photo",
-            "imageSlide",
-            "slideImage",
-            "file",
-            "url",
-            "src",
-            "path",
-            "slide_image",
+            "image", "img", "picture", "photo", "imageSlide",
+            "slideImage", "file", "url", "src", "path", "slide_image"
         ];
         const titlePatterns = [
-            "title",
-            "heading",
-            "header",
-            "name",
-            "imageTitle",
-            "slideTitle",
-            "label",
-            "caption",
-            "slide_title",
+            "title", "heading", "header", "name", "imageTitle",
+            "slideTitle", "label", "caption", "slide_title"
         ];
         const textPatterns = [
-            "text",
-            "description",
-            "desc",
-            "content",
-            "body",
-            "imageText",
-            "slideText",
-            "excerpt",
-            "summary",
-            "slide_description",
+            "text", "description", "desc", "content", "body",
+            "imageText", "slideText", "excerpt", "summary", "slide_description"
         ];
-        const linkPatterns = ["link", "url", "href", "link_url", "slide_link"];
-        const buttonPatterns = ["button", "btn", "button_text", "slide_button"];
+        const linkPatterns = [
+            "link", "url", "href", "link_url", "slide_link"
+        ];
+        const buttonPatterns = [
+            "button", "btn", "button_text", "slide_button"
+        ];
 
         const findField = (patterns, exclude = []) => {
+            // Точное совпадение
             for (const pattern of patterns) {
                 if (keys.includes(pattern) && !exclude.includes(pattern)) {
                     return pattern;
                 }
             }
+            // Частичное совпадение
             for (const key of keys) {
                 if (exclude.includes(key)) continue;
                 const keyLower = key.toLowerCase();
                 for (const pattern of patterns) {
-                    if (
-                        keyLower.includes(pattern.toLowerCase()) ||
-                        pattern.toLowerCase().includes(keyLower)
-                    ) {
+                    if (keyLower.includes(pattern.toLowerCase()) ||
+                        pattern.toLowerCase().includes(keyLower)) {
                         return key;
                     }
                 }
@@ -216,28 +266,24 @@ export default class InfiniteSlider {
             return null;
         };
 
-        const imageField =
-            explicitMapping.image || findField(imagePatterns) || keys[0];
+        // Определяем поле image
+        const imageField = explicitMapping.image || findField(imagePatterns) || keys[0];
         const usedFields = [imageField];
 
-        const titleField =
-            explicitMapping.title ||
-            findField(titlePatterns, usedFields) ||
-            null;
+        // Определяем поле title
+        const titleField = explicitMapping.title || findField(titlePatterns, usedFields) || null;
         if (titleField) usedFields.push(titleField);
 
-        const textField =
-            explicitMapping.text || findField(textPatterns, usedFields) || null;
+        // Определяем поле text
+        const textField = explicitMapping.text || findField(textPatterns, usedFields) || null;
         if (textField) usedFields.push(textField);
 
-        const linkField =
-            explicitMapping.link || findField(linkPatterns, usedFields) || null;
+        // Определяем поле link
+        const linkField = explicitMapping.link || findField(linkPatterns, usedFields) || null;
         if (linkField) usedFields.push(linkField);
 
-        const buttonField =
-            explicitMapping.button ||
-            findField(buttonPatterns, usedFields) ||
-            null;
+        // Определяем поле button
+        const buttonField = explicitMapping.button || findField(buttonPatterns, usedFields) || null;
 
         return {
             image: imageField,
@@ -249,7 +295,9 @@ export default class InfiniteSlider {
     }
 
     getValue(obj, path) {
-        if (!path) return "";
+        // 🔥 Если путь пустой, null, false или 'null'/'false' — возвращаем пустую строку
+        if (!path || path === 'null' || path === 'false' || path === '') return "";
+
         const keys = path.split(".");
         let value = obj;
         for (const key of keys) {
@@ -338,105 +386,110 @@ export default class InfiniteSlider {
         slide.className = "slide";
         if (type === "real" && idx === 0) slide.classList.add("active");
 
-        const image = this.getValue(data, this.fieldMapping.image) || "";
-        const title = this.getValue(data, this.fieldMapping.title) || "";
-        const text = this.getValue(data, this.fieldMapping.text) || "";
-        const link = this.getValue(data, this.fieldMapping.link) || "";
-        const button = this.getValue(data, this.fieldMapping.button) || "";
+        // 🔥 Проверяем, какие поля активны
+        const isFieldActive = (field) => {
+            return field && field !== '' && field !== 'null' && field !== 'false' && field !== null;
+        };
 
+        const hasImage = isFieldActive(this.fieldMapping.image);
+        const hasTitle = isFieldActive(this.fieldMapping.title);
+        const hasText = isFieldActive(this.fieldMapping.text);
+        const hasLink = isFieldActive(this.fieldMapping.link);
+        const hasButton = isFieldActive(this.fieldMapping.button);
+
+        // Получаем значения только для активных полей
+        const image = hasImage ? this.getValue(data, this.fieldMapping.image) : "";
+        const title = hasTitle ? this.getValue(data, this.fieldMapping.title) : "";
+        const text = hasText ? this.getValue(data, this.fieldMapping.text) : "";
+        const link = hasLink ? this.getValue(data, this.fieldMapping.link) : "";
+        const button = hasButton ? this.getValue(data, this.fieldMapping.button) : "";
+
+        // Fallback для title (только если поле активно)
         let finalTitle = title;
-        if (!finalTitle) {
+        if (hasTitle && !finalTitle) {
             for (const [key, value] of Object.entries(data)) {
-                if (
-                    typeof value === "string" &&
-                    value.length > 0 &&
-                    key !== this.fieldMapping.image
-                ) {
+                if (typeof value === "string" && value.length > 0 && key !== this.fieldMapping.image) {
                     finalTitle = value;
                     break;
                 }
             }
         }
 
+        // Fallback для text (только если поле активно)
         let finalText = text;
-        if (!finalText) {
+        if (hasText && !finalText) {
             for (const [key, value] of Object.entries(data)) {
-                if (
-                    typeof value === "string" &&
-                    value.length > 0 &&
+                if (typeof value === "string" && value.length > 0 &&
                     key !== this.fieldMapping.image &&
                     key !== this.fieldMapping.title &&
-                    key !== finalTitle
-                ) {
+                    key !== finalTitle) {
                     finalText = value;
                     break;
                 }
             }
         }
 
-        const safeTitle = String(finalTitle || "")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-        const safeText = String(finalText || "")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-        const safeButton = String(button || "")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
+        const safeTitle = String(finalTitle || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeText = String(finalText || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeButton = String(button || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
         const anim = this.options.animation;
-        const animClassTitle = anim.title || "fadeInUp";
-        const animClassText = anim.text || "fadeInUp";
-        const animClassButton = anim.button || "fadeInUp";
+        const animClassTitle = anim.title || 'fadeInUp';
+        const animClassText = anim.text || 'fadeInUp';
+        const animClassButton = anim.button || 'fadeInUp';
         const delayTitle = anim.delayTitle || 200;
         const delayText = anim.delayText || 400;
         const delayButton = anim.delayButton || 600;
         const duration = anim.duration || 600;
 
-        // 🔥 Все анимируемые элементы изначально скрыты (opacity: 0)
         let contentHTML = `
-            <div class="slide-image">
-                <img src="${image}" alt="${safeTitle}" loading="lazy" />
-            </div>
-            <div class="slide-content">
+        <div class="slide-image">
+            <img src="${image}" alt="${safeTitle}" loading="lazy" />
+        </div>
+        <div class="slide-content">
+    `;
+
+        // 🔥 Заголовок — только если поле активно И есть значение
+        if (hasTitle && safeTitle) {
+            contentHTML += `
+            <h2 class="slide-title animatable ${animClassTitle}" 
+                data-animation="${animClassTitle}"
+                style="opacity: 0; animation-delay: ${delayTitle}ms; animation-duration: ${duration}ms;">
+                ${safeTitle}
+            </h2>
         `;
-
-        if (safeTitle) {
-            contentHTML += `
-                <h2 class="slide-title animatable ${animClassTitle}"
-                    data-animation="${animClassTitle}"
-                    style="opacity: 0; animation-delay: ${delayTitle}ms; animation-duration: ${duration}ms;">
-                    ${safeTitle}
-                </h2>
-            `;
         }
 
-        if (safeText) {
+        // 🔥 Текст — только если поле активно И есть значение
+        if (hasText && safeText) {
             contentHTML += `
-                <p class="slide-text animatable ${animClassText}"
-                   data-animation="${animClassText}"
-                   style="opacity: 0; animation-delay: ${delayText}ms; animation-duration: ${duration}ms;">
-                    ${safeText}
-                </p>
-            `;
+            <p class="slide-text animatable ${animClassText}" 
+               data-animation="${animClassText}"
+               style="opacity: 0; animation-delay: ${delayText}ms; animation-duration: ${duration}ms;">
+                ${safeText}
+            </p>
+        `;
         }
 
-        if (link && safeButton) {
-            contentHTML += `
-                <a href="${link}" class="slide-button animatable ${animClassButton}"
+        // 🔥 Кнопка — только если поле активно И есть значение
+        if (hasButton && safeButton) {
+            if (link) {
+                contentHTML += `
+                <a href="${link}" class="slide-button animatable ${animClassButton}" 
                    data-animation="${animClassButton}"
                    style="opacity: 0; animation-delay: ${delayButton}ms; animation-duration: ${duration}ms;">
                     ${safeButton}
                 </a>
             `;
-        } else if (safeButton && !link) {
-            contentHTML += `
-                <span class="slide-button animatable ${animClassButton}"
+            } else {
+                contentHTML += `
+                <span class="slide-button animatable ${animClassButton}" 
                       data-animation="${animClassButton}"
                       style="opacity: 0; animation-delay: ${delayButton}ms; animation-duration: ${duration}ms;">
                     ${safeButton}
                 </span>
             `;
+            }
         }
 
         contentHTML += `</div>`;

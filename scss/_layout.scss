@@ -27,10 +27,6 @@
         }
     }
 
-    @include dark-theme {
-        background-color: var(--layoutBackground);
-    }
-
     @include bp.media-up('XSmall') {
         padding-top: calc((var(--header-height) * 2));
     }

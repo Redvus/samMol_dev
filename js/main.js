@@ -30,8 +30,8 @@ function createApp() {
     app.register(
         "header",
         new HeaderController({
-            scrollThreshold: 50,
-            debounceDelay: 30,
+            scrollThreshold: 30,
+            debounceDelay: 20,
         }),
     );
 

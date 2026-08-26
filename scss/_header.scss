@@ -75,6 +75,7 @@
         justify-content: flex-end;
         z-index: 1;
         gap: calc(var(--marginBase) * 0.5);
+        margin-top: -1rem;
 
         @include bp.media-up('Small') {
             width: 70%;
@@ -343,14 +344,9 @@
         transition: transform var(--transition-base),
             opacity var(--transition-base),
             box-shadow var(--transition-base);
-        height: calc(var(--header-height) * 0.7);
-        padding: 0 calc(var(--wrapperPadding) * 0.5);
+        height: calc(var(--header-height) * 0.5);
+        padding: 0 calc(var(--wrapperPadding));
         pointer-events: none;
-
-        @include dark-theme {
-            background: var(--layoutBackground);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
 
         // Показываем при скролле
         &.is-visible {
@@ -367,8 +363,7 @@
         }
 
         &__container {
-            max-width: 1400px;
-            margin: 0 auto;
+            width: var(--wrapperInsideWidth);
             height: 100%;
             display: flex;
             align-items: center;

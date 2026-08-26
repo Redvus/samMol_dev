@@ -6,25 +6,55 @@
 // СЛАЙДЕР
 // ============================================
 
-.slider-component {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    background: var(--fourth);
-    // box-shadow: var(--shadow-lg);
-}
+.slider {
 
-.slider-container {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-}
+    &-component {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--fourth);
+        // box-shadow: var(--shadow-lg);
 
-.slider-track {
-    display: flex;
-    height: 100%;
-    transition: transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
+        &:hover {
+            .nav-buttons {
+                opacity: 1;
+            }
+        }
+    }
+
+    &-container {
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        //aspect-ratio: 16 / 9;
+    }
+
+    &-track {
+        display: flex;
+        height: 100%;
+        transition: transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+    }
+
+    // Управление
+    &-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 1.5rem;
+        //background: var(--fourth);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    // Пустое состояние
+    &-empty {
+        padding: 4rem;
+        text-align: center;
+        color: var(--primary-darken-50);
+        font-size: var(--font-size-large);
+    }
 }
 
 .slide {
@@ -36,7 +66,7 @@
     overflow: hidden;
 
     &-image {
-        flex: 0 0 60%;
+        flex: 0 0 100%;
         height: 100%;
         overflow: hidden;
 
@@ -44,6 +74,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             transition: transform 0.6s ease;
         }
     }
@@ -54,7 +85,8 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background: var(--fourth);
+        //background: var(--fourth);
+        position: absolute;
 
         h2 {
             font-size: var(--font-size-h2);
@@ -115,7 +147,7 @@
         height: 0.75rem;
         border-radius: 50%;
         border: none;
-        background: var(--six-darken-30);
+        background: var(--sliderControlColor);
         cursor: pointer;
         transition: all var(--transition-fast);
         padding: 0;
@@ -143,14 +175,15 @@
     justify-content: space-between;
     padding: 0 1rem;
     pointer-events: none;
+    opacity: 0.3;
 
     .btn-arrow {
         pointer-events: all;
         width: 3rem;
         height: 3rem;
-        border-radius: 50%;
-        border: none;
-        background: rgba(255, 255, 255, 0.9);
+        border-radius: 0;
+        border: var(--border_normal) solid var(--sliderControlColor);
+        //background: rgba(255, 255, 255, 0.9);
         color: var(--primary);
         cursor: pointer;
         transition: all var(--transition-fast);
@@ -160,36 +193,20 @@
         box-shadow: var(--shadow-md);
 
         &:hover {
-            background: var(--fourth);
-            transform: scale(1.1);
+            background: rgba(var(--sliderControlColorRGB), 0.3);
+            //transform: scale(1.1);
         }
 
-        &:active {
-            transform: scale(0.95);
-        }
+        //&:active {
+        //    transform: scale(0.95);
+        //}
 
         svg {
             width: 1.5rem;
             height: 1.5rem;
+            stroke: var(--sliderControlColor);
         }
     }
-}
-
-// Управление
-.slider-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 1.5rem;
-    background: var(--fourth);
-}
-
-// Пустое состояние
-.slider-empty {
-    padding: 4rem;
-    text-align: center;
-    color: var(--primary-darken-50);
-    font-size: var(--font-size-large);
 }
 
 // Адаптив
@@ -197,9 +214,9 @@
     .slide {
         flex-direction: column;
 
-        &-image {
-            flex: 0 0 50%;
-        }
+        //&-image {
+        //    flex: 0 0 50%;
+        //}
 
         &-content {
             padding: 2rem;
