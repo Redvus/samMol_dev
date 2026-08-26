@@ -41,7 +41,7 @@ body {
 // ССЫЛКИ
 // ============================================
 a {
-    color: var(--secondary);
+    color: $color-accent;
     text-decoration: none;
     transition: color var(--transition-fast);
     outline: none;
