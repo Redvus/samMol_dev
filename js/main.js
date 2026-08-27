@@ -2,11 +2,8 @@
 // main.js — Точка входа
 // ============================================
 
-// Импорт ядра
 import App from "./core/App.js";
 import eventBus from "./core/EventBus.js";
-
-// Импорт компонентов
 import HeaderController from "./components/HeaderController.js";
 import FormRetail from "./components/FormRetail.js";
 import InfiniteSlider from "./components/InfiniteSlider.js";
@@ -26,16 +23,16 @@ function createApp() {
         autoInit: false,
     });
 
-    // Хедер — всегда
+    // Хедер
     app.register(
         "header",
         new HeaderController({
-            scrollThreshold: 30,
-            debounceDelay: 20,
+            scrollThreshold: 50,
+            debounceDelay: 30,
         }),
     );
 
-    // Форма — инициализируется только если есть на странице
+    // Форма
     app.register(
         "form",
         new FormRetail({
@@ -43,10 +40,9 @@ function createApp() {
         }),
     );
 
-    // Инициализация слайдера
-    initSliderWithObserver(app);
+    // 🔥 Инициализация ВСЕХ слайдеров на странице
+    initAllSliders(app);
 
-    // Инициализация приложения
     app.init();
 
     window.app = app;
@@ -56,55 +52,100 @@ function createApp() {
 }
 
 /**
- * Инициализация слайдера через MutationObserver
+ * Инициализация всех слайдеров на странице
  */
-function initSliderWithObserver(app) {
-    // Функция для инициализации слайдера
-    const tryInitSlider = () => {
-        const sliderElement = document.querySelector('[data-slider="true"]');
-        if (!sliderElement) return false;
+function initAllSliders(app) {
+    const sliderElements = document.querySelectorAll('[data-slider]');
 
-        // Проверяем наличие данных
-        const slidesData = sliderElement.dataset.slides;
-        const autoplay = sliderElement.dataset.autoplay !== "false";
+    if (sliderElements.length === 0) {
+        console.log("ℹ️ Sliders: не найдены на странице");
+        return;
+    }
+
+    console.log(`🎯 Найдено слайдеров: ${sliderElements.length}`);
+
+    sliderElements.forEach((element, index) => {
+        const sliderId = element.dataset.slider || index + 1;
+
+        // Проверяем данные
+        const slidesData = element.dataset.slides;
         if (!slidesData || slidesData === "[]" || slidesData === "") {
-            console.log("ℹ️ Slider: данные не загружены");
-            return false;
+            console.log(`ℹ️ Slider ${sliderId}: данные не загружены`);
+            return;
         }
+
+        // Проверяем autoplay
+        const autoplay = element.dataset.autoplay !== "false";
 
         try {
-            const slider = new InfiniteSlider(sliderElement, {
+            const slider = new InfiniteSlider(element, {
                 autoplay: autoplay,
+                autoplayDelay: parseInt(element.dataset.autoplayDelay) || 4000,
             });
-            app.register("slider", slider);
-            console.log("✅ Slider registered successfully");
-            return true;
+
+            const name = `slider_${sliderId}`;
+            app.register(name, slider);
+            console.log(`✅ Slider "${name}" registered (autoplay: ${autoplay ? 'ON' : 'OFF'})`);
         } catch (error) {
-            console.error("❌ Slider initialization error:", error);
-            return false;
+            console.error(`❌ Slider ${sliderId} initialization error:`, error);
         }
+    });
+}
+
+/**
+ * Альтернативная инициализация через MutationObserver
+ */
+function initSlidersWithObserver(app) {
+    const tryInitSliders = () => {
+        const elements = document.querySelectorAll('[data-slider]');
+        if (elements.length === 0) return false;
+
+        let initialized = 0;
+        elements.forEach((element, index) => {
+            const sliderId = element.dataset.slider || index + 1;
+            const slidesData = element.dataset.slides;
+
+            if (!slidesData || slidesData === "[]" || slidesData === "") {
+                return;
+            }
+
+            // Проверяем, не инициализирован ли уже
+            const name = `slider_${sliderId}`;
+            if (app.get(name)) return;
+
+            const autoplay = element.dataset.autoplay !== "false";
+
+            try {
+                const slider = new InfiniteSlider(element, {
+                    autoplay: autoplay,
+                    autoplayDelay: parseInt(element.dataset.autoplayDelay) || 4000,
+                });
+                app.register(name, slider);
+                initialized++;
+            } catch (error) {
+                console.error(`❌ Slider ${sliderId} error:`, error);
+            }
+        });
+
+        return initialized > 0;
     };
 
     // Пробуем сразу
-    if (tryInitSlider()) return;
+    if (tryInitSliders()) return;
 
-    // Создаем MutationObserver для отслеживания появления слайдера
+    // MutationObserver для отслеживания появления слайдеров
     const observer = new MutationObserver(() => {
-        if (tryInitSlider()) {
+        if (tryInitSliders()) {
             observer.disconnect();
-            console.log(
-                "🔄 MutationObserver: слайдер найден и инициализирован",
-            );
+            console.log("🔄 MutationObserver: все слайдеры инициализированы");
         }
     });
 
-    // Начинаем наблюдение за изменениями в DOM
     observer.observe(document.body, {
         childList: true,
         subtree: true,
     });
 
-    // Таймаут для остановки наблюдения через 10 секунд
     setTimeout(() => {
         observer.disconnect();
         console.log("ℹ️ MutationObserver: остановлен по таймауту");
@@ -121,12 +162,8 @@ if (document.readyState === "loading") {
     createApp();
 }
 
-// ============================================
-// ДОСТУП ИЗ КОНСОЛИ
-// ============================================
 console.log("📌 App: window.app");
 console.log("📌 Components: window.app?.getAll()");
 
-// Экспорт для модулей
 export { App, eventBus };
 export default App;

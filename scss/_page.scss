@@ -63,18 +63,40 @@
         gap: calc(var(--marginBase) * 3);
 
         &_image {
-            // width: var(--newsWidthLeft);
 
             @include pictureBlock();
 
             picture {
                 height: inherit;
+                margin-bottom: var(--marginBase);
+            }
+
+            &-list {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
             }
         }
 
-        // &_text {
-        //     width: var(--newsWidthRight);
-        // }
+        &_video {
+            width: 100%;
+            //max-width: 853px;
+            aspect-ratio: 16 / 9;
+            display: block;
+            position: relative;
+
+            iframe {
+                z-index: 2;
+            }
+
+            &--loader {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 0;
+            }
+        }
     }
 
     &__list {

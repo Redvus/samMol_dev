@@ -87,6 +87,8 @@
         justify-content: center;
         //background: var(--fourth);
         position: absolute;
+        right: 0;
+        bottom: 0;
 
         h2 {
             font-size: var(--font-size-h2);
@@ -115,8 +117,9 @@
         width: fit-content;
 
         &:hover {
+            color: var(--fourth);
             background: var(--secondary-darken-10);
-            transform: translateX(4px);
+            //transform: translateX(4px);
         }
     }
 
@@ -312,7 +315,7 @@
 @keyframes fadeInDown {
     from {
         opacity: 0;
-        transform: translateY(-40px);
+        transform: translateY(-30%);
     }
 
     to {

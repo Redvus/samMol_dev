@@ -439,8 +439,8 @@ export default class InfiniteSlider {
         const animClassButton = anim.button || 'fadeInUp';
         const delayTitle = anim.delayTitle || 200;
         const delayText = anim.delayText || 400;
-        const delayButton = anim.delayButton || 600;
-        const duration = anim.duration || 600;
+        const delayButton = anim.delayButton || 50;
+        const duration = anim.duration || 200;
 
         let contentHTML = `
         <div class="slide-image">
