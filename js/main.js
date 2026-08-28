@@ -7,6 +7,7 @@ import eventBus from "./core/EventBus.js";
 import HeaderController from "./components/HeaderController.js";
 import FormRetail from "./components/FormRetail.js";
 import InfiniteSlider from "./components/InfiniteSlider.js";
+import BlindController from "./components/BlindController.js";
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -28,7 +29,7 @@ function createApp() {
         "header",
         new HeaderController({
             scrollThreshold: 50,
-            debounceDelay: 30,
+            debounceDelay: 15,
         }),
     );
 
@@ -42,6 +43,16 @@ function createApp() {
 
     // 🔥 Инициализация ВСЕХ слайдеров на странице
     initAllSliders(app);
+
+    // 🔥 Блок для слабовидящих
+    app.register(
+        "blind",
+        new BlindController({
+            toggleSelector: '#blindToggle',
+            menuSelector: '#blindMenu',
+            resetSelector: '#blindReset',
+        }),
+    );
 
     app.init();
 

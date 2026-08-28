@@ -29,6 +29,10 @@ $border_heavy: 0.6rem;
 $base-duration: 0.2s;
 $base-timing: 0.3s;
 
+$shadow-1xl: 0.3rem 0.5rem 0.5rem rgba(var(--shadowColorRGB), 0.3);
+$shadow-1xr: -0.3rem 0.5rem 0.5rem rgba(var(--shadowColorRGB), 0.3);
+$shadow-2xl: 0.5rem 1rem 1rem rgba(var(--shadowColorRGB), 0.3);
+
 $header-height: 8rem;
 $wrapperPadding-base: 7vw;
 
@@ -49,11 +53,17 @@ $modalBorderColorDark: var(--third);
 
 $modalPadding-base: 5vmax;
 
+// Header
 $headerWaveBorder-base: 13rem;
 $headerSocialTop-base: 9vmax;
+$headerBlindSize: 2vmax;
+$headerBlindTop: 5vh;
+$headerBlindLeft: 25vmax;
 
 $sectionWidthLeft: 40%;
+$sectionWidthLeftHalf: 50%;
 $sectionWidthRight: calc(100% - #{$sectionWidthLeft});
+$sectionWidthRightHalf: calc(100% - #{$sectionWidthLeftHalf});
 
 // News
 $newsWidthLeft: 45%;
@@ -72,6 +82,9 @@ $footerSizeLogoBack: 75vw;
 
 $iconSVGSize: 1.1rem;
 
+// Slider
+$sliderPadding: 3vmax;
+
 // ========================================
 // Значения для разных брейкпоинтов
 // ========================================
@@ -80,16 +93,22 @@ $iconSVGSize: 1.1rem;
 $wrapperPadding-xxlarge: 12vw;
 $modalPadding-xxlarge: 10vmax;
 $headerSocialTop-xxlarge: 8.5vmax;
+$headerBlindLeft-xxlarge: 21vmax;
+$headerBlindTop-xxlarge: 4vh;
 
 // XLarge
 $wrapperPadding-xlarge: 10vw;
 $modalPadding-xlarge: 6vmax;
+$headerBlindLeft-xlarge: 23vmax;
+$headerBlindTop-xlarge: 4.5vh;
 
 // Large
 $wrapperPadding-large: 8vw;
 $modalPadding-large: 3vmax;
 $headerWaveBorder-large: 12rem;
 $headerSocialTop-large: 9vmax;
+$headerBlindLeft-large: 25vmax;
+$headerBlindTop-large: 4.5vh;
 
 // Medium
 $wrapperPadding-medium: 1rem;
@@ -109,8 +128,17 @@ $wrapperPadding-medium: 1rem;
     --base-duration: #{$base-duration};
     --base-timing: #{$base-timing};
 
-    // Header
+    --shadow-1xl: #{$shadow-1xl};
+    --shadow-1xr: #{$shadow-1xr};
+    --shadow-2xl: #{$shadow-2xl};
+
+    // Header Wave & Social
     --header-height: #{$header-height};
+    --headerWaveBorder: #{$headerWaveBorder-base};
+    --headerSocialTop: #{$headerSocialTop-base};
+    --headerBlindSize: #{$headerBlindSize};
+    --headerBlindTop: #{$headerBlindTop};
+    --headerBlindLeft: #{$headerBlindLeft};
 
     // Wrapper
     --wrapperPadding: #{$wrapperPadding-base};
@@ -134,13 +162,11 @@ $wrapperPadding-medium: 1rem;
     --modalBorderColorDark: #{$modalBorderColorDark};
     --modalPadding: #{$modalPadding-base};
 
-    // Header Wave & Social
-    --headerWaveBorder: #{$headerWaveBorder-base};
-    --headerSocialTop: #{$headerSocialTop-base};
-
     // Sections
     --sectionWidthLeft: #{$sectionWidthLeft};
     --sectionWidthRight: #{$sectionWidthRight};
+    --sectionWidthLeftHalf: #{$sectionWidthLeftHalf};
+    --sectionWidthRightHalf: #{$sectionWidthRightHalf};
 
     // News
     --newsWidthLeft: #{$newsWidthLeft};
@@ -159,6 +185,9 @@ $wrapperPadding-medium: 1rem;
 
     // Icons
     --iconSVGSize: #{$iconSVGSize};
+
+    //Slider
+    --sliderPadding: #{$sliderPadding};
 }
 
 // ========================================
@@ -171,6 +200,8 @@ $wrapperPadding-medium: 1rem;
         --wrapperPadding: #{$wrapperPadding-xxlarge};
         --modalPadding: #{$modalPadding-xxlarge};
         --headerSocialTop: #{$headerSocialTop-xxlarge};
+        --headerBlindLeft: #{$headerBlindLeft-xxlarge};
+        --headerBlindTop: #{$headerBlindTop-xxlarge};
     }
 }
 
@@ -178,6 +209,8 @@ $wrapperPadding-medium: 1rem;
     :root {
         --wrapperPadding: #{$wrapperPadding-xlarge};
         --modalPadding: #{$modalPadding-xlarge};
+        --headerBlindLeft: #{$headerBlindLeft-xlarge};
+        --headerBlindTop: #{$headerBlindTop-xlarge};
     }
 }
 
@@ -187,6 +220,8 @@ $wrapperPadding-medium: 1rem;
         --modalPadding: #{$modalPadding-large};
         --headerWaveBorder: #{$headerWaveBorder-large};
         --headerSocialTop: #{$headerSocialTop-large};
+        --headerBlindLeft: #{$headerBlindLeft-large};
+        --headerBlindTop: #{$headerBlindTop-large};
     }
 }
 

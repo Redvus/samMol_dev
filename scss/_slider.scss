@@ -1,6 +1,8 @@
-@use 'breakpoints' as bp;
+@use "fonts" as *;
 @use "sass:color";
-@use 'fonts' as *;
+@use "breakpoints" as bp;
+@use "variables" as *;
+@use "mixins" as *;
 
 // ============================================
 // СЛАЙДЕР
@@ -14,6 +16,14 @@
         overflow: hidden;
         background: var(--fourth);
         // box-shadow: var(--shadow-lg);
+
+        &--half {
+            width: var(--sectionWidthRight);
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
 
         &:hover {
             .nav-buttons {

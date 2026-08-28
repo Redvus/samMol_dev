@@ -22,8 +22,6 @@
     left: 0;
     padding: 1rem 0;
     z-index: 2000;
-    // overflow: hidden;
-    z-index: 100;
 
     // ==========================================
     // ЛОГОТИП
@@ -103,10 +101,6 @@
         padding-left: calc(var(--marginBase) * 0.5);
         transition: top var(--transition-base);
 
-        @include dark-theme {
-            border-left: var(--border_thin) solid var(--body-font-color);
-        }
-
         a {
             width: 2rem;
             height: 100%;
@@ -118,35 +112,35 @@
             position: relative;
 
             // Tooltip для социальных ссылок
-            &::after {
-                content: attr(data-label);
-                position: absolute;
-                bottom: calc(100% + 0.5rem);
-                left: 50%;
-                transform: translateX(-50%) scale(0.8);
-                background: var(--primary);
-                color: var(--fourth);
-                padding: 0.25rem 0.5rem;
-                border-radius: 0.25rem;
-                font-size: var(--font-size-small);
-                white-space: nowrap;
-                opacity: 0;
-                pointer-events: none;
-                transition: all var(--transition-fast);
-            }
+            //&::after {
+            //    content: attr(data-label);
+            //    position: absolute;
+            //    bottom: calc(100% + 0.5rem);
+            //    left: 50%;
+            //    transform: translateX(-50%) scale(0.8);
+            //    background: var(--primary);
+            //    color: var(--fourth);
+            //    padding: 0.25rem 0.5rem;
+            //    border-radius: 0.25rem;
+            //    font-size: var(--font-size-small);
+            //    white-space: nowrap;
+            //    opacity: 0;
+            //    pointer-events: none;
+            //    transition: all var(--transition-fast);
+            //}
 
-            &:hover {
-                transform: scale(1.1);
+            //&:hover {
+            //    transform: scale(1.1);
+            //
+            //    //&::after {
+            //    //    opacity: 1;
+            //    //    transform: translateX(-50%) scale(1);
+            //    //}
+            //}
 
-                &::after {
-                    opacity: 1;
-                    transform: translateX(-50%) scale(1);
-                }
-            }
-
-            &:active {
-                transform: scale(0.95);
-            }
+            //&:active {
+            //    transform: scale(0.95);
+            //}
         }
 
         i {
@@ -178,13 +172,16 @@
 
         span {
             width: 2rem;
-            height: 100%;
+            //height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: var(--heading-font);
             font-size: var(--font-size-large);
             color: var(--primary);
+            margin-right: 1rem;
+            padding-right: 2rem;
+            border-right: var(--border_thin) solid var(--primary);
             user-select: none;
             cursor: default;
         }
@@ -336,17 +333,15 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 999;
         background: var(--fourth);
-        box-shadow: var(--shadow-md);
+        //box-shadow: var(--shadow-md);
         transform: translateY(-100%);
         opacity: 0;
-        transition: transform var(--transition-base),
-            opacity var(--transition-base),
-            box-shadow var(--transition-base);
+        transition: all var(--base-duration);
         height: calc(var(--header-height) * 0.5);
         padding: 0 calc(var(--wrapperPadding));
         pointer-events: none;
+        z-index: 2010;
 
         // Показываем при скролле
         &.is-visible {
@@ -541,6 +536,32 @@
                 }
             }
         }
+    }
+
+    // ============================================
+    // БЛОК ДЛЯ СЛАБОВИДЯЩИХ
+    // ============================================
+    &__blind {
+        //width: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        margin-left: calc(var(--marginBase) / 3);
+        //top: var(--headerBlindTop);
+        //left: var(--headerBlindLeft);
+
+        i {
+            //font-size: var(--headerBlindSize);
+            color: var(--primary);
+        }
+    }
+
+    &__blind-wrapper {
+        position: relative;
+        margin-right: calc(var(--marginBase) * 2);
+        z-index: 50;
     }
 
     // ============================================
