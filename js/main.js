@@ -8,6 +8,7 @@ import HeaderController from "./components/HeaderController.js";
 import FormRetail from "./components/FormRetail.js";
 import InfiniteSlider from "./components/InfiniteSlider.js";
 import BlindController from "./components/BlindController.js";
+import PdfGenerator from './components/PdfGenerator.js';
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -37,9 +38,17 @@ function createApp() {
     app.register(
         "form",
         new FormRetail({
-            maxBooks: 4,
+            maxBooks: 5,
         }),
     );
+
+    // app.register(
+    //     "pdf",
+    //     new PdfGenerator({
+    //         buttonSelector: '#pdfButton',
+    //         pdfUrl: '/assets/images/documents/form_pdf.html',  // ← URL
+    //     }),
+    // );
 
     // 🔥 Инициализация ВСЕХ слайдеров на странице
     initAllSliders(app);

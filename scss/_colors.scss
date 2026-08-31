@@ -38,6 +38,8 @@ $colors: (
 $color-accent: var(--primary);
 $color-accent-light: var(--secondary);
 $color-accent-dark: #000000;
+$color-accent-hover: var(--seven);
+$color-accent-active: var(--seven-darken-5);
 
 // Градиенты
 $gradient-dark: linear-gradient(135deg, #000000 0%, #262626 100%);
