@@ -60,6 +60,8 @@ $headerBlindSize: 2vmax;
 $headerBlindTop: 5vh;
 $headerBlindLeft: 25vmax;
 
+$navPaddingG: 0.7rem;
+
 $sectionWidthLeft: 40%;
 $sectionWidthLeftHalf: 50%;
 $sectionWidthRight: calc(100% - #{$sectionWidthLeft});
@@ -139,6 +141,8 @@ $wrapperPadding-medium: 1rem;
     --headerBlindSize: #{$headerBlindSize};
     --headerBlindTop: #{$headerBlindTop};
     --headerBlindLeft: #{$headerBlindLeft};
+
+    --navPaddingG: #{$navPaddingG};
 
     // Wrapper
     --wrapperPadding: #{$wrapperPadding-base};

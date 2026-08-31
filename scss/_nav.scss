@@ -17,7 +17,7 @@
         li {
             display: block;
             position: relative;
-            padding: 0.3rem 1rem;
+            padding: 0.3rem var(--navPaddingG);
             margin: 0;
 
             a {
@@ -34,6 +34,10 @@
                     color: $color-accent-light;
                 }
             }
+
+            &:last-child {
+                padding-right: 0;
+            }
         }
 
         &__children {
@@ -41,7 +45,7 @@
             ul.submenu {
                 min-width: 10rem;
                 position: absolute;
-                margin-left: -1rem;
+                margin-left: calc(var(--navPaddingG) * -1);
                 margin-top: 0.3rem;
                 background-color: $color-accent-hover;
                 // box-shadow: 0 0.1rem 0.1rem rgba(var(--third), 0.2);
