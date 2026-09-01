@@ -5,10 +5,10 @@
 import App from "./core/App.js";
 import eventBus from "./core/EventBus.js";
 import HeaderController from "./components/HeaderController.js";
-import FormRetail from "./components/FormRetail.js";
+import FormRetail from "./components/FormRetailSimple.js";
 import InfiniteSlider from "./components/InfiniteSlider.js";
 import BlindController from "./components/BlindController.js";
-import PdfGenerator from './components/PdfGenerator.js';
+import PdfGenerator from "./components/PdfGenerator.js";
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -42,16 +42,51 @@ function createApp() {
         }),
     );
 
-    // app.register(
-    //     "pdf",
-    //     new PdfGenerator({
-    //         buttonSelector: '#pdfButton',
-    //         pdfUrl: '/assets/images/documents/form_pdf.html',  // ← URL
-    //     }),
-    // );
-
     // 🔥 Инициализация ВСЕХ слайдеров на странице
     initAllSliders(app);
+
+    // 🔥 PDF генератор
+    app.register(
+        "pdf",
+        new PdfGenerator({
+            formSelector: '#formRetail',
+            checkboxSelector: '#generatePdf',
+            pdfUrl: '/assets/snippets/generatePDF.php',
+            debug: true,
+        }),
+    );
+
+    // Отслеживаем события FormIt
+    document.addEventListener('formit:success', function(e) {
+        // Форма успешно отправлена
+        console.log('✅ FormIt: форма успешно отправлена');
+
+        const pdfGenerator = window.app?.get('pdf');
+        if (!pdfGenerator) return;
+
+        const checkbox = document.querySelector('#generatePdf');
+        if (!checkbox || !checkbox.checked) return;
+
+        // Получаем данные из формы
+        const form = document.getElementById('formRetail');
+        if (!form) return;
+
+        const formData = new FormData(form);
+
+        // Генерируем PDF
+        pdfGenerator.generatePDF(formData);
+    });
+
+    document.addEventListener('formit:error', function(e) {
+        // Ошибка валидации
+        console.log('❌ FormIt: ошибка валидации');
+
+        const pdfGenerator = window.app?.get('pdf');
+        if (pdfGenerator) {
+            pdfGenerator._setButtonLoading(false);
+            pdfGenerator.isSubmitting = false;
+        }
+    });
 
     // 🔥 Блок для слабовидящих
     app.register(
