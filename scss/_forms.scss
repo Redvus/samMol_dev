@@ -92,8 +92,6 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
-
             box-sizing: border-box;
             // padding: 2rem 3rem;
             // background: var(--primary-lighten-5);
@@ -103,6 +101,16 @@
                 &:hover {
                     color: var(--fourth);
                 }
+            }
+
+            // Если внутри блока 2 элемента
+            &:has(> :nth-child(2):last-child) {
+                justify-content: space-between;
+            }
+
+            // Если внутри блока 1 элемент
+            &:has(> :only-child) {
+                justify-content: flex-end;
             }
         }
     }
@@ -905,6 +913,11 @@
         &:last-child {
             border-bottom: none;
         }
+
+        .has-error {
+            background-color: #fff8f8;
+            border-left: 3px solid #dc3545;
+        }
     }
 
     &__col {
@@ -964,11 +977,12 @@
         }
 
         &.is-invalid {
-            border: 1px solid #fd6a6a !important;
+            border-color: #dc3545 !important;
+            background-color: #fff8f8;
 
             &:focus {
-                border: 1px solid #fd6a6a;
-                box-shadow: 0 0 10px rgba(253, 106, 106, 0.3) !important;
+                border-color: #dc3545;
+                box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
             }
         }
 
@@ -1066,18 +1080,22 @@
 
     // Стили для ошибок внутри таблицы
     .field__error {
-        margin-top: 2px;
-        color: #fd6a6a;
-        font-size: 12px;
-        font-stretch: normal;
-        font-style: normal;
-        font-weight: 500;
-        letter-spacing: normal;
-        line-height: 16px;
-        min-height: 18px;
+        min-height: 20px;
+        display: block;
+        margin-top: 0.1rem;
+        background-color: #dc3545;
 
-        &:empty {
+        &:not(:empty) {
             display: none;
+        }
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+
+        &:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
         }
     }
 

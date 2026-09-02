@@ -109,9 +109,9 @@ export default class HeaderController {
                 const isScrollingDown = currentScrollY > this.lastScrollY;
 
                 if (isScrollingDown && !this.isManuallyClosed) {
-                    this.hide();
-                } else if (!isScrollingDown) {
                     this.show();
+                } else if (!isScrollingDown) {
+                    this.hide();
                 }
             } else {
                 this.hide();

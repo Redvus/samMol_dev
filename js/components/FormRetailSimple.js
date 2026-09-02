@@ -1,4 +1,4 @@
-// components/FormRetail.js — упрощенная версия (только маски и UX)
+// components/FormRetail.js — с масками для всех полей
 
 export default class FormRetail {
     constructor(options = {}) {
@@ -7,6 +7,7 @@ export default class FormRetail {
             phoneSelector: 'input[name="phone"]',
             ageSelector: 'input[name="age"]',
             emailSelector: 'input[name="email"]',
+            dateSelector: 'input[name="book_year[]"]',
             booksTableSelector: '#booksTableBody',
             addBookSelector: '#addBookBtn',
             bookCountSelector: '#bookCount',
@@ -18,6 +19,7 @@ export default class FormRetail {
         this.phoneInput = null;
         this.ageInput = null;
         this.emailInput = null;
+        this.dateInputs = [];
         this.booksTableBody = null;
         this.addBookBtn = null;
         this.bookCountInput = null;
@@ -64,6 +66,9 @@ export default class FormRetail {
         this.booksTableBody = this.form.querySelector(this.config.booksTableSelector);
         this.addBookBtn = this.form.querySelector(this.config.addBookSelector);
         this.bookCountInput = this.form.querySelector(this.config.bookCountSelector);
+
+        // Все поля с датой
+        this.dateInputs = this.form.querySelectorAll(this.config.dateSelector);
     }
 
     _bindEvents() {
@@ -73,6 +78,22 @@ export default class FormRetail {
             this.phoneInput.addEventListener('focus', (e) => this._phoneFocus(e.target));
             this.phoneInput.addEventListener('blur', (e) => this._phoneBlur(e.target));
         }
+
+        // Маска возраста (только цифры)
+        if (this.ageInput) {
+            this.ageInput.addEventListener('input', (e) => this._ageMask(e.target));
+        }
+
+        // Маска email (автоматическое добавление @mail.ru)
+        if (this.emailInput) {
+            this.emailInput.addEventListener('blur', (e) => this._emailMask(e.target));
+        }
+
+        // Маска даты для всех полей
+        this.dateInputs.forEach(input => {
+            input.addEventListener('input', (e) => this._dateMask(e.target));
+            input.addEventListener('blur', (e) => this._dateValidate(e.target));
+        });
 
         // Добавление строки в таблицу
         if (this.addBookBtn) {
@@ -93,8 +114,25 @@ export default class FormRetail {
             });
         }
 
-        // ❌ УБИРАЕМ ВАЛИДАЦИЮ — ее делает FormIt
-        // Оставляем только маски и UX
+        // MutationObserver для новых полей даты
+        if (this.booksTableBody) {
+            const observer = new MutationObserver(() => {
+                this.dateInputs = this.form.querySelectorAll(this.config.dateSelector);
+                this.dateInputs.forEach(input => {
+                    // Убираем дублирование событий
+                    if (!input.dataset.dateMasked) {
+                        input.dataset.dateMasked = 'true';
+                        input.addEventListener('input', (e) => this._dateMask(e.target));
+                        input.addEventListener('blur', (e) => this._dateValidate(e.target));
+                    }
+                });
+            });
+
+            observer.observe(this.booksTableBody, {
+                childList: true,
+                subtree: true,
+            });
+        }
     }
 
     // ============================================
@@ -137,6 +175,117 @@ export default class FormRetail {
     }
 
     // ============================================
+    // МАСКА ВОЗРАСТА (только цифры, 1-150)
+    // ============================================
+
+    _ageMask(input) {
+        // Удаляем все нецифровые символы
+        let value = input.value.replace(/\D/g, '');
+
+        // Ограничиваем длину (макс 3 цифры для 150)
+        if (value.length > 3) {
+            value = value.substring(0, 3);
+        }
+
+        // Проверяем, что число не больше 150
+        if (parseInt(value) > 150) {
+            value = '150';
+        }
+
+        input.value = value;
+    }
+
+    // ============================================
+    // МАСКА EMAIL (добавление @mail.ru)
+    // ============================================
+
+    _emailMask(input) {
+        const value = input.value.trim();
+        if (value && !value.includes('@')) {
+            // Если email введен без @, предлагаем домен
+            // Но не добавляем автоматически, чтобы не мешать пользователю
+            // Можно добавить подсказку или автодополнение
+            console.log('💡 Подсказка: введите email в формате user@domain.com');
+        }
+    }
+
+    // ============================================
+    // МАСКА ДАТЫ (ДД.ММ.ГГГГ)
+    // ============================================
+
+    _dateMask(input) {
+        // Удаляем все нецифровые символы
+        let value = input.value.replace(/\D/g, '');
+
+        // Ограничиваем длину (8 цифр для ДД.ММ.ГГГГ)
+        if (value.length > 8) {
+            value = value.substring(0, 8);
+        }
+
+        // Форматируем с разделителями
+        let formatted = '';
+        for (let i = 0; i < value.length; i++) {
+            if (i === 2 || i === 4) {
+                formatted += '.';
+            }
+            formatted += value[i];
+        }
+
+        input.value = formatted;
+    }
+
+    /**
+     * Валидация даты
+     */
+    _dateValidate(input) {
+        const value = input.value.trim();
+        input.classList.remove('is-valid', 'is-invalid');
+
+        if (!value) {
+            input.classList.remove('is-valid', 'is-invalid');
+            return true;
+        }
+
+        const dateRegex = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+        const match = value.match(dateRegex);
+
+        if (!match) {
+            input.classList.add('is-invalid');
+            return false;
+        }
+
+        const day = parseInt(match[1]);
+        const month = parseInt(match[2]);
+        const year = parseInt(match[3]);
+
+        const dateObj = new Date(year, month - 1, day);
+
+        if (
+            dateObj.getFullYear() !== year ||
+            dateObj.getMonth() !== month - 1 ||
+            dateObj.getDate() !== day
+        ) {
+            input.classList.add('is-invalid');
+            return false;
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (dateObj > today) {
+            input.classList.add('is-invalid');
+            return false;
+        }
+
+        if (year < 1900) {
+            input.classList.add('is-invalid');
+            return false;
+        }
+
+        input.classList.add('is-valid');
+        return true;
+    }
+
+    // ============================================
     // ТАБЛИЦА
     // ============================================
 
@@ -171,7 +320,7 @@ export default class FormRetail {
                 <span class="field__error" data-formit-error="book_title_${newIndex}"></span>
             </div>
             <div class="books-table__col books-table__col--year">
-                <input type="text" name="book_year[]" class="books-table__input" placeholder="Дата">
+                <input type="text" name="book_year[]" class="books-table__input" placeholder="ДД.ММ.ГГГГ">
             </div>
             <div class="books-table__col books-table__col--actions">
                 <button type="button" class="books-table__remove-btn" data-row-index="${newIndex}">
@@ -249,6 +398,7 @@ export default class FormRetail {
             isInitialized: this.isInitialized,
             isSubmitting: this.isSubmitting,
             hasForm: !!this.form,
+            dateInputsCount: this.dateInputs.length,
         };
     }
 

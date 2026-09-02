@@ -9,6 +9,7 @@ import FormRetail from "./components/FormRetailSimple.js";
 import InfiniteSlider from "./components/InfiniteSlider.js";
 import BlindController from "./components/BlindController.js";
 import PdfGenerator from "./components/PdfGenerator.js";
+import initTableValidation from "./components/TableValidation.js";
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -45,6 +46,8 @@ function createApp() {
     // 🔥 Инициализация ВСЕХ слайдеров на странице
     initAllSliders(app);
 
+    initTableValidation();
+
     // 🔥 PDF генератор
     app.register(
         "pdf",
@@ -55,38 +58,6 @@ function createApp() {
             debug: true,
         }),
     );
-
-    // Отслеживаем события FormIt
-    document.addEventListener('formit:success', function(e) {
-        // Форма успешно отправлена
-        console.log('✅ FormIt: форма успешно отправлена');
-
-        const pdfGenerator = window.app?.get('pdf');
-        if (!pdfGenerator) return;
-
-        const checkbox = document.querySelector('#generatePdf');
-        if (!checkbox || !checkbox.checked) return;
-
-        // Получаем данные из формы
-        const form = document.getElementById('formRetail');
-        if (!form) return;
-
-        const formData = new FormData(form);
-
-        // Генерируем PDF
-        pdfGenerator.generatePDF(formData);
-    });
-
-    document.addEventListener('formit:error', function(e) {
-        // Ошибка валидации
-        console.log('❌ FormIt: ошибка валидации');
-
-        const pdfGenerator = window.app?.get('pdf');
-        if (pdfGenerator) {
-            pdfGenerator._setButtonLoading(false);
-            pdfGenerator.isSubmitting = false;
-        }
-    });
 
     // 🔥 Блок для слабовидящих
     app.register(
