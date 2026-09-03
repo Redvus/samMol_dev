@@ -3,17 +3,19 @@
 @use "sass:color";
 @use "breakpoints";
 @use "variables";
-// @use "mixins";
+@use "mixins";
 @use "animations";
 @use "base";
 
 // @use "preloader";
 @use "header";
+@use "blind";
 @use "layout";
 @use "footer";
-// @use "nav";
+@use "nav";
 
-// @use "gallery";
-// @use "modal";
-// @use "about_modal";
-// @use "admin";
+@use "section";
+@use "news";
+@use "page";
+@use "forms";
+@use "slider";

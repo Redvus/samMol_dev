@@ -1,0 +1,115 @@
+@use "fonts" as *;
+@use "sass:color";
+@use "breakpoints" as bp;
+@use "variables" as *;
+@use "mixins" as *;
+
+.news {
+
+    &-preview {
+        height: 65vh;
+        display: flex;
+        flex-direction: column;
+        // flex-wrap: wrap;
+        background-color: var(--fourth);
+
+        &__top {
+            width: 100%;
+            height: 40%;
+            display: block;
+            overflow: hidden;
+            @include pictureBlock();
+
+            &:hover {
+                picture {
+                    img {
+                        transform: scale(1.03);
+                    }
+                }
+            }
+        }
+
+        &__bottom {
+            width: 100%;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1rem;
+            overflow: hidden;
+        }
+
+        &__header {
+            width: 100%;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: var(--font-size-small);
+            color: var(--five);
+        }
+
+        &__count {
+            width: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            i {
+                color: var(--five);
+                margin-top: -0.2rem;
+            }
+        }
+
+        &__description {
+            z-index: 1;
+        }
+
+        &__title {
+            width: 100%;
+            height: 7rem;
+            display: flex;
+            align-items: flex-start;
+
+            h3 {
+                margin-top: 0;
+            }
+
+            &:hover {
+                h3 {
+                    color: var(--secondary);
+                }
+            }
+        }
+
+        &__text {
+            width: 100%;
+            height: 9rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        &__footer {
+            width: 100%;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            z-index: 0;
+
+            a {
+                font-size: 8rem;
+                transition: $transition-base;
+
+                i {
+                    position: relative;
+                    right: -0.5rem;
+                    bottom: -0.3rem;
+                }
+
+                &:hover {
+                    transform: translateX(5%);
+                }
+            }
+        }
+    }
+}

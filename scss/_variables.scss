@@ -16,61 +16,221 @@ $transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
-// Colors
-:root {
-    --layoutBackground: var(--primary);
-    --layoutBackgroundLight: var(--secondary);
-    --elementBackground: var(--fourth);
+// ========================================
+// SCSS переменные для Layout
+// ========================================
 
-    --headerBackgroundLight: var(--fourth);
+// Базовые значения (без медиа-запросов)
+$border_thin: 0.07rem;
+$border_normal: 0.15rem;
+$border_bold: 0.3rem;
+$border_heavy: 0.6rem;
+
+$base-duration: 0.2s;
+$base-timing: 0.3s;
+
+$shadow-1xl: 0.3rem 0.5rem 0.5rem rgba(var(--shadowColorRGB), 0.3);
+$shadow-1xr: -0.3rem 0.5rem 0.5rem rgba(var(--shadowColorRGB), 0.3);
+$shadow-2xl: 0.5rem 1rem 1rem rgba(var(--shadowColorRGB), 0.3);
+
+$header-height: 8rem;
+$wrapperPadding-base: 7vw;
+
+$marginBase: 1rem;
+
+$galleryItemHeight: 50vh;
+$galleryItemTopHeight: 75%;
+
+$modalWidth: 85vw;
+$modalTopHeight: 85vh;
+$modalVideoTopHeight: 60vh;
+$modalIndex: 1.35;
+$modalVideoIndex: 1.77;
+$modalThumbnailsHeight: 8vh;
+$modalButtonsHeight: calc(#{$marginBase} * 2.5);
+$modalBorderColor: var(--fourth-darken-30);
+$modalBorderColorDark: var(--third);
+
+$modalPadding-base: 5vmax;
+
+// Header
+$headerWaveBorder-base: 13rem;
+$headerSocialTop-base: 9vmax;
+$headerBlindSize: 2vmax;
+$headerBlindTop: 5vh;
+$headerBlindLeft: 25vmax;
+
+$navPaddingG: 0.7rem;
+
+$sectionWidthLeft: 40%;
+$sectionWidthLeftHalf: 50%;
+$sectionWidthRight: calc(100% - #{$sectionWidthLeft});
+$sectionWidthRightHalf: calc(100% - #{$sectionWidthLeftHalf});
+
+// News
+$newsWidthLeft: 45%;
+$newsWidthRight: calc(100% - #{$sectionWidthLeft});
+
+// Footer
+$footerHeight: 5rem;
+$footerWidthLeft: 30%;
+$footerWidthRight: calc(100% - #{$footerWidthLeft});
+$footerHeightTop: 12rem;
+$footerHeightBottom: 5rem;
+$footerHeightBlockBottom: 3rem;
+$footerHeightBanner: 4rem;
+$footerWidthCircle: 45vw;
+$footerSizeLogoBack: 75vw;
+
+$iconSVGSize: 1.1rem;
+
+// Slider
+$sliderPadding: 3vmax;
+
+// ========================================
+// Значения для разных брейкпоинтов
+// ========================================
+
+// XXLarge
+$wrapperPadding-xxlarge: 12vw;
+$modalPadding-xxlarge: 10vmax;
+$headerSocialTop-xxlarge: 8.5vmax;
+$headerBlindLeft-xxlarge: 21vmax;
+$headerBlindTop-xxlarge: 4vh;
+
+// XLarge
+$wrapperPadding-xlarge: 10vw;
+$modalPadding-xlarge: 6vmax;
+$headerBlindLeft-xlarge: 23vmax;
+$headerBlindTop-xlarge: 4.5vh;
+
+// Large
+$wrapperPadding-large: 8vw;
+$modalPadding-large: 3vmax;
+$headerWaveBorder-large: 12rem;
+$headerSocialTop-large: 9vmax;
+$headerBlindLeft-large: 25vmax;
+$headerBlindTop-large: 4.5vh;
+
+// Medium
+$wrapperPadding-medium: 1rem;
+
+// ========================================
+// Генерация CSS-переменных
+// ========================================
+
+:root {
+    // Border
+    --border_thin: #{$border_thin};
+    --border_normal: #{$border_normal};
+    --border_bold: #{$border_bold};
+    --border_heavy: #{$border_heavy};
+
+    // Duration & Timing
+    --base-duration: #{$base-duration};
+    --base-timing: #{$base-timing};
+
+    --shadow-1xl: #{$shadow-1xl};
+    --shadow-1xr: #{$shadow-1xr};
+    --shadow-2xl: #{$shadow-2xl};
+
+    // Header Wave & Social
+    --header-height: #{$header-height};
+    --headerWaveBorder: #{$headerWaveBorder-base};
+    --headerSocialTop: #{$headerSocialTop-base};
+    --headerBlindSize: #{$headerBlindSize};
+    --headerBlindTop: #{$headerBlindTop};
+    --headerBlindLeft: #{$headerBlindLeft};
+
+    --navPaddingG: #{$navPaddingG};
+
+    // Wrapper
+    --wrapperPadding: #{$wrapperPadding-base};
+
+    // Margin
+    --marginBase: #{$marginBase};
+
+    // Gallery
+    --galleryItemHeight: #{$galleryItemHeight};
+    --galleryItemTopHeight: #{$galleryItemTopHeight};
+
+    // Modal
+    --modalWidth: #{$modalWidth};
+    --modalTopHeight: #{$modalTopHeight};
+    --modalVideoTopHeight: #{$modalVideoTopHeight};
+    --modalIndex: #{$modalIndex};
+    --modalVideoIndex: #{$modalVideoIndex};
+    --modalThumbnailsHeight: #{$modalThumbnailsHeight};
+    --modalButtonsHeight: #{$modalButtonsHeight};
+    --modalBorderColor: #{$modalBorderColor};
+    --modalBorderColorDark: #{$modalBorderColorDark};
+    --modalPadding: #{$modalPadding-base};
+
+    // Sections
+    --sectionWidthLeft: #{$sectionWidthLeft};
+    --sectionWidthRight: #{$sectionWidthRight};
+    --sectionWidthLeftHalf: #{$sectionWidthLeftHalf};
+    --sectionWidthRightHalf: #{$sectionWidthRightHalf};
+
+    // News
+    --newsWidthLeft: #{$newsWidthLeft};
+    --newsWidthRight: #{$newsWidthRight};
+
+    // Footer
+    --footerHeight: #{$footerHeight};
+    --footerWidthLeft: #{$footerWidthLeft};
+    --footerWidthRight: #{$footerWidthRight};
+    --footerHeightTop: #{$footerHeightTop};
+    --footerHeightBottom: #{$footerHeightBottom};
+    --footerHeightBlockBottom: #{$footerHeightBlockBottom};
+    --footerHeightBanner: #{$footerHeightBanner};
+    --footerWidthCircle: #{$footerWidthCircle};
+    --footerSizeLogoBack: #{$footerSizeLogoBack};
+
+    // Icons
+    --iconSVGSize: #{$iconSVGSize};
+
+    //Slider
+    --sliderPadding: #{$sliderPadding};
 }
 
-// Layout
-:root {
-    --border_thin: 0.07rem;
-    --border_normal: 0.15rem;
-    --border_bold: 0.3rem;
-    --border_heavy: 0.6rem;
+// ========================================
+// Медиа-запросы (переопределение CSS-переменных)
+// ========================================
 
-    --base-duration: 0.2s;
-    --base-timing: 0.3s;
-
-    --header-height: 2.5rem;
-    --wrapperPadding: 5vw;
-
-    --marginBase: 1rem;
-
-    --galleryItemHeight: 50vh;
-    --galleryItemTopHeight: 75%;
-
-    --modalWidth: 85vw;
-    --modalTopHeight: 85vh;
-    --modalVideoTopHeight: 60vh;
-    --modalIndex: 1.35;
-    --modalVideoIndex: 1.77;
-    --modalThumbnailsHeight: 8vh;
-    --modalButtonsHeight: calc(var(--marginBase) * 2.5);
-    --modalBorderColor: var(--fourth-darken-30);
-    --modalBorderColorDark: var(--third);
-
-    --modalPadding: 5vmax;
-
-    @include bp.media-up("XXLarge") {
-        --wrapperPadding: 10vw;
-        --modalPadding: 10vmax;
+// Сначала самые большие экраны (чтобы работало каскадирование)
+@include bp.media-up("XXLarge") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-xxlarge};
+        --modalPadding: #{$modalPadding-xxlarge};
+        --headerSocialTop: #{$headerSocialTop-xxlarge};
+        --headerBlindLeft: #{$headerBlindLeft-xxlarge};
+        --headerBlindTop: #{$headerBlindTop-xxlarge};
     }
+}
 
-    @include bp.media-up("XLarge") {
-        --wrapperPadding: 8vw;
-        --modalPadding: 6vmax;
+@include bp.media-up("XLarge") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-xlarge};
+        --modalPadding: #{$modalPadding-xlarge};
+        --headerBlindLeft: #{$headerBlindLeft-xlarge};
+        --headerBlindTop: #{$headerBlindTop-xlarge};
     }
+}
 
-    @include bp.media-up("Large") {
-        --wrapperPadding: 5vw;
-        --modalPadding: 3vmax;
+@include bp.media-up("Large") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-large};
+        --modalPadding: #{$modalPadding-large};
+        --headerWaveBorder: #{$headerWaveBorder-large};
+        --headerSocialTop: #{$headerSocialTop-large};
+        --headerBlindLeft: #{$headerBlindLeft-large};
+        --headerBlindTop: #{$headerBlindTop-large};
     }
+}
 
-    @include bp.media-up("Medium") {
-        --wrapperPadding: 1rem;
+@include bp.media-up("Medium") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-medium};
     }
 }

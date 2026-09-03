@@ -1,11 +1,13 @@
 @use "sass:color";
 
 $colors: (
-    primary: #111E25,
-    secondary: #d5d8d9,
+    primary: #1b4669,
+    secondary: #1d71b8,
     third: #092330,
     fourth: #ffffff,
-    five: #ff643c,
+    five: #b81918,
+    six: #f5f5f5,
+    seven: #E6E8ED,
 );
 
 :root {
@@ -32,53 +34,28 @@ $colors: (
     }
 }
 
-// Цветовая палитра
-$color-black: #111E25;
-$color-white: #ffffff;
-$color-gray-50: #fafafa;
-$color-gray-100: #f5f5f5;
-$color-gray-200: #e5e5e5;
-$color-gray-300: #d4d4d4;
-$color-gray-400: #a3a3a3;
-$color-gray-500: #737373;
-$color-gray-600: #525252;
-$color-gray-700: #404040;
-$color-gray-800: #262626;
-$color-gray-900: #171717;
-
-$color-red-50: #e57c7c;
-$color-red-100: #d94242;
-$color-red-200: #db6161;
-$color-red-300: #c34e4e;
-$color-red-400: #a93838;
-$color-red-500: #9b5858;
-$color-red-600: #ab2929;
-$color-red-700: #8a2d2d;
-$color-red-800: #701414;
-$color-red-900: #531818;
-
-$color-green-500: #52973b;
-$color-green-600: #3f8029;
-
-$color-blue-50: #7cb6e8;
-$color-blue-100: #6a97bf;
-$color-blue-200: #5b748b;
-$color-blue-400: #4a80ae;
-$color-blue-500: #4a7eac;
-$color-blue-600: #356b9a;
-$color-purple-600: #79309b;
-
-$color-amber-100: #b38c49;
-$color-amber-200: #a88a58;
-$color-amber-400: #996f26;
-$color-amber-600: #9d742d;
-
 // Акцентные цвета (монохромные)
-$color-accent: #000000;
-$color-accent-light: #333333;
+$color-accent: var(--primary);
+$color-accent-light: var(--secondary);
 $color-accent-dark: #000000;
+$color-accent-hover: var(--seven);
+$color-accent-active: var(--seven-darken-5);
 
 // Градиенты
 $gradient-dark: linear-gradient(135deg, #000000 0%, #262626 100%);
 $gradient-light: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
 $gradient-accent: linear-gradient(135deg, #000000 0%, #333333 100%);
+
+// Colors
+:root {
+    --layoutBackground: var(--primary);
+    --layoutBackgroundLight: var(--six);
+    --elementBackground: var(--fourth);
+
+    --headerBackgroundLight: var(--seven);
+
+    --sliderControlColor: var(--seven);
+    --sliderControlColorRGB: 230,232,237;
+
+    --shadowColorRGB: 0, 0, 0;
+}
