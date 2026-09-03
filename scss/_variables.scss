@@ -87,6 +87,8 @@ $iconSVGSize: 1.1rem;
 // Slider
 $sliderPadding: 3vmax;
 
+$roundCorners: 0.5rem;
+
 // ========================================
 // Значения для разных брейкпоинтов
 // ========================================
@@ -114,6 +116,10 @@ $headerBlindTop-large: 4.5vh;
 
 // Medium
 $wrapperPadding-medium: 1rem;
+
+//Mobile
+$wrapperPadding-XSmall: 1rem;
+$headerMobileHeight: 4rem;
 
 // ========================================
 // Генерация CSS-переменных
@@ -192,6 +198,8 @@ $wrapperPadding-medium: 1rem;
 
     //Slider
     --sliderPadding: #{$sliderPadding};
+
+    --roundCorners: #{$roundCorners};
 }
 
 // ========================================
@@ -232,5 +240,19 @@ $wrapperPadding-medium: 1rem;
 @include bp.media-up("Medium") {
     :root {
         --wrapperPadding: #{$wrapperPadding-medium};
+    }
+}
+
+@include bp.media-up("XSmall") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-XSmall};
+        --headerMobileHeight: #{$headerMobileHeight};
+
+        --sectionWidthLeft: 100%;
+        --sectionWidthRight: 100%;
+        --sectionWidthLeftHalf: 100%;
+        --sectionWidthRightHalf: 100%;
+
+        --footerHeightTop: 5rem;
     }
 }

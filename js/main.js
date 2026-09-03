@@ -69,6 +69,8 @@ function createApp() {
         }),
     );
 
+    initMobile(app);
+
     app.init();
 
     window.app = app;
@@ -178,6 +180,39 @@ function initSlidersWithObserver(app) {
     }, 10000);
 }
 
+function initMobile(app) {
+    /* Mobile */
+    const wrapperMobile = document.querySelector('.wrapper');
+    const headerDesktop = document.getElementById('headerDesktop');
+    const headerMobile = document.getElementById('headerMobile');
+    const headerFixed = document.getElementById('headerFixed');
+
+    if (document.body.clientWidth < 820 || screen.width < 820) {
+        headerDesktop.style.opacity = '0';
+        headerDesktop.style.display = 'none';
+        headerDesktop.style.visibility = 'hidden';
+
+        headerFixed.style.opacity = '0';
+        headerFixed.style.display = 'none';
+        headerFixed.style.visibility = 'hidden';
+
+        headerMobile.style.opacity = '1';
+        headerMobile.style.visibility = 'visible';
+
+    } else if (document.body.clientWidth > 820 || screen.width > 820) {
+        headerDesktop.style.opacity = '1';
+        headerDesktop.style.display = 'flex';
+        headerDesktop.style.visibility = 'visible';
+
+        headerFixed.style.opacity = '1';
+        headerFixed.style.display = 'flex';
+        headerFixed.style.visibility = 'visible';
+
+        headerMobile.style.opacity = '0';
+        headerMobile.style.visibility = 'hidden';
+    }
+}
+
 // ============================================
 // ЗАПУСК
 // ============================================
@@ -188,8 +223,8 @@ if (document.readyState === "loading") {
     createApp();
 }
 
-console.log("📌 App: window.app");
-console.log("📌 Components: window.app?.getAll()");
+// console.log("📌 App: window.app");
+// console.log("📌 Components: window.app?.getAll()");
 
 export { App, eventBus };
 export default App;

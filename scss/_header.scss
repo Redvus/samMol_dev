@@ -65,13 +65,13 @@
     // НАВИГАЦИЯ
     // ==========================================
     &__nav {
-        width: 60%;
+        width: 80%;
         height: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
-        z-index: 1;
+        z-index: 100;
         gap: calc(var(--marginBase) * 0.5);
         margin-top: -1rem;
 
@@ -292,6 +292,10 @@
             @include dark-theme {
                 stroke: var(--primary-lighten-20);
             }
+        }
+
+        @include bp.media-up('XSmall') {
+            top: calc(var(--wrapperPadding) + (var(--wrapperPadding) * 4));
         }
     }
 
@@ -562,6 +566,30 @@
         position: relative;
         margin-right: calc(var(--marginBase) * 2);
         z-index: 50;
+    }
+
+    &-mobile {
+        width: 100%;
+        height: calc(var(--headerMobileHeight));
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9000;
+        background-color: var(--fourth);
+        padding: var(--wrapperPadding);
+
+        &__logo {
+            width: 50%;
+            height: auto;
+            display: flex;
+            align-items: center;
+            @include pictureBlock($width: 80%);
+
+        }
+
     }
 
     // ============================================
