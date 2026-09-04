@@ -130,11 +130,11 @@ $font-sizeM-h3: calc(#{$font-size-base} * 1.2vmin);
 //     }
 // }
 
-@include bp.media-up('XSmall') {
-    :root {
-        --font-size-small: 2.5vmin;
-    }
-}
+//@include bp.media-up('XSmall') {
+//    :root {
+//        --font-size-small: 2.5vmin;
+//    }
+//}
 
 // Base fonts styles
 @mixin px($size: base) {

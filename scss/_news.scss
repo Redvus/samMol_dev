@@ -44,8 +44,9 @@
 
         &__header {
             width: 100%;
-            height: 3rem;
+            height: 15%;
             display: flex;
+            position: relative;
             align-items: center;
             justify-content: space-between;
             font-size: var(--font-size-small);
@@ -65,14 +66,16 @@
         }
 
         &__description {
+            height: 70%;
             z-index: 1;
         }
 
         &__title {
             width: 100%;
-            height: 7rem;
+            min-height: 20%;
             display: flex;
             align-items: flex-start;
+            margin-bottom: 1rem;
 
             h3 {
                 margin-top: 0;
@@ -87,14 +90,14 @@
 
         &__text {
             width: 100%;
-            height: 9rem;
+            height: 60%;
             display: flex;
             align-items: flex-start;
         }
 
         &__footer {
             width: 100%;
-            height: 3rem;
+            height: 15%;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -116,17 +119,31 @@
             }
         }
 
+        @include bp.media-up('Medium') {
+            height: 65vmin;
+            //margin-bottom: 4rem;
+
+            //&__title {
+            //    height: 6rem;
+            //}
+            //
+            //&__text {
+            //    height: 8rem;
+            //}
+        }
+
         @include bp.media-up('XSmall') {
-            height: inherit;
-            margin-bottom: 4rem;
+            height: 65vh;
 
-            &__title {
-                height: 4rem;
-            }
-
-            &__text {
-                height: 6rem;
-            }
+            //&__title {
+            //    height: inherit;
+            //    min-height: 6rem;
+            //}
+            //
+            //&__text {
+            //    height: inherit;
+            //    min-height: 8rem;
+            //}
         }
     }
 }

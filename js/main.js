@@ -10,6 +10,7 @@ import InfiniteSlider from "./components/InfiniteSlider.js";
 import BlindController from "./components/BlindController.js";
 import PdfGenerator from "./components/PdfGenerator.js";
 import initTableValidation from "./components/TableValidation.js";
+import MobileMenu from './components/MobileMenu.js';
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -66,6 +67,28 @@ function createApp() {
             toggleSelector: '#blindToggle',
             menuSelector: '#blindMenu',
             resetSelector: '#blindReset',
+        }),
+    );
+
+    app.register(
+        "blind",
+        new BlindController({
+            toggleSelector: '#blindToggleMobile',
+            menuSelector: '#blindMenu',
+            resetSelector: '#blindReset',
+            overlaySelector: '.blind-menu__overlay'
+        }),
+    );
+
+    app.register(
+        "mobileMenu",
+        new MobileMenu({
+            buttonSelector: '#buttonMobile',
+            menuSelector: '.header-mobile__nav',
+            overlaySelector: '.header-mobile__overlay', // можно передать существующий
+            activeClass: 'is-open',
+            overlayActiveClass: 'is-visible',
+            animationDuration: 300,
         }),
     );
 
@@ -187,6 +210,9 @@ function initMobile(app) {
     const headerMobile = document.getElementById('headerMobile');
     const headerFixed = document.getElementById('headerFixed');
 
+    const footerDesktop = document.getElementById('footerDesktop');
+    const footerMobile = document.getElementById('footerMobile');
+
     if (document.body.clientWidth < 820 || screen.width < 820) {
         headerDesktop.style.opacity = '0';
         headerDesktop.style.display = 'none';
@@ -199,6 +225,13 @@ function initMobile(app) {
         headerMobile.style.opacity = '1';
         headerMobile.style.visibility = 'visible';
 
+        footerDesktop.style.opacity = '0';
+        footerDesktop.style.display = 'none';
+        footerDesktop.style.visibility = 'hidden';
+
+        footerMobile.style.opacity = '1';
+        footerMobile.style.visibility = 'visible';
+
     } else if (document.body.clientWidth > 820 || screen.width > 820) {
         headerDesktop.style.opacity = '1';
         headerDesktop.style.display = 'flex';
@@ -210,6 +243,14 @@ function initMobile(app) {
 
         headerMobile.style.opacity = '0';
         headerMobile.style.visibility = 'hidden';
+
+        footerDesktop.style.opacity = '1';
+        footerDesktop.style.display = 'flex';
+        footerDesktop.style.visibility = 'visible';
+
+        footerMobile.style.opacity = '0';
+        footerMobile.style.display = 'none';
+        footerMobile.style.visibility = 'hidden';
     }
 }
 

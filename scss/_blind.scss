@@ -158,7 +158,7 @@
 
     // Адаптив
     @include bp.media-up('XSmall') {
-        right: -2rem;
+        //right: -2rem;
         min-width: 260px;
 
         &__btn {
