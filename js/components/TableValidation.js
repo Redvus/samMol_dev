@@ -50,7 +50,7 @@ export default function initTableValidation() {
             const firstError = document.querySelector('.books-table__row .is-invalid');
             if (firstError) {
                 firstError.focus();
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
     });

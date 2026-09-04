@@ -63,13 +63,15 @@
         gap: calc(var(--marginBase) * 3);
 
         &_image {
-
             @include pictureBlock();
+            border-radius: var(--roundCorners);
+            overflow: hidden;
+            margin-bottom: var(--marginBase);
 
-            picture {
-                height: inherit;
-                margin-bottom: var(--marginBase);
-            }
+            //picture {
+            //    //height: inherit;
+            //
+            //}
 
             &-list {
                 width: 100%;
@@ -84,6 +86,9 @@
             aspect-ratio: 16 / 9;
             display: block;
             position: relative;
+            border-radius: var(--roundCorners);
+            overflow: hidden;
+            margin-bottom: calc(var(--marginBase) * 3);
 
             iframe {
                 z-index: 2;
@@ -146,6 +151,17 @@
                     transform: translateX(8%);
                 }
             }
+        }
+    }
+
+    @include bp.media-up('XSmall') {
+        &__title {
+            width: 100%;
+        }
+
+        &__news {
+            grid-template-columns: repeat(1, 1fr);
+            gap: calc(var(--marginBase) * 1);
         }
     }
 }

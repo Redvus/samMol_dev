@@ -114,6 +114,15 @@
             }
         }
     }
+
+    @include bp.media-up('XSmall') {
+
+        &__container {
+            &_footer {
+                flex-direction: column;
+            }
+        }
+    }
 }
 
 .form-container {
@@ -853,6 +862,13 @@
 
     &--loading {
         pointer-events: none;
+    }
+
+    @include bp.media-up('XSmall') {
+        &--base {
+            width: 100%;
+            margin: 1rem 0;
+        }
     }
 }
 
