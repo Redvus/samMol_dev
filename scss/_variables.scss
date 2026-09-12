@@ -70,6 +70,7 @@ $sectionWidthRightHalf: calc(100% - #{$sectionWidthLeftHalf});
 // News
 $newsWidthLeft: 45%;
 $newsWidthRight: calc(100% - #{$sectionWidthLeft});
+$newsPreviewTopHeight: 40%;
 
 // Footer
 $footerHeight: 5rem;
@@ -181,6 +182,7 @@ $headerMobileHeight: 4rem;
     // News
     --newsWidthLeft: #{$newsWidthLeft};
     --newsWidthRight: #{$newsWidthRight};
+    --newsPreviewTopHeight: #{$newsPreviewTopHeight};
 
     // Footer
     --footerHeight: #{$footerHeight};
