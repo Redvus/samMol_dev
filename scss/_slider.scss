@@ -65,6 +65,12 @@
         color: var(--primary-darken-50);
         font-size: var(--font-size-large);
     }
+
+    @include bp.media-up('XSmall') {
+        &-controls {
+            padding: 0;
+        }
+    }
 }
 
 .slide {
@@ -242,7 +248,7 @@
         flex-direction: column;
 
         &-image {
-            flex: 0 0 40%;
+            flex: 0 0 100%;
         }
 
         &-content {
@@ -267,7 +273,7 @@
         flex-direction: column;
 
         &-image {
-            flex: 0 0 30%;
+            flex: 0 0 100%;
         }
 
         &-content {

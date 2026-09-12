@@ -313,11 +313,11 @@ export default class FormRetail {
             <span class="books-table__col books-table__col--number">${newIndex + 1}</span>
             <div class="books-table__col books-table__col--author">
                 <input type="text" name="book_author[]" class="books-table__input" placeholder="Название зала">
-                <span class="field__error" data-formit-error="book_author_${newIndex}"></span>
+<!--                <span class="field__error" data-formit-error="book_author_${newIndex}"></span>-->
             </div>
             <div class="books-table__col books-table__col--title">
                 <input type="text" name="book_title[]" class="books-table__input" placeholder="Мероприятие">
-                <span class="field__error" data-formit-error="book_title_${newIndex}"></span>
+<!--                <span class="field__error" data-formit-error="book_title_${newIndex}"></span>-->
             </div>
             <div class="books-table__col books-table__col--year">
                 <input type="text" name="book_year[]" class="books-table__input" placeholder="ДД.ММ.ГГГГ">

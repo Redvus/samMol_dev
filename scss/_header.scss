@@ -65,13 +65,13 @@
     // НАВИГАЦИЯ
     // ==========================================
     &__nav {
-        width: 60%;
+        width: 80%;
         height: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
-        z-index: 1;
+        z-index: 100;
         gap: calc(var(--marginBase) * 0.5);
         margin-top: -1rem;
 
@@ -293,6 +293,10 @@
                 stroke: var(--primary-lighten-20);
             }
         }
+
+        @include bp.media-up('XSmall') {
+            top: calc(var(--wrapperPadding) + (var(--wrapperPadding) * 4));
+        }
     }
 
     // ==========================================
@@ -334,7 +338,7 @@
         left: 0;
         right: 0;
         background: var(--fourth);
-        //box-shadow: var(--shadow-md);
+        box-shadow: 0 0 1rem rgba(var(--shadowColorRGB), 0.3);
         transform: translateY(-100%);
         opacity: 0;
         transition: all var(--base-duration);
@@ -358,7 +362,8 @@
         }
 
         &__container {
-            width: var(--wrapperInsideWidth);
+            //width: var(--wrapperInsideWidth);
+            width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
@@ -401,6 +406,7 @@
         // НАВИГАЦИЯ
         // ==========================================
         &__nav {
+            height: 100%;
             display: flex;
             align-items: center;
             flex: 1;
@@ -564,6 +570,113 @@
         z-index: 50;
     }
 
+    &-mobile {
+        width: 100%;
+        height: calc(var(--headerMobileHeight));
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9000;
+        background-color: var(--fourth);
+        padding: var(--wrapperPadding);
+        box-shadow: 0 0 1rem rgba(var(--shadowColorRGB), 0.3);
+
+        &__logo {
+            width: 30%;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            @include pictureBlock($width: 150%);
+
+            picture {
+                margin-top: 0.3rem;
+
+                img {
+                    width: inherit;
+                }
+            }
+        }
+
+        &__icons {
+            width: 70%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            a {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                margin-left: var(--marginBase);
+
+                i {
+                    color: var(--primary);
+                    font-size: var(--font-size-h4);
+                }
+
+                svg {
+                    fill: var(--primary);
+                    width: calc(var(--font-size-h4) * 0.9);
+                    height: calc(var(--font-size-h4) * 0.9);
+                }
+            }
+        }
+
+        &__button {
+            margin-left: var(--marginBase);
+
+            i {
+                color: var(--primary);
+                font-size: var(--font-size-h4);
+            }
+        }
+
+        &__nav {
+            width: 80%;
+            height: calc(100vh - var(--headerMobileHeight));
+            display: flex;
+            position: fixed;
+            top: var(--headerMobileHeight);
+            right: 0;
+            padding: var(--marginBase);
+            z-index: 9900;
+            background-color: var(--fourth);
+            transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+            opacity: 0;
+
+            &.is-open {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        &__overlay {
+            width: 100%;
+            height: calc(100vh - var(--headerMobileHeight));
+            position: fixed;
+            top: var(--headerMobileHeight);
+            left: 0;
+            background: rgba(var(--shadowColorRGB), 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 9800;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            cursor: pointer;
+
+            &.is-visible {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+
     // ============================================
     // АДАПТИВ ОСНОВНОГО ХЕДЕРА ДЛЯ МОБИЛЬНЫХ
     // ============================================
@@ -574,76 +687,6 @@
             }
         }
     }
-
-    // ==========================================
-    // АДАПТИВ
-    // ==========================================
-
-    // @include bp.media-up('XLarge') {
-    //     padding: 1rem calc(var(--wrapperPadding) * 0.5);
-    // }
-
-    // @include bp.media-up('Large') {
-    //     padding: 1rem calc(var(--wrapperPadding) * 0.3);
-    // }
-
-    // @include bp.media-up('Medium') {
-    //     padding: 0.5rem calc(var(--wrapperPadding) * 0.2);
-
-    //     &__logo {
-    //         height: calc(var(--header-height) * 0.6);
-    //     }
-    // }
-
-    // @include bp.media-up('XSmall') {
-    //     padding: 0 var(--marginBase);
-    //     height: calc(var(--header-height) * 0.8);
-
-    //     &__logo {
-    //         height: calc(var(--header-height) * 0.6);
-    //     }
-
-    //     &__nav {
-    //         display: none;
-    //         visibility: hidden;
-
-    //         // Мобильное меню (выдвижное)
-    //         &.is-open {
-    //             display: flex;
-    //             visibility: visible;
-    //             position: fixed;
-    //             top: 0;
-    //             left: 0;
-    //             right: 0;
-    //             bottom: 0;
-    //             width: 100%;
-    //             height: 100vh;
-    //             background: var(--fourth);
-    //             flex-direction: column;
-    //             align-items: center;
-    //             justify-content: center;
-    //             gap: calc(var(--marginBase) * 2);
-    //             z-index: 10;
-    //             animation: slideDown 0.3s ease forwards;
-
-    //             @include dark-theme {
-    //                 background: var(--layoutBackground);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // @include bp.media-up('Small') {
-    //     height: calc(var(--header-height) * 0.7);
-
-    //     &__logo {
-    //         height: calc(var(--header-height) * 0.5);
-    //     }
-
-    //     &__social {
-    //         top: calc(var(--headerSocialTop) * 0.4);
-    //     }
-    // }
 }
 
 // ============================================
