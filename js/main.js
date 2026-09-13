@@ -5,12 +5,15 @@
 import App from "./core/App.js";
 import eventBus from "./core/EventBus.js";
 import HeaderController from "./components/HeaderController.js";
-import FormRetail from "./components/FormRetailSimple.js";
+import FormRetail from "./components/FormRetail.js";
 import InfiniteSlider from "./components/InfiniteSlider.js";
 import BlindController from "./components/BlindController.js";
 import PdfGenerator from "./components/PdfGenerator.js";
 import initTableValidation from "./components/TableValidation.js";
 import MobileMenu from './components/MobileMenu.js';
+import TechRequirements from './components/TechRequirements.js';
+// import MapManager from './components/MapManager.js';
+import Preloader from './components/Preloader.js';
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -55,8 +58,18 @@ function createApp() {
         new PdfGenerator({
             formSelector: '#formRetail',
             checkboxSelector: '#generatePdf',
-            pdfUrl: '/assets/snippets/generatePDF.php',
+            pdfUrl: '/assets/snippets/generatePDFFull.php',
             debug: true,
+        }),
+    );
+
+    app.register(
+        "techRequirements",
+        new TechRequirements({
+            formSelector: '#formRetail',
+            checkboxSelector: 'input[name="hall[]"]',
+            containerSelector: '#techRequirementsBody',
+            selectedHallsSelector: '#selectedHalls',
         }),
     );
 
@@ -89,6 +102,24 @@ function createApp() {
             activeClass: 'is-open',
             overlayActiveClass: 'is-visible',
             animationDuration: 300,
+        }),
+    );
+
+    // app.register(
+    //     "maps",
+    //     new MapManager({
+    //         selector: '#mapGeography',
+    //         apiKey: 'ВАШ_API_КЛЮЧ',
+    //     }),
+    // );
+
+    app.register(
+        "preloader",
+        new Preloader({
+            selector: '#preloader',
+            minDuration: 500,
+            fadeOutDuration: 500,
+            autoHide: true,
         }),
     );
 
