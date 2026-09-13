@@ -217,6 +217,16 @@
                 background: rgba(var(--sliderControlColorRGB), 0.3);
             }
         }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            display: block !important;
+        }
+
+        //&--map {
+        //    height: inherit;
+        //}
     }
 
     @include bp.media-up('XSmall') {
