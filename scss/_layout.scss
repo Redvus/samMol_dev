@@ -27,7 +27,7 @@
         }
     }
 
-    @include bp.media-up('XSmall') {
+    @include bp.media-up('Medium') {
         padding-top: calc(var(--wrapperPadding) + (var(--wrapperPadding) * 4));
     }
 }

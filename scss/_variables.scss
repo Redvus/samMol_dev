@@ -59,6 +59,10 @@ $headerSocialTop-base: 9vmax;
 $headerBlindSize: 2vmax;
 $headerBlindTop: 5vh;
 $headerBlindLeft: 25vmax;
+$headerMobileLogoHeight-XSmall: 4vmin;
+$headerMobileLogoHeight-Small: 8vmin;
+$headerMobileNavWidth-XSmall: 30vmin;
+$headerMobileNavWidth-Small: 80%;
 
 $navPaddingG: 0.7rem;
 
@@ -70,6 +74,10 @@ $sectionWidthRightHalf: calc(100% - #{$sectionWidthLeftHalf});
 // News
 $newsWidthLeft: 45%;
 $newsWidthRight: calc(100% - #{$sectionWidthLeft});
+$newsPreviewTopHeight: 40%;
+$newsGridCount-Large: repeat(3, 1fr);
+$newsGridCount-XSmall: repeat(3, 1fr);
+$newsGridCount-Small: repeat(2, 1fr);
 
 // Footer
 $footerHeight: 5rem;
@@ -181,6 +189,8 @@ $headerMobileHeight: 4rem;
     // News
     --newsWidthLeft: #{$newsWidthLeft};
     --newsWidthRight: #{$newsWidthRight};
+    --newsPreviewTopHeight: #{$newsPreviewTopHeight};
+    --newsGridCount: #{$newsGridCount-Large};
 
     // Footer
     --footerHeight: #{$footerHeight};
@@ -240,6 +250,11 @@ $headerMobileHeight: 4rem;
 @include bp.media-up("Medium") {
     :root {
         --wrapperPadding: #{$wrapperPadding-medium};
+        --newsGridCount: #{$newsGridCount-XSmall};
+
+        --headerMobileHeight: #{$headerMobileHeight};
+        --headerMobileLogoHeight: #{$headerMobileLogoHeight-XSmall};
+        --headerMobileNavWidth: #{$headerMobileNavWidth-XSmall};
     }
 }
 
@@ -247,6 +262,8 @@ $headerMobileHeight: 4rem;
     :root {
         --wrapperPadding: #{$wrapperPadding-XSmall};
         --headerMobileHeight: #{$headerMobileHeight};
+        --headerMobileLogoHeight: #{$headerMobileLogoHeight-XSmall};
+        --headerMobileNavWidth: #{$headerMobileNavWidth-Small};
 
         --sectionWidthLeft: 100%;
         --sectionWidthRight: 100%;
@@ -254,5 +271,14 @@ $headerMobileHeight: 4rem;
         --sectionWidthRightHalf: 100%;
 
         --footerHeightTop: 5rem;
+
+        --newsGridCount: #{$newsGridCount-XSmall};
+    }
+}
+
+@include bp.media-up("Small") {
+    :root {
+        --headerMobileLogoHeight: #{$headerMobileLogoHeight-Small};
+        --newsGridCount: #{$newsGridCount-Small};
     }
 }
