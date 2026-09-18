@@ -104,6 +104,8 @@
         }
 
          &--mobile {
+             list-style: none;
+
              .sub-menu {
                  padding: 0 0 0.5rem;
                  display: none;
@@ -132,7 +134,7 @@
                      width: 100%;
                      display: block;
                      line-height: 1rem;
-                     padding: 0.5rem 0 0.5rem;
+                     padding: 1rem 0;
                      color: var(--primary);
                      font: {
                          family: var(--heading-font);

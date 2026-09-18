@@ -47,6 +47,14 @@ function createApp() {
         }),
     );
 
+    // Feedback
+    app.register(
+        "form",
+        new FormRetail({
+            formSelector: '#formFeedback'
+        }),
+    );
+
     // 🔥 Инициализация ВСЕХ слайдеров на странице
     initAllSliders(app);
 
@@ -244,7 +252,7 @@ function initMobile(app) {
     const footerDesktop = document.getElementById('footerDesktop');
     const footerMobile = document.getElementById('footerMobile');
 
-    if (document.body.clientWidth < 820 || screen.width < 820) {
+    if (document.body.clientWidth <= 1024 || screen.width <= 1024) {
         headerDesktop.style.opacity = '0';
         headerDesktop.style.display = 'none';
         headerDesktop.style.visibility = 'hidden';
@@ -263,7 +271,7 @@ function initMobile(app) {
         footerMobile.style.opacity = '1';
         footerMobile.style.visibility = 'visible';
 
-    } else if (document.body.clientWidth > 820 || screen.width > 820) {
+    } else if (document.body.clientWidth > 1024 || screen.width > 1024) {
         headerDesktop.style.opacity = '1';
         headerDesktop.style.display = 'flex';
         headerDesktop.style.visibility = 'visible';

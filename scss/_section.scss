@@ -6,7 +6,7 @@
 
 .section {
     width: 100%;
-    min-height: 50vh;
+    min-height: 20vh;
     display: block;
     position: relative;
     margin-bottom: 4rem;
@@ -144,7 +144,7 @@
         &__grid {
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: var(--newsGridCount);
             gap: var(--marginBase);
             margin-top: calc(var(--marginBase) * 1);
         }
@@ -251,6 +251,7 @@
 
             &__title {
                 margin-bottom: 1rem;
+                padding-right: 0;
             }
         }
 

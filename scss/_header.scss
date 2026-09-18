@@ -185,17 +185,6 @@
             user-select: none;
             cursor: default;
         }
-
-        // Адаптив для социальных сетей
-        @include bp.media-up('Small') {
-            top: calc(var(--headerSocialTop) * 0.6);
-            min-width: calc(var(--marginBase) * 3);
-        }
-
-        @include bp.media-up('XSmall') {
-            display: none;
-            visibility: hidden;
-        }
     }
 
     // ==========================================
@@ -575,7 +564,7 @@
         height: calc(var(--headerMobileHeight));
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         position: fixed;
         top: 0;
         left: 0;
@@ -585,12 +574,12 @@
         box-shadow: 0 0 1rem rgba(var(--shadowColorRGB), 0.3);
 
         &__logo {
-            width: 30%;
-            height: auto;
+            width: auto;
+            height: var(--headerMobileLogoHeight);
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            @include pictureBlock($width: 150%);
+            @include pictureBlock($width: 150%, $fit: contain);
 
             picture {
                 margin-top: 0.3rem;
@@ -637,7 +626,7 @@
         }
 
         &__nav {
-            width: 80%;
+            width: var(--headerMobileNavWidth);
             height: calc(100vh - var(--headerMobileHeight));
             display: flex;
             position: fixed;
@@ -684,6 +673,16 @@
         .header {
             &__social {
                 display: none;
+                visibility: hidden;
+            }
+        }
+    }
+
+    @include bp.media-up('Small') {
+        .header {
+            &__social {
+                top: calc(var(--headerSocialTop) * 0.6);
+                min-width: calc(var(--marginBase) * 3);
             }
         }
     }
