@@ -1,6 +1,6 @@
-@use "fonts" as *;
+@use 'breakpoints' as bp;
 @use "sass:color";
-@use "breakpoints" as bp;
+@use 'fonts' as *;
 @use "variables" as *;
 @use "mixins" as *;
 
@@ -41,6 +41,15 @@
 
             li {
                 margin-left: 0.3rem;
+
+                a {
+                    color: var(--primary);
+                    font-weight: $font-weight-regular;
+
+                    &:hover {
+                        color: var(--secondary);
+                    }
+                }
 
                 &:first-child {
                     margin-left: 0;

@@ -262,16 +262,3 @@ ol {
         padding-left: -1rem;
     }
 }
-
-a {
-    color: var(--secondary);
-    text-decoration: none;
-    transition: all var(--base-duration);
-    outline: none;
-
-    // &:active,
-    // &:focus,
-    // &:hover {
-    //     //color: $action-color;
-    // }
-}

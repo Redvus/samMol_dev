@@ -14,6 +14,7 @@ import MobileMenu from './components/MobileMenu.js';
 import TechRequirements from './components/TechRequirements.js';
 // import MapManager from './components/MapManager.js';
 import Preloader from './components/Preloader.js';
+import ImageModal from './components/ImageModal.js';
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -128,6 +129,13 @@ function createApp() {
             minDuration: 500,
             fadeOutDuration: 500,
             autoHide: true,
+        }),
+    );
+
+    app.register(
+        "imageModal",
+        new ImageModal({
+            itemSelector: '[data-gallery-item]',
         }),
     );
 

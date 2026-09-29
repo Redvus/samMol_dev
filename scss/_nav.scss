@@ -24,6 +24,8 @@
                 width: auto;
                 display: block;
                 position: relative;
+                color: $color-accent;
+                font-weight: $font-weight-regular;
             }
 
             &.active,
@@ -63,13 +65,10 @@
                     cursor: pointer;
                     // transition: all var(--base-duration);
 
-                    // a {
-                    //     // width: calc(100% - (#{$navLinkPadding} * 2));
-                    //     height: calc(100% - (var(--marginBase) / 2));
-                    //     display: block;
-                    //     position: relative;
-                    //     padding: calc(var(--marginBase) / 4) $navLinkPadding;
-                    // }
+                     a {
+                         color: $color-accent;
+                         font-weight: $font-weight-regular;
+                     }
 
                     &.active {
                         background-color: $color-accent-hover;

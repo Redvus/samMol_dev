@@ -10,6 +10,12 @@ export default class FormRetail {
             datetimeSelector: 'input[name="event_datetime"]',
             staffTimeSelector: 'input[name="event_staff_time"]',
             dateSelector: 'input[name="signature_date"]',
+
+            // 🔥 Новые селекторы
+            eventDateSelector: 'input[name="event_date"]',
+            eventTimeStartSelector: 'input[name="event_time_start"]',
+            eventTimeEndSelector: 'input[name="event_time_end"]',
+
             ...options
         };
 
@@ -20,6 +26,11 @@ export default class FormRetail {
         this.datetimeInput = null;
         this.staffTimeInput = null;
         this.dateInputs = [];
+
+        // 🔥 Новые поля
+        this.eventDateInput = null;
+        this.eventTimeStartInput = null;
+        this.eventTimeEndInput = null;
 
         this.isInitialized = false;
 
@@ -55,6 +66,11 @@ export default class FormRetail {
         this.datetimeInput = this.form.querySelector(this.config.datetimeSelector);
         this.staffTimeInput = this.form.querySelector(this.config.staffTimeSelector);
         this.dateInputs = this.form.querySelectorAll(this.config.dateSelector);
+
+        // 🔥 Новые поля
+        this.eventDateInput = this.form.querySelector(this.config.eventDateSelector);
+        this.eventTimeStartInput = this.form.querySelector(this.config.eventTimeStartSelector);
+        this.eventTimeEndInput = this.form.querySelector(this.config.eventTimeEndSelector);
     }
 
     _bindEvents() {
@@ -70,12 +86,7 @@ export default class FormRetail {
             this.timeInput.addEventListener('input', (e) => this._timeMask(e.target));
         }
 
-        // Только цифры для количества участников
-        // if (this.participantsInput) {
-        //     this.participantsInput.addEventListener('input', (e) => this._numbersOnly(e.target));
-        // }
-
-        // Календарь для даты и времени мероприятия
+        // Календарь для даты и времени мероприятия (старое поле)
         if (this.datetimeInput) {
             this._initDateTimePicker(this.datetimeInput);
         }
@@ -89,6 +100,21 @@ export default class FormRetail {
         this.dateInputs.forEach(input => {
             input.addEventListener('input', (e) => this._dateMask(e.target));
         });
+
+        // 🔥 Календарь для event_date
+        if (this.eventDateInput) {
+            this._initDatePicker(this.eventDateInput);
+        }
+
+        // 🔥 Маска времени для event_time_start
+        if (this.eventTimeStartInput) {
+            this.eventTimeStartInput.addEventListener('input', (e) => this._timeMask(e.target));
+        }
+
+        // 🔥 Маска времени для event_time_end
+        if (this.eventTimeEndInput) {
+            this.eventTimeEndInput.addEventListener('input', (e) => this._timeMask(e.target));
+        }
     }
 
     // ============================================
@@ -158,7 +184,6 @@ export default class FormRetail {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length > 8) value = value.substring(0, 8);
 
-            // Форматируем: ЧЧ:ММ-ЧЧ:ММ
             let formatted = '';
             for (let i = 0; i < value.length; i++) {
                 if (i === 2 || i === 6) {
@@ -174,15 +199,12 @@ export default class FormRetail {
         input.addEventListener('blur', (e) => {
             let value = e.target.value;
 
-            // Если введено только одно время — дополняем
             if (value && !value.includes('-')) {
                 value = value + '-' + value;
             }
 
-            // Проверяем формат
             const match = value.match(/^(\d{2}:\d{2})-(\d{2}:\d{2})$/);
             if (!match) {
-                // Пробуем исправить
                 const parts = value.split('-');
                 if (parts.length === 2) {
                     const start = this._formatTime(parts[0]);
@@ -225,7 +247,194 @@ export default class FormRetail {
     }
 
     // ============================================
-    // КАЛЕНДАРЬ ДЛЯ ДАТЫ И ВРЕМЕНИ
+    // 🔥 КАЛЕНДАРЬ ДЛЯ ДАТЫ (event_date)
+    // ============================================
+
+    _initDatePicker(input) {
+        if (input.dataset.pickerInit) return;
+        input.dataset.pickerInit = 'true';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'datetime-picker-wrapper';
+        input.parentNode.insertBefore(wrapper, input);
+        wrapper.appendChild(input);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'datetime-picker-btn';
+        btn.innerHTML = '📅';
+        btn.setAttribute('aria-label', 'Выбрать дату');
+        wrapper.appendChild(btn);
+
+        const picker = document.createElement('div');
+        picker.className = 'datetime-picker';
+        picker.style.display = 'none';
+        wrapper.appendChild(picker);
+
+        const state = {
+            viewYear: new Date().getFullYear(),
+            viewMonth: new Date().getMonth(),
+            selectedDate: null,
+        };
+
+        this._parseDate(input.value, state);
+
+        const render = () => this._renderDatePicker(picker, input, state, render);
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = picker.style.display === 'block';
+            this._closeAllPickers();
+            if (!isOpen) {
+                picker.style.display = 'block';
+                this._parseDate(input.value, state);
+                render();
+            }
+        });
+
+        input.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this._closeAllPickers();
+            picker.style.display = 'block';
+            this._parseDate(input.value, state);
+            render();
+        });
+
+        document.addEventListener('click', () => {
+            picker.style.display = 'none';
+        });
+
+        picker.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        render();
+    }
+
+    /**
+     * Парсинг даты
+     */
+    _parseDate(value, state) {
+        state.selectedDate = null;
+        if (!value) return;
+
+        const match = value.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+        if (match) {
+            state.selectedDate = new Date(match[3], match[2] - 1, match[1]);
+            state.viewYear = state.selectedDate.getFullYear();
+            state.viewMonth = state.selectedDate.getMonth();
+        }
+    }
+
+    /**
+     * Отрисовка календаря (только дата)
+     */
+    _renderDatePicker(container, input, state, render) {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth();
+        const today = now.getDate();
+
+        const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+            'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+        const firstDay = new Date(state.viewYear, state.viewMonth, 1);
+        const daysInMonth = new Date(state.viewYear, state.viewMonth + 1, 0).getDate();
+        let startDay = firstDay.getDay() - 1;
+        if (startDay < 0) startDay = 6;
+
+        let html = `
+            <div class="datetime-picker__header">
+                <button type="button" class="datetime-picker__nav" data-action="prev">◀</button>
+                <span class="datetime-picker__month">${monthNames[state.viewMonth]} ${state.viewYear}</span>
+                <button type="button" class="datetime-picker__nav" data-action="next">▶</button>
+            </div>
+            <div class="datetime-picker__weekdays">
+                ${weekDays.map(d => `<span>${d}</span>`).join('')}
+            </div>
+            <div class="datetime-picker__days">
+        `;
+
+        for (let i = 0; i < startDay; i++) {
+            html += `<span class="datetime-picker__day datetime-picker__day--empty"></span>`;
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const isToday = day === today && state.viewMonth === currentMonth && state.viewYear === currentYear;
+            const isSelected = state.selectedDate &&
+                day === state.selectedDate.getDate() &&
+                state.viewMonth === state.selectedDate.getMonth() &&
+                state.viewYear === state.selectedDate.getFullYear();
+            const dateStr = `${String(day).padStart(2, '0')}.${String(state.viewMonth + 1).padStart(2, '0')}.${state.viewYear}`;
+
+            html += `
+                <span class="datetime-picker__day 
+                    ${isToday ? 'datetime-picker__day--today' : ''} 
+                    ${isSelected ? 'datetime-picker__day--selected' : ''}"
+                    data-date="${dateStr}">
+                    ${day}
+                </span>
+            `;
+        }
+
+        html += `</div>`;
+
+        // Только кнопка "Очистить", без времени
+        html += `
+            <div class="datetime-picker__footer">
+                <button type="button" class="datetime-picker__btn datetime-picker__btn--clear">Очистить</button>
+            </div>
+        `;
+
+        container.innerHTML = html;
+
+        // Навигация
+        container.querySelector('[data-action="prev"]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.viewMonth--;
+            if (state.viewMonth < 0) { state.viewMonth = 11; state.viewYear--; }
+            render();
+        });
+
+        container.querySelector('[data-action="next"]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.viewMonth++;
+            if (state.viewMonth > 11) { state.viewMonth = 0; state.viewYear++; }
+            render();
+        });
+
+        // Выбор дня
+        container.querySelectorAll('.datetime-picker__day[data-date]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dateStr = el.dataset.date;
+                input.value = dateStr;
+
+                state.selectedDate = new Date(dateStr.split('.').reverse().join('-'));
+
+                container.querySelectorAll('.datetime-picker__day').forEach(d => {
+                    d.classList.remove('datetime-picker__day--selected');
+                });
+                el.classList.add('datetime-picker__day--selected');
+
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                container.style.display = 'none';
+            });
+        });
+
+        // Очистить
+        container.querySelector('.datetime-picker__btn--clear').addEventListener('click', (e) => {
+            e.stopPropagation();
+            input.value = '';
+            state.selectedDate = null;
+            container.style.display = 'none';
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+    }
+
+    // ============================================
+    // КАЛЕНДАРЬ ДЛЯ ДАТЫ И ВРЕМЕНИ (event_datetime)
     // ============================================
 
     _initDateTimePicker(input) {
@@ -249,7 +458,6 @@ export default class FormRetail {
         picker.style.display = 'none';
         wrapper.appendChild(picker);
 
-        // Состояние календаря
         const state = {
             viewYear: new Date().getFullYear(),
             viewMonth: new Date().getMonth(),
@@ -257,7 +465,6 @@ export default class FormRetail {
             selectedTime: null,
         };
 
-        // Парсим текущее значение
         this._parseDateTime(input.value, state);
 
         const render = () => this._renderCalendar(picker, input, state, render);
@@ -268,7 +475,6 @@ export default class FormRetail {
             this._closeAllPickers();
             if (!isOpen) {
                 picker.style.display = 'block';
-                // Обновляем состояние из input
                 this._parseDateTime(input.value, state);
                 render();
             }
@@ -293,9 +499,6 @@ export default class FormRetail {
         render();
     }
 
-    /**
-     * Парсинг значения input в состояние
-     */
     _parseDateTime(value, state) {
         state.selectedDate = null;
         state.selectedTime = null;
@@ -317,9 +520,6 @@ export default class FormRetail {
         }
     }
 
-    /**
-     * Отрисовка календаря
-     */
     _renderCalendar(container, input, state, render) {
         const now = new Date();
         const currentYear = now.getFullYear();
@@ -371,7 +571,6 @@ export default class FormRetail {
 
         html += `</div>`;
 
-        // Блок времени — сохраняем значение
         const timeValue = state.selectedTime
             ? `${state.selectedTime.hours}:${state.selectedTime.minutes}`
             : '';
@@ -392,7 +591,6 @@ export default class FormRetail {
 
         container.innerHTML = html;
 
-        // Навигация
         container.querySelector('[data-action="prev"]').addEventListener('click', (e) => {
             e.stopPropagation();
             state.viewMonth--;
@@ -407,14 +605,12 @@ export default class FormRetail {
             render();
         });
 
-        // Выбор дня
         container.querySelectorAll('.datetime-picker__day[data-date]').forEach(el => {
             el.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const dateStr = el.dataset.date;
                 const timeInput = container.querySelector('.datetime-picker__time-input');
 
-                // 🔥 СОХРАНЯЕМ время из input в состояние
                 const timeVal = timeInput ? timeInput.value : '';
                 if (timeVal && timeVal.match(/^\d{2}:\d{2}$/)) {
                     state.selectedTime = {
@@ -425,13 +621,11 @@ export default class FormRetail {
 
                 state.selectedDate = new Date(dateStr.split('.').reverse().join('-'));
 
-                // Обновляем input
                 const finalTime = state.selectedTime
                     ? `${state.selectedTime.hours}:${state.selectedTime.minutes}`
                     : '';
                 input.value = finalTime ? `${dateStr} ${finalTime}` : dateStr;
 
-                // Обновляем выбранный день
                 container.querySelectorAll('.datetime-picker__day').forEach(d => {
                     d.classList.remove('datetime-picker__day--selected');
                 });
@@ -441,7 +635,6 @@ export default class FormRetail {
             });
         });
 
-        // Маска времени в календаре
         const timeInput = container.querySelector('.datetime-picker__time-input');
         if (timeInput) {
             timeInput.addEventListener('input', (e) => {
@@ -455,7 +648,6 @@ export default class FormRetail {
                 e.target.value = formatted;
             });
 
-            // 🔥 Обновляем состояние при вводе времени
             timeInput.addEventListener('change', (e) => {
                 const val = e.target.value;
                 if (val && val.match(/^\d{2}:\d{2}$/)) {
@@ -464,7 +656,6 @@ export default class FormRetail {
                         minutes: val.substring(3, 5)
                     };
 
-                    // Обновляем input с датой
                     if (state.selectedDate) {
                         const dateStr = `${String(state.selectedDate.getDate()).padStart(2, '0')}.${String(state.selectedDate.getMonth() + 1).padStart(2, '0')}.${state.selectedDate.getFullYear()}`;
                         input.value = `${dateStr} ${val}`;
@@ -476,11 +667,9 @@ export default class FormRetail {
             timeInput.addEventListener('click', (e) => e.stopPropagation());
         }
 
-        // Применить
         container.querySelector('.datetime-picker__btn--apply').addEventListener('click', (e) => {
             e.stopPropagation();
 
-            // Сохраняем время
             const timeVal = timeInput ? timeInput.value : '';
             if (timeVal && timeVal.match(/^\d{2}:\d{2}$/)) {
                 state.selectedTime = {
@@ -489,7 +678,6 @@ export default class FormRetail {
                 };
             }
 
-            // Обновляем input
             if (state.selectedDate) {
                 const dateStr = `${String(state.selectedDate.getDate()).padStart(2, '0')}.${String(state.selectedDate.getMonth() + 1).padStart(2, '0')}.${state.selectedDate.getFullYear()}`;
                 const finalTime = state.selectedTime
@@ -502,7 +690,6 @@ export default class FormRetail {
             container.style.display = 'none';
         });
 
-        // Очистить
         container.querySelector('.datetime-picker__btn--clear').addEventListener('click', (e) => {
             e.stopPropagation();
             input.value = '';

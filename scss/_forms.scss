@@ -133,6 +133,10 @@
         &--three {
             grid-template-columns: repeat(3, 1fr);
         }
+
+        &--four {
+            grid-template-columns: repeat(4, 1fr);
+        }
     }
 
     @include bp.media-up('XSmall') {
@@ -933,11 +937,6 @@
         font-size: 12px;
         font-weight: 600;
         white-space: nowrap;
-
-        @include dark-theme {
-            background: var(--primary-darken-20);
-            border-bottom-color: var(--primary-darken-30);
-        }
     }
 
     &__body {
@@ -954,10 +953,6 @@
         &:last-child {
             border-bottom: none;
         }
-
-        @include dark-theme {
-            border-bottom-color: var(--primary-darken-30);
-        }
     }
 
     &__col {
@@ -970,10 +965,6 @@
             font-size: 13px;
             color: var(--primary);
             padding-right: 8px;
-
-            @include dark-theme {
-                color: var(--fourth);
-            }
         }
     }
 
@@ -998,12 +989,6 @@
         &:focus {
             border-color: var(--secondary);
         }
-
-        @include dark-theme {
-            background: var(--primary-darken-20);
-            border-color: var(--primary-darken-30);
-            color: var(--fourth);
-        }
     }
 
     &__select {
@@ -1020,12 +1005,6 @@
         &:focus {
             border-color: var(--secondary);
         }
-
-        @include dark-theme {
-            background: var(--primary-darken-20);
-            border-color: var(--primary-darken-30);
-            color: var(--fourth);
-        }
     }
 
     &__empty {
@@ -1033,29 +1012,17 @@
         text-align: center;
         color: var(--primary-darken-40);
         font-size: var(--font-size-base);
-
-        @include dark-theme {
-            color: var(--secondary);
-        }
     }
 
     &__footer {
         padding: 10px;
         border-top: 1px solid var(--secondary);
-
-        @include dark-theme {
-            border-top-color: var(--primary-darken-30);
-        }
     }
 
     &__hint {
         font-size: 11px;
         color: var(--primary-darken-40);
         margin: 0;
-
-        @include dark-theme {
-            color: var(--secondary);
-        }
     }
 }
 
@@ -1253,10 +1220,6 @@
             background: var(--six);
             border-radius: 6px;
             margin-bottom: 8px;
-
-            @include dark-theme {
-                background: var(--primary-darken-20);
-            }
         }
 
         &__col {
@@ -1264,10 +1227,6 @@
                 padding-bottom: 8px;
                 border-bottom: 1px solid var(--secondary);
                 margin-bottom: 4px;
-
-                @include dark-theme {
-                    border-bottom-color: var(--primary-darken-30);
-                }
             }
 
             &::before {
