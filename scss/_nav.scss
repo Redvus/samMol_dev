@@ -33,7 +33,7 @@
                 //background-color: $color-accent;
 
                 a {
-                    color: $color-accent-light;
+                    color: var(--color-accent-light);
                 }
             }
 
@@ -49,7 +49,7 @@
                 position: absolute;
                 margin-left: calc(var(--navPaddingG) * -1);
                 margin-top: 0.3rem;
-                background-color: $color-accent-hover;
+                background-color: var(--color-accent-active);
                 // box-shadow: 0 0.1rem 0.1rem rgba(var(--third), 0.2);
                 // transition: all var(--base-duration);
                 display: none;
@@ -68,18 +68,19 @@
                      a {
                          color: $color-accent;
                          font-weight: $font-weight-regular;
+                         line-height: 1.2;
                      }
 
                     &.active {
-                        background-color: $color-accent-hover;
+                        background-color: var(--color-accent-hover);
 
                         a {
-                            color: $color-accent-light;
+                            color: var(--color-accent-light);
                         }
                     }
 
                     &:hover {
-                        background-color: $color-accent-active;
+                        background-color: var(--color-accent-active);
 
                         a {
                             color: $color-accent-light;
@@ -89,7 +90,7 @@
             }
 
             &:hover {
-                background-color: $color-accent-hover;
+                background-color: var(--color-accent-active);
 
                 a {
                     color: $color-accent-light;
