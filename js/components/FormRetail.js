@@ -16,6 +16,9 @@ export default class FormRetail {
             eventTimeStartSelector: 'input[name="event_time_start"]',
             eventTimeEndSelector: 'input[name="event_time_end"]',
 
+            // 🔥 Время кофе-брейка по умолчанию
+            coffeeBreakDefaultTime: '15:30',
+
             ...options
         };
 
@@ -31,6 +34,10 @@ export default class FormRetail {
         this.eventDateInput = null;
         this.eventTimeStartInput = null;
         this.eventTimeEndInput = null;
+
+        // 🔥 Поля кофе-брейка
+        this.coffeeBreakSelect = null;
+        this.coffeeBreakTimeInput = null;
 
         this.isInitialized = false;
 
@@ -71,6 +78,10 @@ export default class FormRetail {
         this.eventDateInput = this.form.querySelector(this.config.eventDateSelector);
         this.eventTimeStartInput = this.form.querySelector(this.config.eventTimeStartSelector);
         this.eventTimeEndInput = this.form.querySelector(this.config.eventTimeEndSelector);
+
+        // 🔥 Поля кофе-брейка
+        this.coffeeBreakSelect = this.form.querySelector('select[name="coffee_break"]');
+        this.coffeeBreakTimeInput = this.form.querySelector('input[name="coffee_break_time"]');
     }
 
     _bindEvents() {
@@ -114,6 +125,11 @@ export default class FormRetail {
         // 🔥 Маска времени для event_time_end
         if (this.eventTimeEndInput) {
             this.eventTimeEndInput.addEventListener('input', (e) => this._timeMask(e.target));
+        }
+
+        // 🔥 Логика кофе-брейка
+        if (this.coffeeBreakSelect && this.coffeeBreakTimeInput) {
+            this._initCoffeeBreakLogic();
         }
     }
 
@@ -264,7 +280,7 @@ export default class FormRetail {
         btn.className = 'datetime-picker-btn';
         btn.innerHTML = '📅';
         btn.setAttribute('aria-label', 'Выбрать дату');
-        wrapper.appendChild(btn);
+        // wrapper.appendChild(btn);
 
         const picker = document.createElement('div');
         picker.className = 'datetime-picker';
@@ -436,6 +452,74 @@ export default class FormRetail {
     // ============================================
     // КАЛЕНДАРЬ ДЛЯ ДАТЫ И ВРЕМЕНИ (event_datetime)
     // ============================================
+
+    /**
+     * 🔥 Логика показа/скрытия времени кофе-брейка
+     * @private
+     */
+    /**
+     * 🔥 Логика показа/скрытия времени кофе-брейка + автоподстановка времени
+     * @private
+     */
+    _initCoffeeBreakLogic() {
+        const select = this.coffeeBreakSelect;
+        const timeInput = this.coffeeBreakTimeInput;
+        const timeField = timeInput.closest('.field');
+
+        if (!timeField) return;
+
+        // 🔥 Время по умолчанию (можно вынести в конфиг)
+        const DEFAULT_TIME = this.config.coffeeBreakDefaultTime || '15:30';
+
+        const toggleTimeField = () => {
+            const isYes = select.value === 'Да';
+
+            if (isYes) {
+                // Показываем поле
+                timeField.style.display = '';
+                timeField.style.opacity = '0';
+                requestAnimationFrame(() => {
+                    timeField.style.transition = 'opacity 0.3s ease';
+                    timeField.style.opacity = '1';
+                });
+
+                // 🔥 Подставляем время, если пусто
+                if (!timeInput.value) {
+                    timeInput.value = DEFAULT_TIME;
+                }
+
+                setTimeout(() => timeInput.focus(), 100);
+            } else {
+                // Скрываем поле
+                timeField.style.transition = 'opacity 0.3s ease';
+                timeField.style.opacity = '0';
+
+                setTimeout(() => {
+                    timeField.style.display = 'none';
+                    timeField.style.opacity = '';
+                    timeField.style.transition = '';
+
+                    // 🔥 Очищаем
+                    timeInput.value = '';
+                    timeInput.classList.remove('is-invalid', 'is-valid');
+                    const errorSpan = timeField.querySelector('.field__error');
+                    if (errorSpan) errorSpan.textContent = '';
+                }, 300);
+            }
+        };
+
+        select.addEventListener('change', toggleTimeField);
+
+        // 🔥 Инициализация при загрузке
+        if (select.value === 'Да') {
+            timeField.style.display = '';
+            if (!timeInput.value) {
+                timeInput.value = DEFAULT_TIME;
+            }
+        } else {
+            timeField.style.display = 'none';
+        }
+    }
 
     _initDateTimePicker(input) {
         if (input.dataset.pickerInit) return;
@@ -735,3 +819,47 @@ export default class FormRetail {
         console.log('🔄 FormRetail destroyed');
     }
 }
+
+// В FormRetail.js или отдельном скрипте
+document.addEventListener('formit:error', function(e) {
+    const form = document.getElementById('formRetail');
+    if (!form) return;
+
+    // 🔥 Для каждого поля с ошибкой — добавляем is-invalid
+    const errorSpans = form.querySelectorAll('[data-formit-error]');
+
+    errorSpans.forEach(span => {
+        const fieldName = span.dataset.formitError;
+        const errorText = span.textContent.trim();
+
+        if (!errorText) return;
+
+        // Находим поле по имени
+        let input = form.querySelector(`[name="${fieldName}"]`);
+
+        // Если поле — массив (book_author[], tech_tv[] и т.д.)
+        if (!input) {
+            input = form.querySelector(`[name="${fieldName}[]"]`);
+        }
+
+        if (input) {
+            input.classList.add('is-invalid');
+        }
+    });
+});
+
+// 🔥 При вводе — убираем ошибку
+document.addEventListener('input', function(e) {
+    const input = e.target;
+
+    if (input.classList.contains('is-invalid')) {
+        input.classList.remove('is-invalid');
+
+        // Скрываем сообщение об ошибке
+        const field = input.closest('.field');
+        if (field) {
+            const errorSpan = field.querySelector('[data-formit-error]');
+            if (errorSpan) errorSpan.textContent = '';
+        }
+    }
+});

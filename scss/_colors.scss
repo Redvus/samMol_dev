@@ -40,6 +40,7 @@ $color-accent-light: var(--secondary);
 $color-accent-dark: #000000;
 $color-accent-hover: var(--secondary-lighten-10);
 $color-accent-active: var(--seven);
+$color-error: var(--five);
 
 // Градиенты
 $gradient-dark: linear-gradient(135deg, #000000 0%, #262626 100%);
@@ -64,4 +65,5 @@ $gradient-accent: linear-gradient(135deg, #000000 0%, #333333 100%);
     --color-accent-light: #{$color-accent-light};
     --color-accent-hover: #{$color-accent-hover};
     --color-accent-active: #{$color-accent-active};
+    --color-error: #{$color-error};
 }
