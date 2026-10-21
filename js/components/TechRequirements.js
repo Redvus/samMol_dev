@@ -193,10 +193,14 @@ export class TechRequirements {
             // Актовый зал — выбор между Прямоугольные и Круглые
             tablesFormField = `
         <div class="tech-requirements__col tech-requirements__col--tables-form">
-            <select name="tech_tables_form[]" class="tech-requirements__select">
-                <option value="Прямоугольные" ${values.tables_form === 'Прямоугольные' ? 'selected' : ''}>Прямоугольные</option>
-                <option value="Круглые" ${values.tables_form === 'Круглые' ? 'selected' : ''}>Круглые</option>
-            </select>
+            <div class="tech-requirements__col tech-requirements__col--tables-form">
+                <input type="text" 
+                       name="tech_tables_form[]" 
+                       class="tech-requirements__input tech-requirements__input--readonly" 
+                       value="Круглые" 
+                       readonly 
+                       tabindex="-1">
+            </div>
         </div>
     `;
         } else if (isMeetingRoom) {

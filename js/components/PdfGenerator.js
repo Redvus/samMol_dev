@@ -7,7 +7,7 @@ export default class PdfGenerator {
         this.config = {
             formSelector: '#formRetail',
             checkboxSelector: '#generatePdf',
-            pdfUrl: '/assets/snippets/generatePDFFull_save.php',
+            pdfUrl: '/assets/snippets/generatePDF.php',
             debug: true,
             ...options
         };
