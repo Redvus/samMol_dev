@@ -70,7 +70,7 @@ function createApp() {
         new PdfGenerator({
             formSelector: '#formRetail',
             checkboxSelector: '#generatePdf',
-            pdfUrl: '/assets/snippets/generatePDFFull.php',
+            pdfUrl: '/assets/snippets/generatePDF.php',
             debug: true,
         }),
     );
