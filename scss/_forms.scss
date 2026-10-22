@@ -1243,6 +1243,17 @@
             color: var(--fourth);
             font-weight: 600;
         }
+
+        &--disabled {
+            color: #ccc; /* Серый цвет текста */
+            cursor: not-allowed; /* Курсор запрета */
+            background: transparent; /* Без фона при наведении */
+            pointer-events: none; /* Отключаем клики */
+
+            &:hover {
+                background: transparent;
+            }
+        }
     }
 
     &__time {
@@ -1324,10 +1335,16 @@
         }
 
         &__col {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+
             &--hall {
-                padding-bottom: 8px;
                 border-bottom: 1px solid var(--secondary);
                 margin-bottom: 4px;
+                padding-bottom: 8px;
+                padding-right: 0;
             }
 
             &::before {
@@ -1337,6 +1354,7 @@
                 font-weight: 600;
                 margin-bottom: 2px;
                 color: var(--primary-darken-40);
+                text-align: right;
             }
         }
     }

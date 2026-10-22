@@ -192,21 +192,19 @@ export class TechRequirements {
         if (isAssemblyHall) {
             // Актовый зал — выбор между Прямоугольные и Круглые
             tablesFormField = `
-        <div class="tech-requirements__col tech-requirements__col--tables-form">
-            <div class="tech-requirements__col tech-requirements__col--tables-form">
-                <input type="text" 
-                       name="tech_tables_form[]" 
-                       class="tech-requirements__input tech-requirements__input--readonly" 
-                       value="Круглые" 
-                       readonly 
-                       tabindex="-1">
-            </div>
+        <div class="tech-requirements__col tech-requirements__col--tables-form" data-label="Форма столов">
+             <input type="text" 
+                   name="tech_tables_form[]" 
+                   class="tech-requirements__input tech-requirements__input--readonly" 
+                   value="Круглые" 
+                   readonly 
+                   tabindex="-1">
         </div>
     `;
         } else if (isMeetingRoom) {
             // Зал совещаний — фиксированный Конференц-стол
             tablesFormField = `
-        <div class="tech-requirements__col tech-requirements__col--tables-form">
+        <div class="tech-requirements__col tech-requirements__col--tables-form" data-label="Форма столов">
             <input type="text" 
                    name="tech_tables_form[]" 
                    class="tech-requirements__input tech-requirements__input--readonly" 
@@ -218,7 +216,7 @@ export class TechRequirements {
         } else {
             // Остальные — фиксированные Прямоугольные
             tablesFormField = `
-        <div class="tech-requirements__col tech-requirements__col--tables-form">
+        <div class="tech-requirements__col tech-requirements__col--tables-form" data-label="Форма столов">
             <input type="text" 
                    name="tech_tables_form[]" 
                    class="tech-requirements__input tech-requirements__input--readonly" 
@@ -234,13 +232,13 @@ export class TechRequirements {
             <span class="tech-requirements__hall-name">${safeHall}</span>
             <input type="hidden" name="tech_hall[]" value="${safeHall}">
         </span>
-        <div class="tech-requirements__col tech-requirements__col--tv">
+        <div class="tech-requirements__col tech-requirements__col--tv" data-label="Экран">
             <select name="tech_tv[]" class="tech-requirements__select">
                 <option value="Нет" ${values.tv === 'Нет' ? 'selected' : ''}>Нет</option>
                 <option value="Да" ${values.tv === 'Да' ? 'selected' : ''}>Да</option>
             </select>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--flipchart">
+        <div class="tech-requirements__col tech-requirements__col--flipchart" data-label="Флипчарт">
             <input type="text" 
                    name="tech_flipchart[]" 
                    class="tech-requirements__input" 
@@ -250,7 +248,7 @@ export class TechRequirements {
                    data-field="flipchart"
                    ${makeReadonly(limits.flipchart)}>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--chairs">
+        <div class="tech-requirements__col tech-requirements__col--chairs" data-label="Стулья">
             <input type="text" 
                    name="tech_chairs[]" 
                    class="tech-requirements__input" 
@@ -260,7 +258,7 @@ export class TechRequirements {
                    data-field="chairs"
                    ${makeReadonly(limits.chairs)}>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--armchairs">
+        <div class="tech-requirements__col tech-requirements__col--armchairs" data-label="Кресла">
             <input type="text" 
                    name="tech_armchairs[]" 
                    class="tech-requirements__input" 
@@ -270,7 +268,7 @@ export class TechRequirements {
                    data-field="armchairs"
                    ${makeReadonly(limits.armchairs)}>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--micro">
+        <div class="tech-requirements__col tech-requirements__col--micro" data-label="Микрофоны">
             <input type="text" 
                    name="tech_microphones[]" 
                    class="tech-requirements__input" 
@@ -280,19 +278,19 @@ export class TechRequirements {
                    data-field="microphones"
                    ${makeReadonly(limits.microphones)}>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--sound">
+        <div class="tech-requirements__col tech-requirements__col--sound" data-label="Звук">
             <select name="tech_sound[]" class="tech-requirements__select">
                 <option value="Нет" ${values.sound === 'Нет' ? 'selected' : ''}>Нет</option>
                 <option value="Да" ${values.sound === 'Да' ? 'selected' : ''}>Да</option>
             </select>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--laptop">
+        <div class="tech-requirements__col tech-requirements__col--laptop" data-label="Ноутбук">
             <select name="tech_laptop[]" class="tech-requirements__select">
                 <option value="Нет" ${values.laptop === 'Нет' ? 'selected' : ''}>Нет</option>
                 <option value="Да" ${values.laptop === 'Да' ? 'selected' : ''}>Да</option>
             </select>
         </div>
-        <div class="tech-requirements__col tech-requirements__col--tables">
+        <div class="tech-requirements__col tech-requirements__col--tables" data-label="Столы">
             <input type="text" 
                    name="tech_tables[]" 
                    class="tech-requirements__input" 

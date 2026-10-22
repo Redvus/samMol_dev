@@ -115,6 +115,51 @@ export default class FormRetail {
         // 🔥 Календарь для event_date
         if (this.eventDateInput) {
             this._initDatePicker(this.eventDateInput);
+
+            // 🔥 Проверка введенной даты при потере фокуса
+            this.eventDateInput.addEventListener('blur', (e) => {
+                const input = e.target;
+                const value = input.value.trim();
+
+                if (!value) return;
+
+                // Парсим дату ДД.ММ.ГГГГ
+                const match = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+                if (!match) return; // Если формат неверный, не трогаем (пусть FormIt ругается)
+
+                const day = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10) - 1;
+                const year = parseInt(match[3], 10);
+
+                const inputDate = new Date(year, month, day);
+
+                // Обнуляем время для корректного сравнения
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                // 🔥 Если дата в прошлом — очищаем поле
+                if (inputDate < today) {
+                    input.value = '';
+                    input.classList.add('is-invalid');
+
+                    const field = input.closest('.field');
+                    if (field) {
+                        const errorSpan = field.querySelector('[data-formit-error]');
+                        if (errorSpan) {
+                            errorSpan.textContent = 'Дата не может быть в прошлом';
+                        }
+                    }
+                    return;
+                }
+
+                // Если всё ок — убираем ошибку
+                input.classList.remove('is-invalid');
+                const field = input.closest('.field');
+                if (field) {
+                    const errorSpan = field.querySelector('[data-formit-error]');
+                    if (errorSpan) errorSpan.textContent = '';
+                }
+            });
         }
 
         // 🔥 Маска времени для event_time_start
@@ -332,13 +377,27 @@ export default class FormRetail {
      */
     _parseDate(value, state) {
         state.selectedDate = null;
+
+        // Устанавливаем текущий месяц и год по умолчанию
+        const now = new Date();
+        state.viewYear = now.getFullYear();
+        state.viewMonth = now.getMonth();
+
         if (!value) return;
 
         const match = value.match(/(\d{2})\.(\d{2})\.(\d{4})/);
         if (match) {
-            state.selectedDate = new Date(match[3], match[2] - 1, match[1]);
-            state.viewYear = state.selectedDate.getFullYear();
-            state.viewMonth = state.selectedDate.getMonth();
+            const parsedDate = new Date(match[3], match[2] - 1, match[1]);
+
+            // 🔥 Если дата в прошлом, не выделяем её
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (parsedDate >= today) {
+                state.selectedDate = parsedDate;
+                state.viewYear = parsedDate.getFullYear();
+                state.viewMonth = parsedDate.getMonth();
+            }
         }
     }
 
@@ -349,7 +408,10 @@ export default class FormRetail {
         const now = new Date();
         const currentYear = now.getFullYear();
         const currentMonth = now.getMonth();
-        const today = now.getDate();
+
+        // 🔥 Сегодняшняя дата, обнуляем время для корректного сравнения
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
         const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
             'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -361,51 +423,58 @@ export default class FormRetail {
         if (startDay < 0) startDay = 6;
 
         let html = `
-            <div class="datetime-picker__header">
-                <button type="button" class="datetime-picker__nav" data-action="prev">◀</button>
-                <span class="datetime-picker__month">${monthNames[state.viewMonth]} ${state.viewYear}</span>
-                <button type="button" class="datetime-picker__nav" data-action="next">▶</button>
-            </div>
-            <div class="datetime-picker__weekdays">
-                ${weekDays.map(d => `<span>${d}</span>`).join('')}
-            </div>
-            <div class="datetime-picker__days">
-        `;
+        <div class="datetime-picker__header">
+            <button type="button" class="datetime-picker__nav" data-action="prev">◀</button>
+            <span class="datetime-picker__month">${monthNames[state.viewMonth]} ${state.viewYear}</span>
+            <button type="button" class="datetime-picker__nav" data-action="next">▶</button>
+        </div>
+        <div class="datetime-picker__weekdays">
+            ${weekDays.map(d => `<span>${d}</span>`).join('')}
+        </div>
+        <div class="datetime-picker__days">
+    `;
 
         for (let i = 0; i < startDay; i++) {
             html += `<span class="datetime-picker__day datetime-picker__day--empty"></span>`;
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-            const isToday = day === today && state.viewMonth === currentMonth && state.viewYear === currentYear;
+            const dateObj = new Date(state.viewYear, state.viewMonth, day);
+
+            // 🔥 Проверяем, является ли день сегодняшним или будущим
+            const isPast = dateObj < today;
+
+            const isToday = day === today.getDate() && state.viewMonth === currentMonth && state.viewYear === currentYear;
             const isSelected = state.selectedDate &&
                 day === state.selectedDate.getDate() &&
                 state.viewMonth === state.selectedDate.getMonth() &&
                 state.viewYear === state.selectedDate.getFullYear();
+
             const dateStr = `${String(day).padStart(2, '0')}.${String(state.viewMonth + 1).padStart(2, '0')}.${state.viewYear}`;
 
+            // 🔥 Если дата в прошлом — добавляем класс блокировки
             html += `
-                <span class="datetime-picker__day 
-                    ${isToday ? 'datetime-picker__day--today' : ''} 
-                    ${isSelected ? 'datetime-picker__day--selected' : ''}"
-                    data-date="${dateStr}">
-                    ${day}
-                </span>
-            `;
+            <span class="datetime-picker__day 
+                ${isToday ? 'datetime-picker__day--today' : ''} 
+                ${isSelected ? 'datetime-picker__day--selected' : ''}
+                ${isPast ? 'datetime-picker__day--disabled' : ''}"
+                data-date="${isPast ? '' : dateStr}">
+                ${day}
+            </span>
+        `;
         }
 
         html += `</div>`;
 
-        // Только кнопка "Очистить", без времени
         html += `
-            <div class="datetime-picker__footer">
-                <button type="button" class="datetime-picker__btn datetime-picker__btn--clear">Очистить</button>
-            </div>
-        `;
+        <div class="datetime-picker__footer">
+            <button type="button" class="datetime-picker__btn datetime-picker__btn--clear">Очистить</button>
+        </div>
+    `;
 
         container.innerHTML = html;
 
-        // Навигация
+        // Навигация (Оставляем как было)
         container.querySelector('[data-action="prev"]').addEventListener('click', (e) => {
             e.stopPropagation();
             state.viewMonth--;
@@ -422,6 +491,9 @@ export default class FormRetail {
 
         // Выбор дня
         container.querySelectorAll('.datetime-picker__day[data-date]').forEach(el => {
+            // 🔥 Пропускаем заблокированные дни
+            if (!el.dataset.date) return;
+
             el.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const dateStr = el.dataset.date;
@@ -439,7 +511,7 @@ export default class FormRetail {
             });
         });
 
-        // Очистить
+        // Очистить (Оставляем как было)
         container.querySelector('.datetime-picker__btn--clear').addEventListener('click', (e) => {
             e.stopPropagation();
             input.value = '';
