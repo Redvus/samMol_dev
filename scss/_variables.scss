@@ -122,6 +122,9 @@ $headerSocialTop-large: 9vmax;
 $headerBlindLeft-large: 25vmax;
 $headerBlindTop-large: 4.5vh;
 
+// Laptop
+$wrapperPadding-laptop: 6vw;
+
 // Medium
 $wrapperPadding-medium: 1rem;
 
@@ -244,6 +247,13 @@ $headerMobileHeight: 4rem;
         --headerSocialTop: #{$headerSocialTop-large};
         --headerBlindLeft: #{$headerBlindLeft-large};
         --headerBlindTop: #{$headerBlindTop-large};
+    }
+}
+
+@include bp.media-up("Laptop") {
+    :root {
+        --wrapperPadding: #{$wrapperPadding-laptop};
+        //--newsGridCount: #{$newsGridCount-XSmall};
     }
 }
 

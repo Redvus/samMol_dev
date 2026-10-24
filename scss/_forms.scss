@@ -139,6 +139,14 @@
         }
     }
 
+    @include bp.media-up('Medium') {
+        &__blocks {
+            &--four {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+
     @include bp.media-up('XSmall') {
 
         &__container {
