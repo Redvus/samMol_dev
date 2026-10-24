@@ -5,12 +5,18 @@
 import App from "./core/App.js";
 import eventBus from "./core/EventBus.js";
 import HeaderController from "./components/HeaderController.js";
-import FormRetail from "./components/FormRetailSimple.js";
-import InfiniteSlider from "./components/InfiniteSlider.js";
 import BlindController from "./components/BlindController.js";
+
+import FormRetail from "./components/FormRetail.js";
+import {TechRequirements} from './components/TechRequirements.js';
 import PdfGenerator from "./components/PdfGenerator.js";
 import initTableValidation from "./components/TableValidation.js";
+
+import InfiniteSlider from "./components/InfiniteSlider.js";
 import MobileMenu from './components/MobileMenu.js';
+// import MapManager from './components/MapManager.js';
+import Preloader from './components/Preloader.js';
+import ImageModal from './components/ImageModal.js';
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -41,6 +47,15 @@ function createApp() {
         "form",
         new FormRetail({
             maxBooks: 5,
+            coffeeBreakDefaultTime: '15:00',  // можно изменить
+        }),
+    );
+
+    // Feedback
+    app.register(
+        "form",
+        new FormRetail({
+            formSelector: '#formFeedback'
         }),
     );
 
@@ -57,6 +72,16 @@ function createApp() {
             checkboxSelector: '#generatePdf',
             pdfUrl: '/assets/snippets/generatePDF.php',
             debug: true,
+        }),
+    );
+
+    app.register(
+        "techRequirements",
+        new TechRequirements({
+            formSelector: '#formRetail',
+            checkboxSelector: 'input[name="hall[]"]',
+            containerSelector: '#techRequirementsBody',
+            selectedHallsSelector: '#selectedHalls',
         }),
     );
 
@@ -89,6 +114,31 @@ function createApp() {
             activeClass: 'is-open',
             overlayActiveClass: 'is-visible',
             animationDuration: 300,
+        }),
+    );
+
+    // app.register(
+    //     "maps",
+    //     new MapManager({
+    //         selector: '#mapGeography',
+    //         apiKey: 'ВАШ_API_КЛЮЧ',
+    //     }),
+    // );
+
+    app.register(
+        "preloader",
+        new Preloader({
+            selector: '#preloader',
+            minDuration: 500,
+            fadeOutDuration: 500,
+            autoHide: true,
+        }),
+    );
+
+    app.register(
+        "imageModal",
+        new ImageModal({
+            itemSelector: '[data-gallery-item]',
         }),
     );
 
@@ -213,7 +263,7 @@ function initMobile(app) {
     const footerDesktop = document.getElementById('footerDesktop');
     const footerMobile = document.getElementById('footerMobile');
 
-    if (document.body.clientWidth < 820 || screen.width < 820) {
+    if (document.body.clientWidth <= 1024 || screen.width <= 1024) {
         headerDesktop.style.opacity = '0';
         headerDesktop.style.display = 'none';
         headerDesktop.style.visibility = 'hidden';
@@ -232,7 +282,7 @@ function initMobile(app) {
         footerMobile.style.opacity = '1';
         footerMobile.style.visibility = 'visible';
 
-    } else if (document.body.clientWidth > 820 || screen.width > 820) {
+    } else if (document.body.clientWidth > 1024 || screen.width > 1024) {
         headerDesktop.style.opacity = '1';
         headerDesktop.style.display = 'flex';
         headerDesktop.style.visibility = 'visible';
