@@ -24,6 +24,8 @@
                 width: auto;
                 display: block;
                 position: relative;
+                color: $color-accent;
+                font-weight: $font-weight-regular;
             }
 
             &.active,
@@ -31,7 +33,7 @@
                 //background-color: $color-accent;
 
                 a {
-                    color: $color-accent-light;
+                    color: var(--color-accent-light);
                 }
             }
 
@@ -43,11 +45,11 @@
         &__children {
 
             ul.submenu {
-                min-width: 10rem;
+                min-width: 15rem;
                 position: absolute;
                 margin-left: calc(var(--navPaddingG) * -1);
                 margin-top: 0.3rem;
-                background-color: $color-accent-hover;
+                background-color: var(--color-accent-active);
                 // box-shadow: 0 0.1rem 0.1rem rgba(var(--third), 0.2);
                 // transition: all var(--base-duration);
                 display: none;
@@ -63,24 +65,22 @@
                     cursor: pointer;
                     // transition: all var(--base-duration);
 
-                    // a {
-                    //     // width: calc(100% - (#{$navLinkPadding} * 2));
-                    //     height: calc(100% - (var(--marginBase) / 2));
-                    //     display: block;
-                    //     position: relative;
-                    //     padding: calc(var(--marginBase) / 4) $navLinkPadding;
-                    // }
+                     a {
+                         color: $color-accent;
+                         font-weight: $font-weight-regular;
+                         line-height: 1.2;
+                     }
 
                     &.active {
-                        background-color: $color-accent-hover;
+                        background-color: var(--color-accent-hover);
 
                         a {
-                            color: $color-accent-light;
+                            color: var(--color-accent-light);
                         }
                     }
 
                     &:hover {
-                        background-color: $color-accent-active;
+                        background-color: var(--color-accent-active);
 
                         a {
                             color: $color-accent-light;
@@ -90,7 +90,7 @@
             }
 
             &:hover {
-                background-color: $color-accent-hover;
+                background-color: var(--color-accent-active);
 
                 a {
                     color: $color-accent-light;
@@ -104,6 +104,8 @@
         }
 
          &--mobile {
+             list-style: none;
+
              .sub-menu {
                  padding: 0 0 0.5rem;
                  display: none;
@@ -132,7 +134,7 @@
                      width: 100%;
                      display: block;
                      line-height: 1rem;
-                     padding: 0.5rem 0 0.5rem;
+                     padding: 1rem 0;
                      color: var(--primary);
                      font: {
                          family: var(--heading-font);

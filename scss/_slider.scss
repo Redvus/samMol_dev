@@ -9,6 +9,15 @@
 // ============================================
 
 .slider {
+    width: 100%;
+    height: calc((100vw - (var(--wrapperPadding) * 2)) / 2.2);
+    // height: calc(((100% - (var(--header-height) * 3)) * 0.6));
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin-top: 2rem;
+    background-color: var(--secondary);
+    overflow: hidden;
 
     &-component {
         position: relative;
@@ -51,11 +60,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.5rem 1.5rem;
+        //padding: 0.5rem;
         //background: var(--fourth);
         position: absolute;
-        bottom: 0;
-        left: 0;
+        top: 0;
+        right: 0;
     }
 
     // Пустое состояние
