@@ -264,3 +264,7 @@
         }
     }
 }
+
+#sliderRetail {
+    height: calc((100vw - (var(--wrapperPadding) * 2)) / (1400 / 788));
+}
