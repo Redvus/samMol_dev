@@ -3,6 +3,7 @@
 @use 'fonts' as *;
 @use "variables" as *;
 @use "mixins" as *;
+@use "base" as *;
 
 .footer {
     width: 100%;
@@ -265,6 +266,49 @@
             //transform: translate(15%, 100%);
             display: none;
             visibility: hidden;
+        }
+    }
+}
+
+.cookie-notice {
+    width: 100%;
+    //min-height: 10vmax;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 2vmax var(--wrapperPadding);
+    background-color: var(--fourth);
+    box-shadow: 0 0 1rem rgba(var(--shadowColorRGB), 0.3);
+    z-index: 9999;
+
+    &__content {
+        width: 100%;
+        height: inherit;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: var(--marginBase);
+        padding: var(--marginBase) 0;
+    }
+
+    &__actions {
+        //width: 100%;
+        height: inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        //justify-content: space-between;
+        position: relative;
+        //margin-top: var(--marginBase);
+
+        > .btn {
+            margin-left: calc(var(--marginBase) * 2);
+
+            &--outline {
+                background-color: var(--seven-darken-13) !important;
+
+                &:hover {
+                    background-color: var(--seven-darken-20) !important;
+                }
+            }
         }
     }
 }

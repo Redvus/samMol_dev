@@ -17,6 +17,7 @@ import MobileMenu from './components/MobileMenu.js';
 // import MapManager from './components/MapManager.js';
 import Preloader from './components/Preloader.js';
 import ImageModal from './components/ImageModal.js';
+import CookieNotice from "./components/CookieNotice.js";
 
 // ============================================
 // СОЗДАНИЕ ПРИЛОЖЕНИЯ
@@ -140,6 +141,12 @@ function createApp() {
         new ImageModal({
             itemSelector: '[data-gallery-item]',
         }),
+    );
+
+    // Cookie
+    app.register(
+        "cookieNotice",
+        new CookieNotice(),
     );
 
     initMobile(app);

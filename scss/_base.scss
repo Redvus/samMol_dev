@@ -88,6 +88,13 @@ button {
     transition: all var(--transition-fast);
 }
 
+.btn {
+
+    &--secondary {
+        background-color: var(--secondary-lighten-20) !important;
+    }
+}
+
 // ============================================
 // УТИЛИТЫ
 // ============================================
